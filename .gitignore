@@ -55,3 +55,7 @@ config.toml
 
 outputs/
 data/
+
+*.csv
+*.parq
+*.png
