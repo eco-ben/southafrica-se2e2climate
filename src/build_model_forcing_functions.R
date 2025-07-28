@@ -149,11 +149,11 @@ rebuild_model_drivers <- function(template_model, master_forcing_values, variabl
             next
         }
 
-        new_vals <- master_forcings[
-            master_forcings$decade == var_source$decade &
-                master_forcings$ESM == var_source$ESM &
-                master_forcings$SSP == var_source$SSP &
-                master_forcings$variable == p_name,
+        new_vals <- master_forcing_values[
+            master_forcing_values$decade == var_source$decade &
+                master_forcing_values$ESM == var_source$ESM &
+                master_forcing_values$SSP == var_source$SSP &
+                master_forcing_values$variable == p_name,
         ]
 
         new_physics[, p_name] <- new_vals[sort(new_vals$month), ]$value
@@ -170,11 +170,11 @@ rebuild_model_drivers <- function(template_model, master_forcing_values, variabl
             next
         }
 
-        new_vals <- master_forcings[
-            master_forcings$decade == var_source$decade &
-                master_forcings$ESM == var_source$ESM &
-                master_forcings$SSP == var_source$SSP &
-                master_forcings$variable == c_name,
+        new_vals <- master_forcing_values[
+            master_forcing_values$decade == var_source$decade &
+                master_forcing_values$ESM == var_source$ESM &
+                master_forcing_values$SSP == var_source$SSP &
+                master_forcing_values$variable == c_name,
         ]
         new_physics[, c_name] <- new_vals[sort(new_vals$month), ]$value
     }

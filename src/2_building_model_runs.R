@@ -57,3 +57,12 @@ create_variable_source <- function(run_perm) {
 plan(multisession, workers = 6)
 run_rows_list <- apply(run_permutations, 1, function(row) as.list(row))
 run_permutation_sources <- future_map(run_rows_list, create_variable_source)
+
+saveRDS(run_permutation_sources, "./outputs/climate_permutation_sources_for_runs.rds")
+
+t_model <- e2e_read(model.name = "South_Africa_MA", model.variant = "2010-2019-CNRM-ssp126", models.path = "../../StrathE2E_workspace/Models/")
+
+begin <- Sys.time()
+test <- rebuild_model_drivers(t_model, master, run_permutation_sources[[2]])
+end <- Sys.time()
+end - begin
