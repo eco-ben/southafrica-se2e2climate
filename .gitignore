@@ -52,3 +52,7 @@ config.toml
 
 .lintr
 .Rprofile
+
+*.csv
+*.parq
+*.png

@@ -2,10 +2,10 @@ library(StrathE2E2)
 library(tidyverse)
 library(docstring)
 
-se2e_workspace <- "../../StrathE2E_workspace"
-analysis_workspace <- "C:/Users/kbb25108/OneDrive - University of Strathclyde/Documents/repos/southafrica-se2e2climate/"
+# se2e_workspace <- "../../StrathE2E_workspace"
+# analysis_workspace <- "C:/Users/kbb25108/OneDrive - University of Strathclyde/Documents/repos/southafrica-se2e2climate/"
 
-setwd(se2e_workspace)
+# setwd(se2e_workspace)
 
 se2e_physics_names <- c(
     "month", "sslight", "so_logespm", "si_logespm",
@@ -46,13 +46,14 @@ load_all_possible_drivers <- function(model_base_path, model_name, physics_names
     #' load_all_possible_drivers("Models/South_Africa_MA/", "South_Africa_MA")
 
     possible_variants <- dir(model_base_path)
-    decades <- c("2010-2019", "2030-2039", "2060-2069")
-    possible_variants <- possible_variants[
-        str_detect(possible_variants, decades[1]) |
-            str_detect(possible_variants, decades[2]) |
-            str_detect(possible_variants, decades[3])
-    ]
+    # decades <- c("2010-2019", "2030-2039", "2060-2069")
+    # possible_variants <- possible_variants[
+    #     str_detect(possible_variants, decades[1]) |
+    #         str_detect(possible_variants, decades[2]) |
+    #         str_detect(possible_variants, decades[3])
+    # ]
     possible_variants <- possible_variants[str_detect(possible_variants, "-[:upper:]{4}-[:lower:]{3}\\d{3}")]
+    decades <- unique(str_extract(possible_variants, "\\d{4}-\\d{4}"))
     ESMs <- unique(str_extract(possible_variants, "[:upper:]{4}"))
     SSPs <- unique(str_extract(possible_variants, "[:lower:]{3}\\d{3}"))
 
@@ -190,14 +191,14 @@ rebuild_model_drivers <- function(template_model, master_forcing_values, variabl
     return(new_model)
 }
 
-master <- load_all_possible_drivers("./Models/South_Africa_MA/", "South_Africa_MA")
-unique_variables <- unique(master$variable)
-variable_sources <- data.frame(
-    variable = unique_variables,
-    SSP = rep("ssp126", length(unique_variables)),
-    ESM = rep("CNRM", length(unique_variables)),
-    decade = rep("2060-2069", length(unique_variables))
-)
+# master <- load_all_possible_drivers("./Models/South_Africa_MA/", "South_Africa_MA")
+# unique_variables <- unique(master$variable)
+# variable_sources <- data.frame(
+#     variable = unique_variables,
+#     SSP = rep("ssp126", length(unique_variables)),
+#     ESM = rep("CNRM", length(unique_variables)),
+#     decade = rep("2060-2069", length(unique_variables))
+# )
 
-t_model <- e2e_read(model.name = "South_Africa_MA", model.variant = possible_variants[1], models.path = "Models")
-new_model <- rebuild_model_drivers(t_model, master, variable_sources)
+# t_model <- e2e_read(model.name = "South_Africa_MA", model.variant = possible_variants[1], models.path = "Models")
+# new_model <- rebuild_model_drivers(t_model, master, variable_sources)
