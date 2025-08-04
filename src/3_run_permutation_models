@@ -1,0 +1,56 @@
+library(furrr)
+library(StrathE2E2)
+
+plan(multisession, workers = 4)
+
+save_final_year_output <- function(model_results) {
+    final_year <- StrathE2E2:::elt(model_results, "final.year.outputs")
+    mass_results <- StrathE2E2:::elt(final_year, "mass_results_wholedomain")
+    return(mass_results)
+}
+
+run_permutation_model <- function(perm_model, perm_id, nyears = 50, output_summarisation, output_file_base = "./outputs/model_output_", initial_cond_file_base = "./outputs/initial_conditions_") {
+    results <- e2e_run(perm_model, nyears = nyears, csv.output = FALSE)
+    result_to_save <- output_summarisation(results)
+
+    arrow::write_parquet(result_to_save, paste0(output_file_base, "perm_", perm_id, ".parq"))
+
+    initial_results <- e2e_extract_start(perm_model, results, csv.output = FALSE)
+    initial_results$variable <- rownames(initial_results)
+    names(initial_results) <- c("value", "variable")
+    arrow::write_parquet(initial_results, paste0(initial_cond_file_base, "perm_", perm_id, ".parq"))
+
+    return(NULL)
+}
+
+load_and_run_perm <- function(template_model, master_variables, variable_sources, perm_id, nyears = 50, output_summarisation, output_file_base = "./outputs/model_output_", initial_cond_file_base = "./outputs/initial_conditions_") {
+    perm_model <- rebuild_model_drivers(template_model, master_variables, variable_sources)
+    run_permutation_model(perm_model, perm_id, nyears = nyears, output_summarisation = output_summarisation, output_file_base = output_file_base, initial_cond_file_base = initial_cond_file_base)
+
+    return(NULL)
+}
+
+t_model <- e2e_read(model.name = "South_Africa_MA", model.variant = "2010-2019-CNRM-ssp126", models.path = "../../StrathE2E_workspace/Models/")
+
+master <- load_all_possible_drivers("../../StrathE2E_workspace/Models/South_Africa_MA/", "South_Africa_MA")
+
+within_decade_permutation_sources <- arrow::read_parquet("./outputs/within_decade_ssp_esm_permutation_sources.parq")
+within_decade_permutation_sources <- split(within_decade_permutation_sources, within_decade_permutation_sources$perm_id)
+
+# load_and_run_perm(t_model, master, within_decade_permutation_sources[[3]], 3, output_summarisation = save_final_year_output)
+
+future_walk2(
+    within_decade_permutation_sources[1:1],
+    seq_len(length(within_decade_permutation_sources[1:1])),
+    function(x, y) {
+        load_and_run_perm(
+            t_model,
+            master,
+            variable_sources = x,
+            perm_id = y,
+            output_summarisation = save_final_year_output,
+            output_file_base = "./output/within_decade_permutations/model_outputs_",
+            initial_cond_file_base = "./outputs/within_decade_permutations/init_conditions_"
+        )
+    }
+)

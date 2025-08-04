@@ -51,7 +51,7 @@ get_var_info <- function(v_group, run_perm, pattern) {
     return(str_extract(info, pattern))
 }
 
-#### Create climate permutation models for within decade analyses ----
+#### Create climate permutation sets for within decade analyses ----
 within_decade_permutations <- read.csv("./outputs/within_decade_ssp_esm_permutations.csv")
 within_decade_permutations$constants <- "2010-2019-CNRM-ssp126"
 
@@ -61,14 +61,10 @@ unique_variables <- unique(master$variable)
 within_decade_rows_list <- apply(within_decade_permutations, 1, function(row) as.list(row))
 within_decade_permutation_sources <- future_map(within_decade_rows_list, create_variable_source)
 
-saveRDS(within_decade_permutation_sources, "./outputs/within_decade_ssp_esm_permutation_sources.rds")
+within_decade_permutation_sources <- rbindlist(within_decade_permutation_sources)
+arrow::write_parquet(within_decade_permutation_sources, "./outputs/within_decade_ssp_esm_permutation_sources.parq")
 
-t_model <- e2e_read(model.name = "South_Africa_MA", model.variant = "2010-2019-CNRM-ssp126", models.path = "../../StrathE2E_workspace/Models/")
-rebuilt_models_list <- future_map(within_decade_permutation_sources, function(x) rebuild_model_drivers(t_model, master, x))
-
-saveRDS(rebuilt_models_list, "./outputs/within_decade_ssp_esm_models.rds")
-
-#### Create climate permutation models for across decade analyses ----
+#### Create climate permutation sets for across decade analyses ----
 within_esm_ssp_permutations <- read.csv("./outputs/within_esm_ssp_decade_permutations.csv")
 within_esm_ssp_permutations$constants <- "2010-2019-CNRM-ssp126"
 
@@ -78,9 +74,5 @@ unique_variables <- unique(master$variable)
 within_esm_ssp_rows_list <- apply(within_esm_ssp_permutations, 1, function(row) as.list(row))
 within_esm_ssp_permutation_sources <- future_map(within_esm_ssp_rows_list, create_variable_source)
 
-saveRDS(within_esm_ssp_permutation_sources, "./outputs/within_esm_ssp_decade_permutation_sources.rds")
-
-t_model <- e2e_read(model.name = "South_Africa_MA", model.variant = "2010-2019-CNRM-ssp126", models.path = "../../StrathE2E_workspace/Models/")
-rebuilt_models_list <- future_map(within_esm_ssp_permutation_sources, function(x) rebuild_model_drivers(t_model, master, x))
-
-saveRDS(rebuilt_models_list, "./outputs/within_esm_ssp_decade_models.rds")
+within_esm_ssp_permutation_sources <- rbindlist(within_esm_ssp_permutation_sources)
+arrow::write_parquet(within_esm_ssp_permutation_sources, "./outputs/within_esm_ssp_decade_permutation_sources.parq")
