@@ -1,0 +1,140 @@
+---
+title: Think deep for reef resilience
+author:
+  - name: Benjamin Grier
+    email: grierben777@gmail.com
+    affiliations:
+        - id: UStrath
+          name: University of Strathclyde
+          address: Glasgow
+          country: United Kingdom 
+    attributes:
+        corresponding: true
+abstract: |
+    Enter abstract text here.
+keywords:
+    - StrathE2E2
+date: last-modified
+format:
+  elsevier-docx:
+    journal:
+      name: Ecological Modelling
+      formatting: preprint
+      cite-style: authoryear
+bibliography: references.bib
+engine: julia
+crossref:
+  custom:
+  - kind: float
+    reference-prefix: SFigure
+    key: sfig
+editor:
+  markdown:
+    wrap: 92
+---
+
+# Introduction
+
+# Methods
+
+## Study Area
+
+## Ecosystem modelling
+
+### Driving data
+
+### Parameterisation
+
+### Fitting
+
+## Climate permutation analyses
+
+![Initial diagram showing the differences between the different investigation analysis
+modes.](../data/initial_analysis_diagram.png){#fig-initial-analysis-diagram}
+
+| Variables | Variable groups | Group description | Group varies across | Sources |
+|----|----|----|----|----|
+| sslight | Light |  | Decade, ESM, SSP |  |
+| so_temp, d_temp, si_temp | Temperature |  | Decade, ESM, SSP |  |
+| rivervol, rivnitrate, rivammonia, rivdetritus | River outputs |  | Decade, ESM, SSP |  |
+| logkvert, d_so_upwelling, so_d_downwelling | Vertical mixing |  | Decade, ESM, SSP |  |
+| \*_nitrate, \*_ammonia, \*_phyt, \*_detritus | Volume nutrient concentrations |  | Decade, ESM, SSP |  |
+| so_atmnitrate, so_atmammonia, si_atmnitrate, si_atmammonia | Atmospheric nutrient flux |  | Decade, SSP |  |
+
+: Environmental variables that are altered in climate permutation analyses and the groups
+allocated to variables, and levels they vary across. All other chemistry and physics driving
+variables are constant across variants of the South African StrathE2E2 model. \* Volume
+nutrient concentration variable group includes separate variables for each water volume (so,
+si, d).
+
+### Climate modelling scenario permutation analyses
+
+To assess the influence of environmental drivers on ecological model outputs across a range
+of possible climate futures, we perform variable permutations across possible climate
+scenarios within each decade analysed. Within each decade six variable groups (light,
+temperature, river outputs, vertical mixing and volume nutrient concentrations) vary across
+ESMs and SSPs, with four possible sets of values per decade (CNRM-SSP1-2.6, CNRM-SSP3-7.0,
+GFDL-SSP1-2.6, GFDL-SSP3-7.0). The atmospheric nutrient flux variable group varies across
+SSP only, with only two possible sets of values per decade.
+
+To assess the influence of these variable groups across climate scenario derived model
+variation, within each decade all unique combinations of variable group sets are used as
+model inputs (\@fig-initial-analysis-diagram). These unique permutations of climate
+variables are then modelled across the 3 chosen decades.
+
+The total number of permutations run can be calculated as:
+
+4scenarios ^ 6variables * 2scenarios ^ 1variable * 3decades = 24,576 model permutations
+
+### Climate change impacts permutation analyses
+
+To assess the influence of environmental drivers on ecological model outputs across a range
+of decades, we perform variable permutations across decades within each available climate
+scenario set. There are four sets of unique climate scenarios (CNRM-SSP1-2.6, CNRM-SSP3-7.0,
+GFDL-SSP1-2.6, GFDL-SSP3-7.0). Within each climate scenario seven variable groups (light,
+temperature, river outputs, vertical mixing, volume nutrient concentrations and atmospheric
+nutrient flux) vary across decades, with three possible sets of values per climate scenario
+(2010-2019, 2030-2039, 2060-2069). For example, under CNRM-SSP1-2.6 climate scenario the
+temperature variable group has three unique value sets (one for each decade).
+
+To assess the influence of these variable groups across climate change derived model
+variation, within each climate scenario all unique combinations of variable group sets are
+used as model inputs (\@fig-initial-analysis-diagram). These unique permutations of climate
+variables are then modelled across the four available climate scenarios.
+
+The total number of permutations run can be calculated as:
+
+3decades ^ 7variables * 4 scenarios = 8,248 model permutations
+
+### Variable swap analyses
+
+Decade-swap permutations that have either a single variable group swapped to an alternative
+decade, or all-but a single variable group swapped to an alternative decade are assessed.
+Permutations with a single variable group substituted for an alternative decade are used to
+investigate whether the selected variable group change is sufficient to drive climate change
+impacts. Permutations with all-but a single variable group substituted are used to
+investigate whether the constant variable group is necessary for driving climate change
+impacts.
+
+## Shapley effects
+
+To calculate the importance of the variable groups for influencing the model outputs across climate model scenarios and climate change futures, we perform Shapley effects analysis on each set of inputs and results.
+
+## Further analyses
+
+# Results
+
+### Within decade scenario permutation analyses
+
+### Within scenario decade permutation analyses
+
+### Variable swap analyses
+
+# Discussion
+
+# References
+
+::: {#refs}
+:::
+
+# Supplementary Material
