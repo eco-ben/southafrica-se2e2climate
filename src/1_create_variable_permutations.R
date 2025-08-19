@@ -1,6 +1,7 @@
 source("src/build_model_forcing_functions.R")
 
 master <- load_all_possible_drivers("../../StrathE2E_workspace/Models/South_Africa_MA/", "South_Africa_MA")
+write.csv(master, "./outputs/master_forcings_South_Africa_MA.csv", row.names = FALSE)
 
 decades <- c("2010-2019", "2030-2039", "2060-2069") # Define decades that I want to investigate (currently only 2010-2019, 2030-39 and 2060-69)
 ESMs <- unique(master$ESM)

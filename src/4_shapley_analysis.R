@@ -11,7 +11,7 @@ x <- as.data.frame(data[, 5:8]) # dataframe or matrix of input values with rows 
 shapleyvalue(y, x)
 shapleyvalue(y, x)[2, ] # Normalised shapley values
 
-master_forcings <- load_all_possible_drivers("../../StrathE2E_workspace/Models/South_Africa_MA/", "South_Africa_MA")
+master_forcings <- read.csv("./outputs/master_forcings_South_Africa_MA.csv")
 
 find_encoded_val <- function(full_code_value, encoding_scheme, disregarded_pattern) {
     split_code_value <- gsub(disregarded_pattern, full_code_value, replacement = "")
@@ -41,6 +41,7 @@ for (var in input_variables) {
 test <- read_parquet("./outputs/within_decade_permutations/model_outputs_perm_1.parq")
 annual_surface_phyt <- summarise_annual_results(test[test$Description == "Surface_layer_phytoplankton", ], "Model_annual_mean", function(x) x)
 
+result_files <- list(1:200)
 result_files <- lapply(1:200, function(i) result_files[[i]] <- str_glue("./outputs/within_decade_permutations/model_outputs_perm_{i}.parq"))
 annual_surface_phyt <- sapply(result_files, function(x) {
     df <- read_parquet(x)
@@ -50,8 +51,12 @@ annual_surface_phyt <- unlist(annual_surface_phyt)
 
 shapleyvalue(annual_surface_phyt, decade_perms_2010_2019[1:200, ])
 
-
-
+dem_fish <- sapply(result_files, function(x) {
+    df <- read_parquet(x)
+    summarise_annual_results(df[df$Description == "Demersal_fish", ], "Model_annual_mean", function(x) x)
+})
+dem_fish <- unlist(dem_fish)
+shapleyvalue(dem_fish, decade_perms_2010_2019[1:200, ])
 
 
 # Analyse within decade permutations for each climate scenario level:
@@ -72,7 +77,7 @@ result_files <- list(1:200)
 result_files <- lapply(1:200, function(i) result_files[[i]] <- str_glue("./outputs/across_decade_permutations/model_outputs_perm_{i}.parq"))
 annual_surface_phyt <- sapply(result_files, function(x) {
     df <- read_parquet(x)
-    summarise_annual_results(df[df$Description == "Surface_layer_phytoplankton", ], "Model_annual_mean", function(x) x)
+    summarise_annual_results(df[df$Description == "Demersal fish", ], "Model_annual_mean", function(x) x)
 })
 annual_surface_phyt <- unlist(annual_surface_phyt)
 

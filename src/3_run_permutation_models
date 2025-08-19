@@ -33,7 +33,7 @@ load_and_run_perm <- function(master_variables, variable_sources, perm_id, nyear
     return(NULL)
 }
 
-master <- load_all_possible_drivers("../../StrathE2E_workspace/Models/South_Africa_MA/", "South_Africa_MA")
+master <- read.csv("./outputs/master_forcings_South_Africa_MA.csv")
 
 within_decade_permutation_sources <- arrow::read_parquet("./outputs/within_decade_ssp_esm_permutation_sources.parq")
 within_decade_permutation_sources <- split(within_decade_permutation_sources, within_decade_permutation_sources$perm_id)

@@ -5,17 +5,22 @@ library(data.table)
 plan(multisession, workers = 4)
 
 variable_groups <- list(
-    constants = c("so_logespm", "si_logespm", "Inshore_waveheight", "s1_pdist", "s2_pdist", "s3_pdist", "d1_pdist", "d2_pdist", "d3_pdist", "DO_mixlscale", "mixlscale", "si_othernitrate", "si_otherammonia", "so_othernitrate", "so_otherammonia"),
+    constants = c(
+        "so_logespm", "si_logespm", "Inshore_waveheight", "s1_pdist",
+        "s2_pdist", "s3_pdist", "d1_pdist", "d2_pdist", "d3_pdist", "DO_mixlscale",
+        "mixlscale", "si_othernitrate", "si_otherammonia", "so_othernitrate",
+        "so_otherammonia", "DO_logkvert", "DO_d_upwelling", "d_DO_downwelling",
+        "DO_nitrate", "DO_ammonia", "DO_detritus"
+    ),
     light = "sslight",
     temperature = c("so_temp", "d_temp", "si_temp"),
     river_outputs = c("rivervol", "rivnitrate", "rivammonia", "rivdetritus"),
-    vertical_mixing = c("logkvert", "d_so_upwelling", "so_d_downwelling", "DO_logkvert", "DO_d_upwelling", "d_DO_downwelling"),
+    vertical_mixing = c("logkvert", "d_so_upwelling", "so_d_downwelling"),
     water_flows = c("so_inflow", "d_inflow", "si_inflow", "si_outflow", "so_si_flow"),
     nutrient_conc = c(
         "so_nitrate", "so_ammonia", "so_phyt", "so_detritus",
         "d_nitrate", "d_ammonia", "d_phyt", "d_detritus",
-        "si_nitrate", "si_ammonia", "si_phyt", "si_detritus",
-        "DO_nitrate", "DO_ammonia", "DO_detritus"
+        "si_nitrate", "si_ammonia", "si_phyt", "si_detritus"
     ),
     atm_nut_flux = c("so_atmnitrate", "so_atmammonia", "si_atmnitrate", "si_atmammonia")
 )
@@ -55,7 +60,7 @@ get_var_info <- function(v_group, run_perm, pattern) {
 within_decade_permutations <- read.csv("./outputs/within_decade_ssp_esm_permutations.csv")
 within_decade_permutations$constants <- "2010-2019-CNRM-ssp126"
 
-master <- load_all_possible_drivers("../../StrathE2E_workspace/Models/South_Africa_MA/", "South_Africa_MA")
+master <- read.csv("./outputs/master_forcings_South_Africa_MA.csv")
 unique_variables <- unique(master$variable)
 
 within_decade_rows_list <- apply(within_decade_permutations, 1, function(row) as.list(row))
