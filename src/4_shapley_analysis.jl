@@ -13,6 +13,11 @@ function find_encoded_val(full_code_value, encoding_scheme, disregarded_pattern)
 
     return encoding_scheme[split_code_value]
 end
+function extract_annual_results(filename, id_column, id, value_column)
+    df = DataFrame(read_parquet(filename))
+
+    return first(df[df[:, id_column] .== id, value_column])
+end
 
 within_decade_perms = CSV.read("../outputs/within_decade_ssp_esm_permutations.csv", DataFrame)
 input_variables = names(within_decade_perms)[(names(within_decade_perms) .!= "perm_id") .& (names(within_decade_perms) .!= "Column1")]
@@ -24,16 +29,8 @@ for var in input_variables
     decade_perms_2010_2019[!, var] = [find_encoded_val(x, ssp_esm_encoding, r"(\d{4}-\d{4}-)") for x in decade_perms_2010_2019[:, var]]
 end
 
-test = DataFrame(read_parquet("../outputs/within_decade_permutations/model_outputs_perm_1.parq"))
-
 result_files = 1:200
 result_files = ["../outputs/within_decade_permutations/model_outputs_perm_$(x).parq" for x in result_files]
-
-function extract_annual_results(filename, id_column, id, value_column)
-    df = DataFrame(read_parquet(filename))
-
-    return first(df[df[:, id_column] .== id, value_column])
-end
 
 df = decade_perms_2010_2019[1:200, :]
 df.annual_surface_phyt = [extract_annual_results(filename, "Description", "Surface_layer_phytoplankton", "Model_annual_mean") for filename in result_files]
@@ -151,4 +148,56 @@ for row in eachrow(shap_effects_long)
 end
 
 output_plot = data(shap_effects_long) * mapping(:variable, :main_effect, row=:output) * visual(BarPlot, direction=:x)
-draw(output_plot)
+fig = draw(output_plot)
+fig
+
+
+
+# Shapley effects for decade permutations
+
+within_esm_ssp_perms = CSV.read("../outputs/within_esm_ssp_decade_permutations.csv", DataFrame)
+input_variables = names(within_esm_ssp_perms)[(names(within_esm_ssp_perms) .!= "perm_id") .& (names(within_esm_ssp_perms) .!= "Column1")]
+decade_encoding = Dict("2010-2019" => 1, "2030-2039" => 2, "2060-2069" => 3)
+
+# For 2010-2019:
+esm_ssp_perms_CNRM_SSP370 = within_esm_ssp_perms[contains.(within_esm_ssp_perms.light, "CNRM-ssp370"), :]
+for var in input_variables
+    esm_ssp_perms_CNRM_SSP370[!, var] = [find_encoded_val(x, decade_encoding, r"(-[[:upper:]]{4}-[[:lower:]]{3}\d{3})") for x in esm_ssp_perms_CNRM_SSP370[:, var]]
+end
+
+result_files = 1:200
+result_files = ["../outputs/across_decade_permutations/model_outputs_perm_$(x).parq" for x in result_files]
+df = esm_ssp_perms_CNRM_SSP370[1:200, :]
+df.annual_surface_phyt = [extract_annual_results(filename, "Description", "Surface_layer_phytoplankton", "Model_annual_mean") for filename in result_files]
+df.annual_dem_fish = [extract_annual_results(filename, "Description", "Demersal_fish", "Model_annual_mean") for filename in result_files]
+df.annual_plank_fish = [extract_annual_results(filename, "Description", "Planktivorous_fish", "Model_annual_mean") for filename in result_files]
+df.annual_nit_mass = [extract_annual_results(filename, "Description", "Total_nitrogen_mass", "Model_annual_mean") for filename in result_files]
+df.annual_birds = [extract_annual_results(filename, "Description", "Birds", "Model_annual_mean") for filename in result_files]
+outputs = [
+    :annual_surface_phyt, 
+    :annual_dem_fish, 
+    :annual_plank_fish, 
+    :annual_nit_mass,
+    :annual_birds
+]
+shap_effects = [
+    shapley_main_and_interactions(df, Symbol.(input_variables), output) 
+    for output in outputs]
+main_effects = Dict(zip(
+    outputs, 
+    [effects.main_effects for effects in shap_effects]
+))
+variables_x_outputs = vcat(collect(Iterators.product(
+    outputs,
+    Symbol.(input_variables)
+))...)
+
+shap_effects_long = DataFrame(variable = last.(variables_x_outputs), output = first.(variables_x_outputs))
+shap_effects_long.main_effect .= 0.0
+for row in eachrow(shap_effects_long)
+    row.main_effect = main_effects[row.output][row.variable]
+end
+
+output_plot = data(shap_effects_long) * mapping(:variable, :main_effect, row=:output) * visual(BarPlot, direction=:x)
+fig = draw(output_plot)
+fig
