@@ -4,7 +4,8 @@ using Parquet
 using DataFrames
 using Combinatorics
 using Statistics
-
+using MultivariateStats
+using MLDataUtils
 
 master = CSV.read("../outputs/master_forcings_South_Africa_MA.csv", DataFrame)
 
@@ -201,3 +202,41 @@ end
 output_plot = data(shap_effects_long) * mapping(:variable, :main_effect, row=:output) * visual(BarPlot, direction=:x)
 fig = draw(output_plot)
 fig
+
+
+# PCA analysis
+result_dfs = [DataFrame(read_parquet(filename)) for filename in result_files] 
+for (r, result_df) in enumerate(result_dfs)
+    result_df[!, :perm_id] .= r
+end
+result_df = vcat(result_dfs...)
+result_df = unstack(result_df, :perm_id, :Description, :Model_annual_mean)
+
+result_df = result_df[:, (std.(eachcol(result_df)) .!= 0.0)]
+
+annual_outputs = names(result_df)[names(result_df) .!= "perm_id"]
+for col in annual_outputs
+    μ, σ = rescale!(result_df[!, col]; obsdim=1)
+end
+# Remove any columns that only contain a constant value
+
+heatmap(Matrix(result_df[:, annual_outputs]))
+
+M_pca = fit(PCA, Matrix{Float64}(Matrix(result_df[:, annual_outputs])'); maxoutdim=2)
+y_pca = predict(M_pca, Matrix{Float64}(Matrix(result_df[:, annual_outputs])'))
+pca_val_df = DataFrame(perm_id = result_df.perm_id, PC1 = y_pca[1, :], PC2 = y_pca[2, :])
+draw(data(pca_val_df) * mapping(:PC1, :PC2, color=:perm_id) * visual(Scatter))
+
+M_kpca = fit(KernelPCA, Matrix{Float64}(Matrix(result_df[:, annual_outputs])'); maxoutdim=2)
+y_kpca = predict(M_kpca, Matrix{Float64}(Matrix(result_df[:, annual_outputs])'))
+kpca_val_df = DataFrame(perm_id = result_df.perm_id, PC1 = y_kpca[1, :], PC2 = y_kpca[2, :])
+kpca_val_df.decade .= ""
+for row in eachrow(kpca_val_df)
+    perm = row.perm_id
+    decades = within_esm_ssp_perms[within_esm_ssp_perms.perm_id .== perm, input_variables]
+    decades = [first(decades[:, var]) for var in input_variables]
+    decades = [replace(entry, r"(-[[:upper:]]{4}-[[:lower:]]{3}\d{3})" => "") for entry in decades]
+    row.decade = mode(decades)
+end
+draw(data(kpca_val_df) * mapping(:PC1, :PC2, color=:decade) * visual(Scatter))
+
