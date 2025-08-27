@@ -14,38 +14,12 @@ function find_encoded_val(full_code_value, encoding_scheme, disregarded_pattern)
 
     return encoding_scheme[split_code_value]
 end
+
 function extract_annual_results(filename, id_column, id, value_column)
     df = DataFrame(read_parquet(filename))
 
     return first(df[df[:, id_column] .== id, value_column])
 end
-
-within_decade_perms = CSV.read("../outputs/within_decade_ssp_esm_permutations.csv", DataFrame)
-input_variables = names(within_decade_perms)[(names(within_decade_perms) .!= "perm_id") .& (names(within_decade_perms) .!= "Column1")]
-ssp_esm_encoding = Dict("CNRM-ssp126" => 1, "GFDL-ssp126" => 2, "CNRM-ssp370" => 3, "GFDL-ssp370" => 4)
-
-# For 2010-2019:
-decade_perms_2010_2019 = within_decade_perms[contains.(within_decade_perms.light, "2010-2019"), :]
-for var in input_variables
-    decade_perms_2010_2019[!, var] = [find_encoded_val(x, ssp_esm_encoding, r"(\d{4}-\d{4}-)") for x in decade_perms_2010_2019[:, var]]
-end
-
-result_files = 1:200
-result_files = ["../outputs/within_decade_permutations/model_outputs_perm_$(x).parq" for x in result_files]
-
-df = decade_perms_2010_2019[1:200, :]
-df.annual_surface_phyt = [extract_annual_results(filename, "Description", "Surface_layer_phytoplankton", "Model_annual_mean") for filename in result_files]
-df.annual_dem_fish = [extract_annual_results(filename, "Description", "Demersal_fish", "Model_annual_mean") for filename in result_files]
-df.annual_plank_fish = [extract_annual_results(filename, "Description", "Planktivorous_fish", "Model_annual_mean") for filename in result_files]
-df.annual_nit_mass = [extract_annual_results(filename, "Description", "Total_nitrogen_mass", "Model_annual_mean") for filename in result_files]
-df.annual_birds = [extract_annual_results(filename, "Description", "Birds", "Model_annual_mean") for filename in result_files]
-outputs = [
-    :annual_surface_phyt, 
-    :annual_dem_fish, 
-    :annual_plank_fish, 
-    :annual_nit_mass,
-    :annual_birds
-]
 
 function variable_contribution_weighted(df, variable, output_col)
     groups = groupby(df, variable)
@@ -129,6 +103,35 @@ function shapley_main_and_interactions(df::DataFrame, variables::Union{Vector{Sy
 
     return (main_effects = main_effects, interactions = interactions)
 end
+
+within_decade_perms = CSV.read("../outputs/within_decade_ssp_esm_permutations.csv", DataFrame)
+input_variables = names(within_decade_perms)[(names(within_decade_perms) .!= "perm_id") .& (names(within_decade_perms) .!= "Column1")]
+ssp_esm_encoding = Dict("CNRM-ssp126" => 1, "GFDL-ssp126" => 2, "CNRM-ssp370" => 3, "GFDL-ssp370" => 4)
+
+# For 2010-2019:
+decade_perms_2010_2019 = within_decade_perms[contains.(within_decade_perms.light, "2010-2019"), :]
+for var in input_variables
+    decade_perms_2010_2019[!, var] = [find_encoded_val(x, ssp_esm_encoding, r"(\d{4}-\d{4}-)") for x in decade_perms_2010_2019[:, var]]
+end
+
+result_files = 1:200
+result_files = ["../outputs/within_decade_permutations/model_outputs_perm_$(x).parq" for x in result_files]
+
+df = decade_perms_2010_2019[1:200, :]
+df.annual_surface_phyt = [extract_annual_results(filename, "Description", "Surface_layer_phytoplankton", "Model_annual_mean") for filename in result_files]
+df.annual_dem_fish = [extract_annual_results(filename, "Description", "Demersal_fish", "Model_annual_mean") for filename in result_files]
+df.annual_plank_fish = [extract_annual_results(filename, "Description", "Planktivorous_fish", "Model_annual_mean") for filename in result_files]
+df.annual_nit_mass = [extract_annual_results(filename, "Description", "Total_nitrogen_mass", "Model_annual_mean") for filename in result_files]
+df.annual_birds = [extract_annual_results(filename, "Description", "Birds", "Model_annual_mean") for filename in result_files]
+outputs = [
+    :annual_surface_phyt, 
+    :annual_dem_fish, 
+    :annual_plank_fish, 
+    :annual_nit_mass,
+    :annual_birds
+]
+
+
 
 shap_effects = [
     shapley_main_and_interactions(df, Symbol.(input_variables), output) 
@@ -239,4 +242,3 @@ for row in eachrow(kpca_val_df)
     row.decade = mode(decades)
 end
 draw(data(kpca_val_df) * mapping(:PC1, :PC2, color=:decade) * visual(Scatter))
-
