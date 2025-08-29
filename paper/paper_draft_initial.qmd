@@ -124,6 +124,12 @@ To calculate the importance of the variable groups for influencing the model out
 
 # Results
 
+### Future climate impacts
+
+![Final year biomass conditions for each decade of forcing data under each future scenario. The y axis represents the mean final year biomass in mMNm^-2^ for each guild type. The x axis represents the model decades. The line colours represent the four future scenarios analysed with CNRM-SSP1-2.6 represented in blue, CNRM-SSP3-7.0 represented in yellow, GFDL-SSP1-2.6 represented in green and GFDL-SSP3-7.0 represented in pink. Results are shown for the adult and larval fish guild biomasses (demersal fish, demersal fish larvae, planktivorous fish, planktivorous fish larvae and migratory fish).](../figs/initial_cc_assessment/biomass_timeseries.png){#fig-biomass-timeseries width=14.82cm}
+
+![PCA results for final year biomass conditions for each decade of forcing data under each future scenario. The y axis represents the mean final year biomass in mMNm^-2^ for each guild type. The x axis represents the model decades. The line colours represent the four future scenarios analysed with CNRM-SSP1-2.6 represented in blue, CNRM-SSP3-7.0 represented in yellow, GFDL-SSP1-2.6 represented in green and GFDL-SSP3-7.0 represented in pink. Results are shown for the fish adult and larval guild biomasses (demersal fish, demersal fish larvae, planktivorous fish, planktivorous fish larvae and migratory fish).](../figs/initial_cc_assessment/biomass_timeseries.png){#fig-biomass-timeseries width=14.82cm}
+
 ### Within decade scenario permutation analyses
 
 ### Within scenario decade permutation analyses
