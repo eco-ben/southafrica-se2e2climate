@@ -5,6 +5,8 @@ using Statistics
 using MultivariateStats
 using AlgebraOfGraphics
 using GLMakie
+using MLDataUtils
+using Colors
 
 master = CSV.read("../outputs/master_forcings_South_Africa_MA.csv", DataFrame)
 
@@ -40,7 +42,7 @@ save("../figs/initial_cc_assessment/biomass_timeseries.png", biomass_ts_fig)
 result_df_wide = unstack(result_df, :variant, :Description, :Model_annual_mean)
 result_df_wide = result_df_wide[:, output_variables]
 
-annual_outputs = required_cols[required_cols .!= "variant"]
+annual_outputs = output_variables[output_variables .!= "variant"]
 for col in annual_outputs
     μ, σ = rescale!(result_df_wide[!, col]; obsdim=1)
 end
@@ -57,16 +59,15 @@ pca_val_df.ESM = [first(match(r"([[:upper:]]{4})", var).captures) for var in pca
 pca_val_df.SSP = [first(match(r"([[:lower:]]{3}\d{3})", var).captures) for var in pca_val_df.variant]
 pca_val_df.ESM_SSP = [first(match(r"([[:upper:]]{4}-[[:lower:]]{3}\d{3})", var).captures) for var in pca_val_df.variant]
 
-scat = data(pca_val_df) * mapping(:PC1, :PC2, color=:ESM_SSP, marker=:decade) * visual(Scatter)
+scat = data(pca_val_df) * mapping(:PC1, :PC2, marker=:decade, color=:ESM_SSP) * visual(Scatter)
 line = data(sort(pca_val_df, :decade)) * mapping(:PC1, :PC2, color=:ESM_SSP) * visual(Lines)
-pca_line_fig = draw(scat + line; figure=(;fontsize=8, size=(600, 500)))
-save("../figs/initial_cc_assessment/biomass_pca.png", pca_line_fig)
+pca_line_fig = draw(scat + line; figure=(;fontsize=8, size=(600, 500)), legend=(;nbanks=2))
 
 L = projection(M_pca)
 ev = principalvars(M_pca) ./ sum(principalvars(M_pca))  # variance explained
 corr_circle = L .* sqrt.(ev[1:2]')                      # scale loadings
 
-scaling_factor = maximum(abs, y_pca) / 1.5   # heuristic for visibility
+scaling_factor = maximum(abs, y_pca)  # heuristic for visibility
 L_scaled = corr_circle .* scaling_factor
 corr_circle = L_scaled
 
@@ -77,11 +78,38 @@ fig = pca_line_fig.figure
 # θ = range(0, 2π, length=200)
 # lines!(ax, cos.(θ), sin.(θ), color=:gray, linestyle=:dash)
 
+annual_outputs_colors = Dict(zip(annual_outputs, distinguishable_colors(length(annual_outputs))))
+
+ax = Axis(
+    fig.layout[2,1],
+    limits = (extrema(y_pca[1, :]), extrema(y_pca[2, :]))
+)
 # Draw arrows for variables
-for i in 1:Base.size(corr_circle, 1)
-    arrows2d!(fig.layout[1,1], [mean(y_pca[1, :])], [mean(y_pca[2, :])], [corr_circle[i,1]], [corr_circle[i,2]], 
-            shaftwidth=2, color=:blue, alpha=0.6)
-    text!(fig.layout[1,1], corr_circle[i,1], corr_circle[i,2], text=annual_outputs[i], align=(:left, :bottom), alpha=0.5)
+for (i, output) in enumerate(annual_outputs)
+    arrows2d!(ax, [mean(y_pca[1, :])], [mean(y_pca[2, :])], [corr_circle[i,1]], [corr_circle[i,2]], 
+            shaftwidth=2, color=annual_outputs_colors[output], alpha=0.3)
+    text!(ax, corr_circle[i,1], corr_circle[i,2], text=annual_outputs[i], align=(:left, :bottom), alpha=0.5)
 end
 
-fig
+Label(fig.layout[1,1, TopLeft()], "A", font=:bold)
+Label(fig.layout[2,1, TopLeft()], "B", font=:bold)
+
+# legend_entries = [PolyElement(;color = annual_outputs_colors[output]) for output in annual_outputs]
+# Legend(
+#     fig[2,2],
+#     legend_entries,
+#     annual_outputs,
+#     nbanks = 2,
+#     patchsize = (5,5),
+#     title="Guild"
+# )
+# rowsize!(fig.layout, 3, Relative(0.1))
+# fig
+
+save("../figs/initial_cc_assessment/biomass_pca.png", fig)
+
+ldgs = DataFrame(variable = annual_outputs, PC1 = loadings(M_pca)[:, 1], PC2 = loadings(M_pca)[:, 2])
+ldgs = stack(ldgs, value_name = :value, variable_name = :PC)
+
+pc_barplot = data(ldgs) * mapping(:variable, :value, col=:PC) * visual(BarPlot, direction = :x)
+draw(pc_barplot)
