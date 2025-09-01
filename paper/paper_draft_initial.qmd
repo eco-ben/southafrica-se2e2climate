@@ -31,6 +31,7 @@ crossref:
 editor:
   markdown:
     wrap: 92
+    canonical: true
 ---
 
 # Introduction
@@ -47,64 +48,95 @@ editor:
 
 ### Fitting
 
+## Initial climate change analyses
+
+To assess how future change may impact the Southern Benguela ecosystem we model the
+ecosystem using driving data across six decades (2010-19, 2020-29, 2030-39, 2040-49,
+2050-59, 2060-69) under two ESMs (CNRM and GFDL **clarify the specific ESMs**) and two
+Shared-Socioeconomic-Pathways (SSPs: SSP1-2.6 and SSP3-7.0). Under these scenarios we
+explore the steady state biomass values, averaged across the domain area, for each modelled
+guild. To initially assess the broad climate change impacts we visualise these outputs as
+timeseries across the decades.
+
+To explore the drivers and trends of ecosystem state under climate change we perform
+principal component analysis (PCA) on the steady state biomass values, transforming the data
+to two dimensions (PC1 and PC2). We can then perform in depth analyses of the environmental
+driving data and their variable influence on the ecosystem under climate change.
+
 ## Climate permutation analyses
+
+To explore the influence of environemntal input driving data on the ecosystem under
+different contexts we perform permutation analyses to calculate the overall contribution of
+each variable group to the ecosystem outcomes. To perform these analyses we group the
+variables according to @tbl-variable-groups. Once a set of permuted models is created we
+then collate annual biomass results for each target guild and calculate the Shapley value of
+each variable for each of the target guild biomass result sets.
 
 ![Initial diagram showing the differences between the different investigation analysis
 modes.](../data/initial_analysis_diagram.png){#fig-initial-analysis-diagram}
 
 | Variables | Variable groups | Group description | Group varies across | Sources |
-|----|----|----|----|----|
+|-------------------|-------------------|-------------------|-------------------|-------------------|
 | sslight | Light |  | Decade, ESM, SSP |  |
 | so_temp, d_temp, si_temp | Temperature |  | Decade, ESM, SSP |  |
 | rivervol, rivnitrate, rivammonia, rivdetritus | River outputs |  | Decade, ESM, SSP |  |
 | logkvert, d_so_upwelling, so_d_downwelling | Vertical mixing |  | Decade, ESM, SSP |  |
-| \*_nitrate, \*_ammonia, \*_phyt, \*_detritus | Volume nutrient concentrations |  | Decade, ESM, SSP |  |
+| \*\_nitrate, \*\_ammonia, \*\_phyt, \*\_detritus | Volume nutrient concentrations |  | Decade, ESM, SSP |  |
 | so_atmnitrate, so_atmammonia, si_atmnitrate, si_atmammonia | Atmospheric nutrient flux |  | Decade, SSP |  |
 
 : Environmental variables that are altered in climate permutation analyses and the groups
 allocated to variables, and levels they vary across. All other chemistry and physics driving
 variables are constant across variants of the South African StrathE2E2 model. \* Volume
 nutrient concentration variable group includes separate variables for each water volume (so,
-si, d).
+si, d). {#tbl-variable-groups}
 
 ### Climate modelling scenario permutation analyses
 
-To assess the influence of environmental drivers on ecological model outputs across a range
-of possible climate futures, we perform variable permutations across possible climate
-scenarios within each decade analysed. Within each decade six variable groups (light,
-temperature, river outputs, vertical mixing and volume nutrient concentrations) vary across
-ESMs and SSPs, with four possible sets of values per decade (CNRM-SSP1-2.6, CNRM-SSP3-7.0,
-GFDL-SSP1-2.6, GFDL-SSP3-7.0). The atmospheric nutrient flux variable group varies across
-SSP only, with only two possible sets of values per decade.
+To assess how our environmental drivers contribute to overall model results across the
+future climate scenarios (ESMs and SSPs), we perform permutations of variable values across
+possible climate scenarios within each decade analysed. Within each decade six variable
+groups (light, temperature, river outputs, vertical mixing and volume nutrient
+concentrations) vary across ESMs and SSPs, with four possible sets of values per decade
+(CNRM-SSP1-2.6, CNRM-SSP3-7.0, GFDL-SSP1-2.6, GFDL-SSP3-7.0). The atmospheric nutrient flux
+variable group varies across SSP only, with only two possible sets of values per decade.
 
 To assess the influence of these variable groups across climate scenario derived model
 variation, within each decade all unique combinations of variable group sets are used as
-model inputs (\@fig-initial-analysis-diagram). These unique permutations of climate
-variables are then modelled across the 3 chosen decades.
+model inputs (@fig-initial-analysis-diagram). These unique permutations of climate variables
+are then modelled across the 3 chosen decades. We then use these permutations to assess the
+contribution of each variable group to the variation in model results across the the climate
+change modelling scenarios.
 
 The total number of permutations run can be calculated as:
 
-4scenarios ^ 6variables * 2scenarios ^ 1variable * 3decades = 24,576 model permutations
+4scenarios \^ 6variables \* 2scenarios \^ 1variable \* 3decades = 24,576 model permutations
 
 ### Climate change impacts permutation analyses
 
-To assess the influence of environmental drivers on ecological model outputs across a range
-of decades, we perform variable permutations across decades within each available climate
-scenario set. There are four sets of unique climate scenarios (CNRM-SSP1-2.6, CNRM-SSP3-7.0,
-GFDL-SSP1-2.6, GFDL-SSP3-7.0). Within each climate scenario seven variable groups (light,
-temperature, river outputs, vertical mixing, volume nutrient concentrations and atmospheric
-nutrient flux) vary across decades, with three possible sets of values per climate scenario
-(2010-2019, 2030-2039, 2060-2069). For example, under CNRM-SSP1-2.6 climate scenario the
-temperature variable group has three unique value sets (one for each decade).
+To understand how environmental drivers contribute to the model outputs under climate change
+(across decades), we perform variable permutations across decades within each available
+climate scenario set. There are four sets of unique climate scenarios (CNRM-SSP1-2.6,
+CNRM-SSP3-7.0, GFDL-SSP1-2.6, GFDL-SSP3-7.0). Within each climate scenario seven variable
+groups (light, temperature, river outputs, vertical mixing, volume nutrient concentrations
+and atmospheric nutrient flux) vary across decades, with three possible sets of values per
+climate scenario (2010-2019, 2030-2039, 2060-2069). For example, under CNRM-SSP1-2.6 climate
+scenario the temperature variable group has three unique value sets (one for each decade).
 
 To assess the influence of these variable groups across climate change derived model
 variation, within each climate scenario all unique combinations of variable group sets are
 used as model inputs (\@fig-initial-analysis-diagram). These unique permutations of climate
-variables are then modelled across the four available climate scenarios.
+variables are then supplied to the model as inputs across the four available climate
+scenarios separately.
 
 The total number of permutations run can be calculated as:
 
-3decades ^ 7variables * 4 scenarios = 8,248 model permutations
+3decades \^ 7variables \* 4 scenarios = 8,248 model permutations
+
+We then use these permutations to assess the contribution of each variable group to the
+variation in model results across the decades. To identify groups of guilds (or
+sub-networks) in the Southern Benguela ecosystem that may be influenced by similar sets of
+variables we cluster the guilds based on their variable contribution values using a k-means
+clustering algorithm.
 
 ### Variable swap analyses
 
@@ -118,7 +150,9 @@ impacts.
 
 ## Shapley effects
 
-To calculate the importance of the variable groups for influencing the model outputs across climate model scenarios and climate change futures, we perform Shapley effects analysis on each set of inputs and results.
+To calculate the importance of the variable groups for influencing the model outputs across
+climate model scenarios and climate change futures, we perform Shapley effects analysis on
+each set of inputs and results.
 
 ## Further analyses
 
@@ -126,9 +160,22 @@ To calculate the importance of the variable groups for influencing the model out
 
 ### Future climate impacts
 
-![Final year biomass conditions for each decade of forcing data under each future scenario. The y axis represents the mean final year biomass in mMNm^-2^ for each guild type. The x axis represents the model decades. The line colours represent the four future scenarios analysed with CNRM-SSP1-2.6 represented in blue, CNRM-SSP3-7.0 represented in yellow, GFDL-SSP1-2.6 represented in green and GFDL-SSP3-7.0 represented in pink. Results are shown for the adult and larval fish guild biomasses (demersal fish, demersal fish larvae, planktivorous fish, planktivorous fish larvae and migratory fish).](../figs/initial_cc_assessment/biomass_timeseries.png){#fig-biomass-timeseries width=14.82cm}
+![Final year biomass conditions for each decade of forcing data under each future scenario.
+The y axis represents the mean final year biomass in mMNm^-2^ for each guild type. The x
+axis represents the model decades. The line colours represent the four future scenarios
+analysed with CNRM-SSP1-2.6 represented in blue, CNRM-SSP3-7.0 represented in yellow,
+GFDL-SSP1-2.6 represented in green and GFDL-SSP3-7.0 represented in pink. Results are shown
+for the adult and larval fish guild biomasses (demersal fish, demersal fish larvae,
+planktivorous fish, planktivorous fish larvae and migratory
+fish).](../figs/initial_cc_assessment/biomass_timeseries.png){#fig-biomass-timeseries
+width="14.82cm"}
 
-![PCA results for final year biomass conditions for each decade of forcing data under each future scenario. The y axis represents the mean final year biomass in mMNm^-2^ for each guild type. The x axis represents the model decades. The line colours represent the four future scenarios analysed with CNRM-SSP1-2.6 represented in blue, CNRM-SSP3-7.0 represented in yellow, GFDL-SSP1-2.6 represented in green and GFDL-SSP3-7.0 represented in pink. Results are shown for the fish adult and larval guild biomasses (demersal fish, demersal fish larvae, planktivorous fish, planktivorous fish larvae and migratory fish).](../figs/initial_cc_assessment/biomass_timeseries.png){#fig-biomass-timeseries width=14.82cm}
+![Panel A: PCA results for final year biomass conditions for each decade of forcing data
+under each future scenario. The line colours represent the four future scenarios analysed
+with CNRM-SSP1-2.6 represented in blue, CNRM-SSP3-7.0 represented in yellow, GFDL-SSP1-2.6
+represented in green and GFDL-SSP3-7.0 represented in pink. Point shapes represent the
+decade for which the model was run. Panel B: PCA axis loadings for each of the guild biomass
+state variables.](../figs/initial_cc_assessment/biomass_timeseries.png){width="14.82cm"}
 
 ### Within decade scenario permutation analyses
 
