@@ -40,11 +40,53 @@ editor:
 
 ## Study Area
 
-## Ecosystem modelling
+This investigation models the Southern Benguela ecosystem, extending from the northern South
+Africa EEZ border to *x place* to meet the Aghulas current. To define the continental shelf
+region included in this investigation, we exclude any areas that are situated at more than
+800m depth. We define the inshore region of the domain as being continental shelf with a
+depth of less than 50m and a distance to shore of 20km. This inshore region is defined to
+separate the influence of nearshore processes such as river inputs and shore-based /
+nearshore fishing pressure from the offshore region. The offshore region encapsulates all
+other areas in the model domain beyond this boundary. The model domain is further separated
+into 8 sediment-derived habitat types including rock, gravel, sand and mud bottom types for
+the inshore and offshore zones. Sediment maps were digitised and georeferenced from Birch et
+al. [-@birch1987]. These sediment types represent different levels of reflectance of
+nutrients back into the water column after settlement. The 8 habitat types are primarily
+used to parameterise the distribution of fishing fleet pressure over the model domain area,
+rather than explicitly represent the spatial distribution of the functional groups' biomass
+over the habitats.
 
-### Driving data
+## Ecosystem model
 
-### Parameterisation
+We implement the StrathE2E end-to-end ecosystem model for the Southern Benguela region to
+explore changes in ecosystem processes under future scenarios. StrathE2E models the flow of
+nitrogen through the ecosystem using box models represented by couplped ordinary
+differential equations. Nitrogen flow is tracked through a range of ecosystem components
+from non-exploitable components such as disolved nitrogen, detritus and phytoplankton, to
+exploitable guilds such as planktivorous fish, birds and seals. The models represent three
+water volumes, inshore, shallow offshore and deep offshore. Representing the horizontal and
+vertical flows of nutrients between these volumes, as well as external input of nutrients
+from adjacent water masses and river inputs. Additional detail about the structure of
+StrathE2E can be found in Heath et al. [-@heath2021].
+
+### Parameterisation for Southern Benguela
+
+To implement StrathE2E for the Southern Benguela ecosystem, we collated region-specific
+inputs from available data, literature and regional expert knowledge. This includes input
+data representing operating fishing fleets in the region and their catch of the modelled
+guilds, biological event timing data for key regional species for each guild and
+observational target data for parameter optimisation of the ecosystem model. Additionally,
+environmental driving data for the model implementation region was extracted from NemoERSEM
+output \*\*insert NEMO-ERSEM citation\*\* (See environmental driving data section below).
+
+| Source                          | Inputs | Time Period / Climate forcing |
+|---------------------------------|--------|-------------------------------|
+| Nemo-ERSEM biogeochemical model |        |                               |
+| Sea Around Us fishing data      |        |                               |
+| Regional expert collaboration   |        |                               |
+| Literature                      |        |                               |
+
+### Environmental driving data
 
 ### Fitting
 
@@ -124,7 +166,7 @@ scenario the temperature variable group has three unique value sets (one for eac
 
 To assess the influence of these variable groups across climate change derived model
 variation, within each climate scenario all unique combinations of variable group sets are
-used as model inputs (\@fig-initial-analysis-diagram). These unique permutations of climate
+used as model inputs (@fig-initial-analysis-diagram). These unique permutations of climate
 variables are then supplied to the model as inputs across the four available climate
 scenarios separately.
 
