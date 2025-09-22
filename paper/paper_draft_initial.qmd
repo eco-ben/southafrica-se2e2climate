@@ -79,12 +79,19 @@ observational target data for parameter optimisation of the ecosystem model. Add
 environmental driving data for the model implementation region was extracted from NemoERSEM
 output \*\*insert NEMO-ERSEM citation\*\* (See environmental driving data section below).
 
-| Source                          | Inputs | Time Period / Climate forcing |
-|---------------------------------|--------|-------------------------------|
-| Nemo-ERSEM biogeochemical model |        |                               |
-| Sea Around Us fishing data      |        |                               |
-| Regional expert collaboration   |        |                               |
-| Literature                      |        |                               |
+| Source | Model Inputs | Time Period / Climate Forcing |
+|--------------------------------------|-------------------|-----------------------------------|
+| Sea Around Us - fishing catch data | Catch data separated into catch power (catch/activity) and discard rates | Parameterised with 2010-2019 data |
+| South Africa National Biodiversity Institute - spatial fishing pressure data | Spatial distribution of fishing fleet activity |  |
+| Regional expert collaboration - target data | Fitting target data |  |
+| World Ocean Atlas 2023 - monthly nitrate concentration data | Fitting target data |  |
+| Satellite data |  |  |
+| Literature | Fishing fleet annual effort estimates, biological event timings | Parameterised using 2010-2019 literature, or nearest available time period values. |
+
+: Data sources used for parameterisation of the 2010-2019 Southern Benguela StrathE2E model
+and the model inputs that each data source contributed to. Full information for the
+implementation process and processing and use of each data source can be found at
+\*\*\\\[Insert implementation doc link.\\\]\*\*. {#tbl-data-sources}
 
 ### Environmental driving data
 
