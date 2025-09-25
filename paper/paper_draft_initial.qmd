@@ -48,13 +48,13 @@ depth of less than 50m and a distance to shore of 20km. This inshore region is d
 separate the influence of nearshore processes such as river inputs and shore-based /
 nearshore fishing pressure from the offshore region. The offshore region encapsulates all
 other areas in the model domain beyond this boundary. The model domain is further separated
-into 8 sediment-derived habitat types including rock, gravel, sand and mud bottom types for
-the inshore and offshore zones. Sediment maps were digitised and georeferenced from Birch et
-al. [-@birch1987]. These sediment types represent different levels of reflectance of
-nutrients back into the water column after settlement. The 8 habitat types are primarily
-used to parameterise the distribution of fishing fleet pressure over the model domain area,
-rather than explicitly represent the spatial distribution of the functional groups' biomass
-over the habitats.
+into 8 sediment-derived habitat types: rock, gravel, sand and mud bottom types for the
+inshore and offshore zones. Sediment maps were digitised and georeferenced from Birch et al.
+[-@birch1987]. These sediment types represent different levels of nutrient reflectance back
+into the water column after settlement. The 8 habitat types are primarily used to
+parameterise the distribution of fishing fleet pressure over the model domain area, rather
+than explicitly represent the spatial distribution of the functional groups' biomass over
+the habitats.
 
 ## Ecosystem model
 
@@ -80,7 +80,7 @@ environmental driving data for the model implementation region was extracted fro
 output \*\*insert NEMO-ERSEM citation\*\* (See environmental driving data section below).
 
 | Source | Model Inputs | Time Period / Climate Forcing |
-|--------------------------------------|-------------------|-----------------------------------|
+|------------------------------------|-----------------------|---------------------------------|
 | Sea Around Us - fishing catch data | Catch data separated into catch power (catch/activity) and discard rates | Parameterised with 2010-2019 data |
 | South Africa National Biodiversity Institute - spatial fishing pressure data | Spatial distribution of fishing fleet activity |  |
 | Regional expert collaboration - target data | Fitting target data |  |
@@ -95,17 +95,24 @@ implementation process and processing and use of each data source can be found a
 
 ### Environmental driving data
 
-### Fitting
+StrathE2E uses monthly driving data for physical and chemical variables annually averaged
+from each decadal time period. Physical driving data includes variables such as temperature,
+light, river inflow volumes and boundary flow rates for each water volume. Chemical driving
+data include nutrient concentrations for each of the volumes and from sources such as water
+volume boundaries and river inputs. Environmental driving data were extracted from
+Nemo-ERSEM biogeochemical model forced by two Earth System Models (ESMs: CNRM and GFDL
+**clarify the specific ESMs**) under two Shared-Socioeconomic-Pathways (SSPs: SSP1-2.6 and
+SSP3-7.0). Environmental driving data were averaged across decades including 2010-2019,
+2020-2029, 2030-2039, 2040-2049, 2050-2059, 2060-2069. Additional information on
+environmental driving data can be found in **insert supplementary table ref**.
 
 ## Initial climate change analyses
 
 To assess how future change may impact the Southern Benguela ecosystem we model the
-ecosystem using driving data across six decades (2010-19, 2020-29, 2030-39, 2040-49,
-2050-59, 2060-69) under two ESMs (CNRM and GFDL **clarify the specific ESMs**) and two
-Shared-Socioeconomic-Pathways (SSPs: SSP1-2.6 and SSP3-7.0). Under these scenarios we
-explore the steady state biomass values, averaged across the domain area, for each modelled
-guild. To initially assess the broad climate change impacts we visualise these outputs as
-timeseries across the decades.
+ecosystem using driving data across the six decades, under the two ESMs and two SSPs. Under
+these scenarios we explore the steady state biomass values, averaged across the domain area,
+for each modelled guild. To initially assess the broad climate change impacts we visualise
+these outputs as timeseries across the decades.
 
 To explore the drivers and trends of ecosystem state under climate change we perform
 principal component analysis (PCA) on the steady state biomass values, transforming the data
@@ -240,3 +247,16 @@ state variables.](../figs/initial_cc_assessment/biomass_timeseries.png){width="1
 :::
 
 # Supplementary Material
+
+## Model parameterisation and calibration
+
+Model input data such as biological event timing and fisheries data were sourced from
+regional and published sources **link to source table**. StrathE2E biological parameters
+were calibrated using regional target observation data **link to target data source table**.
+Calibration was performed using an iterative simulated annealing process where ecological
+parameters **link to calibrated parameters table** are varied to increase the likelihood of
+the ecological target data from simulated model results, then fishing harvest ratio
+parameters are varied to calibrate the fishing model component. Once a suitable model fit is
+reached the ecological and fishing parameters are calibrated together to the ecological and
+fisheries landing target data. This fitting process was performed for a 2010-2015 CNRM
+SSP3-7.0 baseline model. Additional information on model fitting can be found in **link to implementation doc**.
