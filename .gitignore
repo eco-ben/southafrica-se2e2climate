@@ -52,6 +52,7 @@ config.toml
 
 .lintr
 .Rprofile
+*.Rproj
 
 outputs/
 data/
