@@ -24,7 +24,7 @@ output_variables = unique([
     "variant";
     result_df.Description[contains.(result_df.Description, ["detritus"])];
     result_df.Description[contains.(result_df.Description, ["plankton"])];
-    result_df.Description[contains.(result_df.Description, ["fish"])];
+    result_df.Description[contains.(result_df.Description, [["Demersal_fish", "Migratory_fish", "Planktivorous_fish"]])];
     result_df.Description[contains.(result_df.Description, ["Benthos"])];
     ["Birds", "Pinnipeds", "Cetaceans"]
 ])

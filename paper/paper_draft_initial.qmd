@@ -1,17 +1,17 @@
 ---
-title: Think deep for reef resilience
-author:
-  - name: Benjamin Grier
-    email: grierben777@gmail.com
-    affiliations:
-        - id: UStrath
-          name: University of Strathclyde
-          address: Glasgow
-          country: United Kingdom 
-    attributes:
-        corresponding: true
-abstract: |
-    Enter abstract text here.
+title: Drivers of climate change ecology in the Southern Benguela ecosystem (placeholder)
+# author:
+#   - name: Benjamin Grier
+#     email: grierben777@gmail.com
+#     affiliations:
+#         - id: UStrath
+#           name: University of Strathclyde
+#           address: Glasgow
+#           country: United Kingdom 
+#     attributes:
+#         corresponding: true
+# abstract: |
+#     Enter abstract text here.
 keywords:
     - StrathE2E2
 date: last-modified
@@ -41,15 +41,15 @@ editor:
 ## Study Area
 
 This investigation models the Southern Benguela ecosystem, extending from the northern South
-Africa EEZ border to *x place* to meet the Aghulas current. To define the continental shelf
-region included in this investigation, we exclude any areas that are situated at more than
-800m depth. We define the inshore region of the domain as being continental shelf with a
+Africa EEZ border to **x** place to meet the Aghulas current. To define the continental
+shelf region included in this investigation, we exclude any areas that are situated at more
+than 800m depth. We define the inshore region of the domain as continental shelf with a
 depth of less than 50m and a distance to shore of 20km. This inshore region is defined to
 separate the influence of nearshore processes such as river inputs and shore-based /
 nearshore fishing pressure from the offshore region. The offshore region encapsulates all
-other areas in the model domain beyond this boundary. The model domain is further separated
-into 8 sediment-derived habitat types: rock, gravel, sand and mud bottom types for the
-inshore and offshore zones. Sediment maps were digitised and georeferenced from Birch et al.
+other areas in the model domain beyond this boundary. The model domain is separated into 8
+sediment-derived habitat types: rock, gravel, sand and mud sediment types for the inshore
+and offshore zones. Sediment maps were digitised and georeferenced from Birch et al.
 [-@birch1987]. These sediment types represent different levels of nutrient reflectance back
 into the water column after settlement. The 8 habitat types are primarily used to
 parameterise the distribution of fishing fleet pressure over the model domain area, rather
@@ -71,130 +71,150 @@ StrathE2E can be found in Heath et al. [-@heath2021].
 
 ### Parameterisation for Southern Benguela
 
-To implement StrathE2E for the Southern Benguela ecosystem, we collated region-specific
-inputs from available data, literature and regional expert knowledge. This includes input
-data representing operating fishing fleets in the region and their catch of the modelled
-guilds, biological event timing data for key regional species for each guild and
-observational target data for parameter optimisation of the ecosystem model. Additionally,
-environmental driving data for the model implementation region was extracted from NemoERSEM
-output \*\*insert NEMO-ERSEM citation\*\* (See environmental driving data section below).
+To implement StrathE2E for the Southern Benguela, we collated region-specific inputs from
+available data, literature and regional expert knowledge. This includes input data
+representing fishing fleets operating in the region and their catch of the modelled guilds,
+biological event timing data for key regional species for each guild and observational
+target data for parameter optimisation of the ecosystem model. Additionally, environmental
+driving data for the model implementation region was extracted from NemoERSEM output
+\*\*insert NEMO-ERSEM citation\*\* (See environmental driving data section below).
 
-| Source | Model Inputs | Time Period / Climate Forcing |
+| Source | Model Inputs | Time Period |
 |------------------------------------|-----------------------|---------------------------------|
 | Sea Around Us - fishing catch data | Catch data separated into catch power (catch/activity) and discard rates | Parameterised with 2010-2019 data |
-| South Africa National Biodiversity Institute - spatial fishing pressure data | Spatial distribution of fishing fleet activity |  |
-| Regional expert collaboration - target data | Fitting target data |  |
-| World Ocean Atlas 2023 - monthly nitrate concentration data | Fitting target data |  |
-| Satellite data |  |  |
-| Literature | Fishing fleet annual effort estimates, biological event timings | Parameterised using 2010-2019 literature, or nearest available time period values. |
+| South Africa National Biodiversity Institute - spatial fishing pressure data | Spatial distribution of fishing fleet activity | 2018 - layers finalised 2025 |
+| Regional expert collaboration - target data | Fitting target data | 1978-2015 |
+| World Ocean Atlas 2023 - monthly nitrate concentration data | Fitting target data | 2023 |
+| Literature | Fishing fleet annual effort estimates, biological event timings | Parameterised using 2010-2019 literature, or nearest available time period values. Additional details can be found in **\[Insert link to implementation doc.\]** |
 
 : Data sources used for parameterisation of the 2010-2019 Southern Benguela StrathE2E model
 and the model inputs that each data source contributed to. Full information for the
-implementation process and processing and use of each data source can be found at
-\*\*\\\[Insert implementation doc link.\\\]\*\*. {#tbl-data-sources}
+implementation process and processing and use of each data source can be found at **\[Insert
+implementation doc link.\]**. {#tbl-data-sources}
 
 ### Environmental driving data
 
 StrathE2E uses monthly driving data for physical and chemical variables annually averaged
-from each decadal time period. Physical driving data includes variables such as temperature,
+from each decadal time period. Physical driving data include variables such as temperature,
 light, river inflow volumes and boundary flow rates for each water volume. Chemical driving
 data include nutrient concentrations for each of the volumes and from sources such as water
 volume boundaries and river inputs. Environmental driving data were extracted from
-Nemo-ERSEM biogeochemical model forced by two Earth System Models (ESMs: CNRM and GFDL
-**clarify the specific ESMs**) under two Shared-Socioeconomic-Pathways (SSPs: SSP1-2.6 and
-SSP3-7.0). Environmental driving data were averaged across decades including 2010-2019,
-2020-2029, 2030-2039, 2040-2049, 2050-2059, 2060-2069. Additional information on
-environmental driving data can be found in **insert supplementary table ref**.
+Nemo-ERSEM biogeochemical model outputs forced by two Earth System Models (ESMs: CNRM and
+GFDL \[**clarify the specific ESM identifiers\]**) under two Shared-Socioeconomic-Pathways
+(SSPs: SSP1-2.6 and SSP3-7.0). Environmental driving data were averaged across decades
+including 2010-2019, 2020-2029, 2030-2039, 2040-2049, 2050-2059, 2060-2069. Additional
+information on environmental driving data processing can be found in \[**insert
+supplementary table ref\]**.
 
 ## Initial climate change analyses
 
 To assess how future change may impact the Southern Benguela ecosystem we model the
 ecosystem using driving data across the six decades, under the two ESMs and two SSPs. Under
-these scenarios we explore the steady state biomass values, averaged across the domain area,
-for each modelled guild. To initially assess the broad climate change impacts we visualise
-these outputs as timeseries across the decades.
+these scenarios we explore steady state biomass values, averaged across the domain area, for
+each modelled guild. To assess the broad climate change impacts across these decades and
+scenarios, we visualise these outputs as time series across the decades.
 
 To explore the drivers and trends of ecosystem state under climate change we perform
-principal component analysis (PCA) on the steady state biomass values, transforming the data
-to two dimensions (PC1 and PC2). We can then perform in depth analyses of the environmental
-driving data and their variable influence on the ecosystem under climate change.
+principal component analysis (PCA) on the steady state biomass values, rotating the
+multivariate guild biomass values along two principal components (PC1 and PC2).
 
 ## Climate permutation analyses
 
-To explore the influence of environemntal input driving data on the ecosystem under
-different contexts we perform permutation analyses to calculate the overall contribution of
-each variable group to the ecosystem outcomes. To perform these analyses we group the
-variables according to @tbl-variable-groups. Once a set of permuted models is created we
-then collate annual biomass results for each target guild and calculate the Shapley value of
-each variable for each of the target guild biomass result sets.
+To quantify the influence of environmental input driving data on the state of the ecosystem
+under different contexts we perform permutation analyses to calculate the contribution of
+each variable group to the ecosystem outcomes. To perform these analyses we group variables
+according to @tbl-variable-groups. Once a set of permuted models is created, we collate
+annual biomass results for each target guild and calculate the variance-based Shapley Effect
+value of each variable for each of the target guild biomass result sets.
+
+| Variables | Variable group | Group description | Group varies across |
+|-------------------|-------------------|-------------------|-------------------|
+| sslight | Light | Surface light penetration. | Decade, ESM, SSP |
+| so_temp, d_temp, si_temp | Temperature | Water volume temperatures. | Decade, ESM, SSP |
+| rivervol, rivnitrate, rivammonia, rivdetritus | River outputs | River output volume and nutrient outflow concentrations into si habitat. | Decade, ESM, SSP |
+| logkvert, d_so_upwelling, so_d_downwelling | Vertical mixing | Upwelling and downwelling between surface and deep offshore water volumes. | Decade, ESM, SSP |
+| domain inflow variables, so_si_flow | Horizontal flows | Inflow rates of water into si, so and d water volumes. Movement of water from surface offshore to inshore volumes. | Decade, ESM, SSP |
+| \*\_nitrate, \*\_ammonia, \*\_phyt, \*\_detritus | Volume nutrient concentrations | Nutrient concentrations for each water volume (so, si and d). | Decade, ESM, SSP |
+| so_atmnitrate, so_atmammonia, si_atmnitrate, si_atmammonia | Atmospheric nutrient flux | Deposition rates of nitrate and ammonia into surface water volumes. | Decade, SSP |
+
+: Environmental driving variables that are altered in climate permutation analyses and the
+groups allocated to variables, and levels they vary across. All other chemistry and physics
+driving variables are constant across variants of the Southern Benguela StrathE2E2 model.
+{#tbl-variable-groups}
+
+### Shapley effects
+
+Shapley Effects quantify the contribution of a variable to variance in a target model
+output. Variance-based Shapley Effects are an extension of Shapley Values, which are a fair
+way to calculate the contribution of each variable to a given output [@shapley1952]
+(@eq-shapleyvalue).
+
+$$
+\phi_j(val) = \sum_{S \subseteq \{1,\ldots,p\}\setminus\{j\}} 
+   \frac{|S|!(p-|S|-1)!}{p!}\,\big(val(S \cup \{j\}) - val(S)\big)
+$$ {#eq-shapleyvalue}
+
+Where $\phi_j$ is the Shapley value for variable $j$, $S$ is a subset of input variables not
+including $j$. To extend this calculation to variance-based Shapley Effects [@song2016] on
+discrete inputs (levels = model variants), we substitute $val(S)$ for @eq-varexplained,
+calculating the output variance explained by a inputs from a set of variables $S$. The
+resulting Shapley Effect for variable $j$ represents the sum of marginal contributions of
+variable $j$ to all coalitions of other input variables. By calculating the contribution of
+$j$ to all possible coalitions of other variables, Shapley Effects incorporate the
+interactions between variables, using a full factorial permutation set to calculate exact
+Shapley Effects.
+
+$$
+Var[E[Y|X_S]]
+$$ {#eq-varexplained}
 
 ![Initial diagram showing the differences between the different investigation analysis
 modes.](../data/initial_analysis_diagram.png){#fig-initial-analysis-diagram}
 
-| Variables | Variable groups | Group description | Group varies across | Sources |
-|-------------------|-------------------|-------------------|-------------------|-------------------|
-| sslight | Light |  | Decade, ESM, SSP |  |
-| so_temp, d_temp, si_temp | Temperature |  | Decade, ESM, SSP |  |
-| rivervol, rivnitrate, rivammonia, rivdetritus | River outputs |  | Decade, ESM, SSP |  |
-| logkvert, d_so_upwelling, so_d_downwelling | Vertical mixing |  | Decade, ESM, SSP |  |
-| \*\_nitrate, \*\_ammonia, \*\_phyt, \*\_detritus | Volume nutrient concentrations |  | Decade, ESM, SSP |  |
-| so_atmnitrate, so_atmammonia, si_atmnitrate, si_atmammonia | Atmospheric nutrient flux |  | Decade, SSP |  |
-
-: Environmental variables that are altered in climate permutation analyses and the groups
-allocated to variables, and levels they vary across. All other chemistry and physics driving
-variables are constant across variants of the South African StrathE2E2 model. \* Volume
-nutrient concentration variable group includes separate variables for each water volume (so,
-si, d). {#tbl-variable-groups}
-
 ### Climate modelling scenario permutation analyses
 
-To assess how our environmental drivers contribute to overall model results across the
-future climate scenarios (ESMs and SSPs), we perform permutations of variable values across
-possible climate scenarios within each decade analysed. Within each decade six variable
-groups (light, temperature, river outputs, vertical mixing and volume nutrient
-concentrations) vary across ESMs and SSPs, with four possible sets of values per decade
-(CNRM-SSP1-2.6, CNRM-SSP3-7.0, GFDL-SSP1-2.6, GFDL-SSP3-7.0). The atmospheric nutrient flux
-variable group varies across SSP only, with only two possible sets of values per decade.
+To assess how our environmental drivers contribute to model outputs across the future
+climate scenarios (ESMs and SSPs), we perform permutations of variables across possible
+climate scenarios, within each decade analysed. Within each decade, six variable groups
+(light, temperature, river outputs, vertical mixing and volume nutrient concentrations) vary
+across ESMs and SSPs, with four possible sets of values per decade (CNRM-SSP1-2.6,
+CNRM-SSP3-7.0, GFDL-SSP1-2.6, GFDL-SSP3-7.0). The atmospheric nutrient flux variable group
+varies across SSP only, with only two possible sets of values per decade.
 
 To assess the influence of these variable groups across climate scenario derived model
-variation, within each decade all unique combinations of variable group sets are used as
+variation, within each decade the full factorial cross of variable group sets are used as
 model inputs (@fig-initial-analysis-diagram). These unique permutations of climate variables
-are then modelled across the 3 chosen decades. We then use these permutations to assess the
-contribution of each variable group to the variation in model results across the the climate
-change modelling scenarios.
+are then modelled across the 3 chosen decades, with variable group values treated as
+discrete inputs (model variants).
 
-The total number of permutations run can be calculated as:
-
-4scenarios \^ 6variables \* 2scenarios \^ 1variable \* 3decades = 24,576 model permutations
+The total number of permutations can be calculated as:
+$(4scenarios ^{6variables} * 2scenarios ^{1variable}) * 3decades = 24,576permutations$.
 
 ### Climate change impacts permutation analyses
 
-To understand how environmental drivers contribute to the model outputs under climate change
-(across decades), we perform variable permutations across decades within each available
-climate scenario set. There are four sets of unique climate scenarios (CNRM-SSP1-2.6,
-CNRM-SSP3-7.0, GFDL-SSP1-2.6, GFDL-SSP3-7.0). Within each climate scenario seven variable
-groups (light, temperature, river outputs, vertical mixing, volume nutrient concentrations
-and atmospheric nutrient flux) vary across decades, with three possible sets of values per
-climate scenario (2010-2019, 2030-2039, 2060-2069). For example, under CNRM-SSP1-2.6 climate
-scenario the temperature variable group has three unique value sets (one for each decade).
+To understand how environmental drivers contribute to future change in model outputs across
+decades, we perform variable permutations across three decades (2010-2019, 2030-2039 and
+2060-2069) within each available climate scenario. Within each climate scenario seven
+variable groups (light, temperature, river outputs, vertical mixing, volume nutrient
+concentrations and atmospheric nutrient flux) vary across decades, with three possible sets
+of values per climate scenario (ESM-SSP combination).
 
 To assess the influence of these variable groups across climate change derived model
 variation, within each climate scenario all unique combinations of variable group sets are
 used as model inputs (@fig-initial-analysis-diagram). These unique permutations of climate
-variables are then supplied to the model as inputs across the four available climate
-scenarios separately.
+variables are supplied to the model as inputs across the four available climate scenarios
+separately.
 
 The total number of permutations run can be calculated as:
-
-3decades \^ 7variables \* 4 scenarios = 8,248 model permutations
+$(3decades ^{7variables}) * 4scenarios = 8,248permutations$.
 
 We then use these permutations to assess the contribution of each variable group to the
-variation in model results across the decades. To identify groups of guilds (or
-sub-networks) in the Southern Benguela ecosystem that may be influenced by similar sets of
+variation in model results across the decades. To identify groups of guilds (ecosystem
+sub-networks) in the Southern Benguela ecosystem that are influenced by similar sets of
 variables we cluster the guilds based on their variable contribution values using a k-means
 clustering algorithm.
 
-### Variable swap analyses
+#### Variable swap analyses
 
 Decade-swap permutations that have either a single variable group swapped to an alternative
 decade, or all-but a single variable group swapped to an alternative decade are assessed.
@@ -203,12 +223,6 @@ investigate whether the selected variable group change is sufficient to drive cl
 impacts. Permutations with all-but a single variable group substituted are used to
 investigate whether the constant variable group is necessary for driving climate change
 impacts.
-
-## Shapley effects
-
-To calculate the importance of the variable groups for influencing the model outputs across
-climate model scenarios and climate change futures, we perform Shapley effects analysis on
-each set of inputs and results.
 
 ## Further analyses
 
@@ -231,7 +245,7 @@ under each future scenario. The line colours represent the four future scenarios
 with CNRM-SSP1-2.6 represented in blue, CNRM-SSP3-7.0 represented in yellow, GFDL-SSP1-2.6
 represented in green and GFDL-SSP3-7.0 represented in pink. Point shapes represent the
 decade for which the model was run. Panel B: PCA axis loadings for each of the guild biomass
-state variables.](../figs/initial_cc_assessment/biomass_timeseries.png){width="14.82cm"}
+state variables.](../figs/initial_cc_assessment/biomass_pca.png){width="14.82cm"}
 
 ### Within decade scenario permutation analyses
 
@@ -259,4 +273,5 @@ the ecological target data from simulated model results, then fishing harvest ra
 parameters are varied to calibrate the fishing model component. Once a suitable model fit is
 reached the ecological and fishing parameters are calibrated together to the ecological and
 fisheries landing target data. This fitting process was performed for a 2010-2015 CNRM
-SSP3-7.0 baseline model. Additional information on model fitting can be found in **link to implementation doc**.
+SSP3-7.0 baseline model. Additional information on model fitting can be found in **link to
+implementation doc**.

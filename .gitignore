@@ -64,3 +64,6 @@ data/
 *.log
 */log/
 *.theme
+
+*.docx
+*.doc
