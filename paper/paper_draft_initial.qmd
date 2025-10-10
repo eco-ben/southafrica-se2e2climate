@@ -36,6 +36,25 @@ editor:
 
 # Introduction
 
+- **Climate change impacts on marine ecosystems**
+- Temperate marine ecosystems globally are facing increasing environmental change in ocean temperature, nutrient availability and stratification **fox-kemper**.
+- Species survival and ecosystem functioning in marine ecosystems are vulnerable to increasingly variable environmental conditions **citation**, influencing the provision of ecosystem services such as fisheries **citation**.
+- This investigation aims to assess the drivers of possible future ecosystem change in the Southern Benguela Upwelling System (SBUS).
+
+- **Southern Benguela Upwelling System and climate change**
+- The SBUS, South Africa, is a large eastern boundary current ecosystem that extends from the warm Aghulas current in the south to the northern Benguela system in the north.
+- The SBUS is a highly productive wind-driven upwelling system, supporting large scale commercial and small-scale fisheries for South Africa **citations**.
+- Productivity in this ecosystem exhibits high seasonal and decadal variability **citation** due to changes in environmental conditions such as temperature and upwelling, leading to highly variable fisheries production.
+
+**Climate change impacts in SBUS**
+- Ecosystem modelling using Atlantis by Ortega-Cisneros et al. **citation** found that the ecosystem is likely to face predatory fish declines due to temperature change, and planktivorous fish increases due to reductions in predation pressure.
+- 
+- This investigation uses a nutrient-driven ecosystem model, employing an exploratory scenario modelling approach to uncover possible future climate change impacts and causal drivers of change.
+
+- **Marine ecosystem modelling, uncertainty and identifying causal relationships**
+- Uncertainty plays a large role in projecting ecosystem models under climate change.
+- Projection uncertainty is comprised of four facets: (1) structural uncertainty due to modelling methods; (2) initialisation and internal variability; (3) uncertainty associated with model parameterisation; and (4) scenario uncertainty due to modelling under highly uncertain future conditions **payne**.
+
 # Methods
 
 ## Study Area
@@ -128,7 +147,7 @@ annual biomass results for each target guild and calculate the variance-based Sh
 value of each variable for each of the target guild biomass result sets.
 
 | Variables | Variable group | Group description | Group varies across |
-|-------------------|-------------------|-------------------|-------------------|
+|-----------------------|-----------------------|-----------------------|-----------------------|
 | sslight | Light | Surface light penetration. | Decade, ESM, SSP |
 | so_temp, d_temp, si_temp | Temperature | Water volume temperatures. | Decade, ESM, SSP |
 | rivervol, rivnitrate, rivammonia, rivdetritus | River outputs | River output volume and nutrient outflow concentrations into si habitat. | Decade, ESM, SSP |
@@ -214,15 +233,12 @@ sub-networks) in the Southern Benguela ecosystem that are influenced by similar 
 variables we cluster the guilds based on their variable contribution values using a k-means
 clustering algorithm.
 
-#### Variable swap analyses
+#### Variable group analyses
 
-Decade-swap permutations that have either a single variable group swapped to an alternative
-decade, or all-but a single variable group swapped to an alternative decade are assessed.
-Permutations with a single variable group substituted for an alternative decade are used to
-investigate whether the selected variable group change is sufficient to drive climate change
-impacts. Permutations with all-but a single variable group substituted are used to
-investigate whether the constant variable group is necessary for driving climate change
-impacts.
+For each guild we use the previously run permutations to estimate the difference in modelled
+guild biomass between 2010-2019 and 2060-2069. The permutation plan then allows us to
+identify the influence of variable group interactions on each guild of interest by comparing
+model outputs across permutation runs where variable groups have been altered.
 
 ## Further analyses
 
@@ -251,7 +267,11 @@ state variables.](../figs/initial_cc_assessment/biomass_pca.png){width="14.82cm"
 
 ### Within scenario decade permutation analyses
 
-### Variable swap analyses
+![PCA results for guild Shapley Effect values for variables. Clusters are defined by using
+guild Shapley Effect values for input variable groups as inputs for a kmeans clustering
+algorithm.](../figs/example_guild_clustering.png){width="14.82cm"}
+
+####
 
 # Discussion
 
