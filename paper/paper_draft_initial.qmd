@@ -36,67 +36,125 @@ editor:
 
 # Introduction
 
-- **Climate change impacts on marine ecosystems**
-- Temperate marine ecosystems globally are facing increasing environmental change in ocean temperature, nutrient availability and stratification **fox-kemper**.
-- Species survival and ecosystem functioning in marine ecosystems are vulnerable to increasingly variable environmental conditions **citation**, influencing the provision of ecosystem services such as fisheries **citation**.
-- This investigation aims to assess the drivers of possible future ecosystem change in the Southern Benguela Upwelling System (SBUS).
+-   **Climate change impacts on marine ecosystems**
 
-- **Southern Benguela Upwelling System and climate change**
-- The SBUS, South Africa, is a large eastern boundary current ecosystem that extends from the warm Aghulas current in the south to the northern Benguela system in the north.
-- The SBUS is a highly productive wind-driven upwelling system, supporting large scale commercial and small-scale fisheries for South Africa **citations**.
-- Productivity in this ecosystem exhibits high seasonal and decadal variability **citation** due to changes in environmental conditions such as temperature and upwelling, leading to highly variable fisheries production.
+Temperate marine ecosystems globally are facing increasing environmental change in ocean
+temperature, nutrient availability and stratification [@fox-kemper2021]. Species survival
+and ecosystem functioning in marine ecosystems are vulnerable to increasingly variable
+environmental conditions **citation**, influencing the provision of ecosystem services such
+as fisheries **citation**. Upwelling-reliant marine ecosystems face particular uncertainty
+and low-confidence around current predictions of future climate change impacts
+[@fox-kemper2021]. This investigation aims to assess the drivers of possible future
+ecosystem change in the Southern Benguela Upwelling System (SBUS), South Africa.
 
-**Climate change impacts in SBUS**
-- Ecosystem modelling using Atlantis by Ortega-Cisneros et al. **citation** found that the ecosystem is likely to face predatory fish declines due to temperature change, and planktivorous fish increases due to reductions in predation pressure.
-- 
-- This investigation uses a nutrient-driven ecosystem model, employing an exploratory scenario modelling approach to uncover possible future climate change impacts and causal drivers of change.
+-   **Southern Benguela Upwelling System**
 
-- **Marine ecosystem modelling, uncertainty and identifying causal relationships**
-- Uncertainty plays a large role in projecting ecosystem models under climate change.
-- Projection uncertainty is comprised of four facets: (1) structural uncertainty due to modelling methods; (2) initialisation and internal variability; (3) uncertainty associated with model parameterisation; and (4) scenario uncertainty due to modelling under highly uncertain future conditions **payne**.
+The SBUS is a large Eastern Boundary Upwelling System (EBUS) that extends around the
+western cape of South Africa, from the warm Aghulas current in the south to the northern
+Benguela system in the north. The SBUS is a highly productive wind-driven upwelling
+system, supporting large-scale-commercial, small-scale and recreational fisheries for
+South Africa [@hutchings2009; @sumaila2016]. Productivity in this ecosystem exhibits
+high seasonal and decadal variability due to changes in environmental conditions such as
+temperature and upwelling [@lamont2014]. Recent interest in Integrated Ecosystem
+Assessment and ecosystem-scale approaches to fisheries management in the Southern
+Benguela highlight the importance of ecosystem-scale modelling approaches for management
+in the region [@bornman2025]. End-to-end ecosystem modelling has suggested high
+sensitivity to plankton growth rates [@ortega-cisneros2017], and high importance of
+forage fish and top-predators for trophic control of the food web [@travers-trolet2014].
+
+-   **Climate change impacts in SBUS**
+
+Ecosystem modelling using Atlantis found that the ecosystem is likely to face predatory
+fish declines due to temperature change, leading to increases in planktivorous fish
+[@ortega-cisneros2018]. This investigation uses StrathE2E, a nutrient-driven end-to-end
+ecosystem model, employing an exploratory scenario modelling approach to uncover
+possible future climate change impacts and causal drivers of change. In EBUS, such as
+the Southern Benguela, conditions under climate change are highly uncertain due to a
+limited understanding of how and to what magnitude wind-driven upwelling processes may
+change [@fox-kemper2021]. High uncertainty in nutrient upwelling leads to low confidence
+in ecosystem response predictions [@fox-kemper2021]. Scenario uncertainty, uncertainty
+due to modelling under uncertain future conditions, plays a large role in projecting
+ecosystem models under climate change [@payne2016].
+
+This investigation aims to identify causal relationships between environmental drivers,
+including inorganic nutrients and upwelling, and ecosystem state for the Southern
+Benguela Upwelling System using a scenario modelling approach across six decades and
+four possible futures to account for high scenario uncertainty.
 
 # Methods
 
 ## Study Area
 
 This investigation models the Southern Benguela ecosystem, extending from the northern South
-Africa EEZ border to **x** place to meet the Aghulas current. To define the continental
-shelf region included in this investigation, we exclude any areas that are situated at more
-than 800m depth. We define the inshore region of the domain as continental shelf with a
-depth of less than 50m and a distance to shore of 20km. This inshore region is defined to
-separate the influence of nearshore processes such as river inputs and shore-based /
+Africa EEZ border to the Agulhas Bank in the south. The Agulhas Current is a warm-water
+Western Boundary current that flows southwards along the eastern coast of Southern Africa.
+The Agulhas Current terminates at the Agulhas Bank, where the Southern Benguela current
+begins, transporting upwelled cold water northwards along the western coast. This creates a
+distinct divide in environmental conditions in the currents to the east and west of the
+Agulhas Bank [@lutjeharms2006]. To define the continental shelf region included in this
+investigation, we exclude any areas that are situated at more than 800m depth (@sfig-distance-depth-map). Cumulative
+fishing effort data [@globalfishingwatch2025] suggests that this domain definition captures
+a key fishing region, with different spatial patterns of fishing occurring in deeper waters
+and in the waters of the Agulhas current (@sfig-fishing-map).
+
+We define the inshore region of the Southern Benguela modelling domain as continental shelf
+with a distance to shore of 20km and depth of less than 50m. This inshore region is defined
+to separate the influence of nearshore processes such as river inputs and shore-based /
 nearshore fishing pressure from the offshore region. The offshore region encapsulates all
-other areas in the model domain beyond this boundary. The model domain is separated into 8
-sediment-derived habitat types: rock, gravel, sand and mud sediment types for the inshore
-and offshore zones. Sediment maps were digitised and georeferenced from Birch et al.
-[-@birch1987]. These sediment types represent different levels of nutrient reflectance back
-into the water column after settlement. The 8 habitat types are primarily used to
-parameterise the distribution of fishing fleet pressure over the model domain area, rather
-than explicitly represent the spatial distribution of the functional groups' biomass over
-the habitats.
+other areas in the model domain beyond this boundary.
+
+The model domain is separated into 8 sediment-derived habitat types: rock, gravel, sand and
+mud sediment types for the inshore and offshore zones (@fig-habitat-map). Sediment maps were digitised and
+georeferenced from Birch et al. [-@birch1987]. These sediment types represent different
+levels of nutrient reflectance back into the water column after settlement. The 8 habitat
+types are primarily used to parameterise the distribution of fishing fleet pressure over the
+model domain area, rather than explicitly represent the spatial distribution of the
+functional groups' biomass over the habitats.
+
+![Model habitat map indicating the domain region and the distinct model habitat types for inshore and offshore regions that are used to distributed fishing effort.](../figs/habitat_map.png){#fig-habitat-map width="14.82cm"}
 
 ## Ecosystem model
 
-We implement the StrathE2E end-to-end ecosystem model for the Southern Benguela region to
-explore changes in ecosystem processes under future scenarios. StrathE2E models the flow of
-nitrogen through the ecosystem using box models represented by couplped ordinary
-differential equations. Nitrogen flow is tracked through a range of ecosystem components
-from non-exploitable components such as disolved nitrogen, detritus and phytoplankton, to
-exploitable guilds such as planktivorous fish, birds and seals. The models represent three
-water volumes, inshore, shallow offshore and deep offshore. Representing the horizontal and
-vertical flows of nutrients between these volumes, as well as external input of nutrients
-from adjacent water masses and river inputs. Additional detail about the structure of
-StrathE2E can be found in Heath et al. [-@heath2021].
+### Box 1: StrathE2E Marine Ecosystem Model Description
+
+StrathE2E combines a dynamic model of marine ecology and a static model of fishing activity,
+coded as a package for the R computing environment (Heath et al. 2021). The ecology model is
+a set of coupled ordinary differential equations representing the continuous-time rates of
+change in nitrogen mass of 26 non-living and living guilds of material due to flows through
+a food web network. The guilds span dissolved inorganic nutrient, detritus and microbes,
+through classes of plankton, benthos and fish to birds and mammals. The flows represent
+predation, food assimilation, metabolism, excretion, demographic transitions (for fish and
+benthos guilds; spawning and recruitment), passive advection, active migrations, and fishery
+harvest. The spatial resolution is coarse, in keeping with the guild granularity of the food
+web - an “inshore” and “offshore” zone, linked by advection and migration. Each zone is
+further subdivided into 4 seabed habitats and, in the offshore zone, 2 water column layers.
+The seabed habitats are biogeochemical compartments with discrete rates of processing
+detritus mineralisation and nutrient recycling constrained by sediment grain size, and the
+sensitivity of these to disturbance e.g. by fishing abrasion. External environmental drivers
+are monthly resolution annual cycles of time-varying physical and chemical data
+(temperatures, marine hydrodynamics and river hydrology, sea surface light, turbidity, and
+boundary data on inorganic nutrient concentrations and volumetric fluxes of water). The
+model outputs state variable nitrogen masses of each guild in each compartment and the flows
+between them, at daily intervals.
+
+The StrathE2E fishing model integrates externally defined properties of up to 12 fishing
+métiers - groups of vessels defined by the fishing gears they use - which selectively
+harvest distinctive sets of guilds in the ecology model. Properties of each metier are their
+habitat-level spatial distributions of activity rate, selectivity for ecology model guilds,
+discarding, offal generation and seabed abrasion rates. The outputs from the fishing model
+are integrated zone and guild-level fishing mortality, discarding and offal generation
+rates, and habitat-level seabed abrasion rates. These are injected as parameters into the
+ecology model and assumed to remain constant over all upcoming years of simulation.
 
 ### Parameterisation for Southern Benguela
 
-To implement StrathE2E for the Southern Benguela, we collated region-specific inputs from
-available data, literature and regional expert knowledge. This includes input data
-representing fishing fleets operating in the region and their catch of the modelled guilds,
-biological event timing data for key regional species for each guild and observational
-target data for parameter optimisation of the ecosystem model. Additionally, environmental
-driving data for the model implementation region was extracted from NemoERSEM output
-\*\*insert NEMO-ERSEM citation\*\* (See environmental driving data section below).
+To implement StrathE2E (**Box 1**) for the Southern Benguela, we collated region-specific
+inputs from available data, literature and regional expert knowledge. This includes input
+data representing fishing fleets operating in the region and their catch of the modelled
+guilds, biological event timing data for key regional species for each guild and
+observational target data for parameter optimisation of the ecosystem model. Additionally,
+environmental driving data for the model implementation region was extracted from NemoERSEM
+output **insert NEMO-ERSEM citation** (see environmental driving data section below).
 
 | Source | Model Inputs | Time Period |
 |------------------------------------|-----------------------|---------------------------------|
@@ -119,7 +177,7 @@ light, river inflow volumes and boundary flow rates for each water volume. Chemi
 data include nutrient concentrations for each of the volumes and from sources such as water
 volume boundaries and river inputs. Environmental driving data were extracted from
 Nemo-ERSEM biogeochemical model outputs forced by two Earth System Models (ESMs: CNRM and
-GFDL \[**clarify the specific ESM identifiers\]**) under two Shared-Socioeconomic-Pathways
+GFDL \[**get the specific ESM identifiers\]**) under two Shared-Socioeconomic-Pathways
 (SSPs: SSP1-2.6 and SSP3-7.0). Environmental driving data were averaged across decades
 including 2010-2019, 2020-2029, 2030-2039, 2040-2049, 2050-2059, 2060-2069. Additional
 information on environmental driving data processing can be found in \[**insert
@@ -271,7 +329,7 @@ state variables.](../figs/initial_cc_assessment/biomass_pca.png){width="14.82cm"
 guild Shapley Effect values for input variable groups as inputs for a kmeans clustering
 algorithm.](../figs/example_guild_clustering.png){width="14.82cm"}
 
-####
+#### 
 
 # Discussion
 
@@ -295,3 +353,7 @@ reached the ecological and fishing parameters are calibrated together to the eco
 fisheries landing target data. This fitting process was performed for a 2010-2015 CNRM
 SSP3-7.0 baseline model. Additional information on model fitting can be found in **link to
 implementation doc**.
+
+![Map showing an indicative distribution of commercial fishing effort along the South African coastline (pixels) relative to the model domain area (red polygon). Fishing effort is calculated using daily fishing effort in hours between 2012 and 2019. Pixels with effort > 10h over this time period are displayed.](../figs/gfw_fishing_domain_map.png){#sfig-fishing-map width="14.82cm"}
+
+![Map showing ocean bathymetry and distance to the shoreline along the South African coastline (pixels) relative to the model domain area (red polygon). Pixels used in volume specification (distances < 20km and depths < 800m) are displayed in the map.](../figs/domain_separation_map.png){#sfig-distance-depth-map width="14.82cm"}
