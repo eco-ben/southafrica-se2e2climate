@@ -319,7 +319,7 @@ under each future scenario. The line colours represent the four future scenarios
 with CNRM-SSP1-2.6 represented in blue, CNRM-SSP3-7.0 represented in yellow, GFDL-SSP1-2.6
 represented in green and GFDL-SSP3-7.0 represented in pink. Point shapes represent the
 decade for which the model was run. Panel B: PCA axis loadings for each of the guild biomass
-state variables.](../figs/initial_cc_assessment/biomass_pca.png){width="14.82cm"}
+state variables.](../figs/initial_cc_assessment/biomass_pca.png){#fig-biomass-pca width="14.82cm"}
 
 ### Within decade scenario permutation analyses
 
