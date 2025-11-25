@@ -3,7 +3,7 @@ library(tidyverse)
 library(furrr)
 library(glue)
 
-plan(multisession, workers = 6)
+plan(multisession, workers = 20)
 
 models_path <- "../../StrathE2E_workspace/Models/"
 output_path <- "./outputs/across_esm_ssp_permutations/"

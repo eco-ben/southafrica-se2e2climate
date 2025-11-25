@@ -3,15 +3,14 @@ library(tidyverse)
 library(furrr)
 library(glue)
 
-plan(multisession, workers = 4)
+plan(multisession, workers = 20)
 
 models_path <- "../../StrathE2E_workspace/Models/"
 output_path <- "./outputs/across_decade_permutations/"
 
 model <- e2e_read("South_Africa_MA", "2010-2019-CNRM-ssp126", models.path = models_path)
 setup_files <- StrathE2E2:::pkg.env$SETUPFILES
-# ESM_SSP <- c("CNRM-ssp126", "CNRM-ssp370", "GFDL-ssp126", "GFDL-ssp370")
-ESM_SSP <- c("CNRM-ssp126", "CNRM-ssp370")
+ESM_SSP <- c("CNRM-ssp126", "CNRM-ssp370", "GFDL-ssp126", "GFDL-ssp370")
 
 for (esm_ssp in ESM_SSP) {
     sub_output_path <- paste0(output_path, esm_ssp, "/")
