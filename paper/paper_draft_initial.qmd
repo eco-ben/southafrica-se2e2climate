@@ -49,37 +49,37 @@ ecosystem change in the Southern Benguela Upwelling System (SBUS), South Africa.
 
 -   **Southern Benguela Upwelling System**
 
-The SBUS is a large Eastern Boundary Upwelling System (EBUS) that extends around the
-western cape of South Africa, from the warm Aghulas current in the south to the northern
-Benguela system in the north. The SBUS is a highly productive wind-driven upwelling
-system, supporting large-scale-commercial, small-scale and recreational fisheries for
-South Africa [@hutchings2009; @sumaila2016]. Productivity in this ecosystem exhibits
-high seasonal and decadal variability due to changes in environmental conditions such as
-temperature and upwelling [@lamont2014]. Recent interest in Integrated Ecosystem
-Assessment and ecosystem-scale approaches to fisheries management in the Southern
-Benguela highlight the importance of ecosystem-scale modelling approaches for management
-in the region [@bornman2025]. End-to-end ecosystem modelling has suggested high
-sensitivity to plankton growth rates [@ortega-cisneros2017], and high importance of
-forage fish and top-predators for trophic control of the food web [@travers-trolet2014].
+The SBUS is a large Eastern Boundary Upwelling System (EBUS) that extends around the western
+cape of South Africa, from the warm Aghulas current in the south to the northern Benguela
+system in the north. The SBUS is a highly productive wind-driven upwelling system,
+supporting large-scale-commercial, small-scale and recreational fisheries for South Africa
+[@hutchings2009; @sumaila2016]. Productivity in this ecosystem exhibits high seasonal and
+decadal variability due to changes in environmental conditions such as temperature and
+upwelling [@lamont2014]. Recent interest in Integrated Ecosystem Assessment and
+ecosystem-scale approaches to fisheries management in the Southern Benguela highlight the
+importance of ecosystem-scale modelling approaches for management in the region
+[@bornman2025]. End-to-end ecosystem modelling has suggested high sensitivity to plankton
+growth rates [@ortega-cisneros2017], and high importance of forage fish and top-predators
+for trophic control of the food web [@travers-trolet2014].
 
 -   **Climate change impacts in SBUS**
 
-Ecosystem modelling using Atlantis found that the ecosystem is likely to face predatory
-fish declines due to temperature change, leading to increases in planktivorous fish
+Ecosystem modelling using Atlantis found that the ecosystem is likely to face predatory fish
+declines due to temperature change, leading to increases in planktivorous fish
 [@ortega-cisneros2018]. This investigation uses StrathE2E, a nutrient-driven end-to-end
-ecosystem model, employing an exploratory scenario modelling approach to uncover
-possible future climate change impacts and causal drivers of change. In EBUS, such as
-the Southern Benguela, conditions under climate change are highly uncertain due to a
-limited understanding of how and to what magnitude wind-driven upwelling processes may
-change [@fox-kemper2021]. High uncertainty in nutrient upwelling leads to low confidence
-in ecosystem response predictions [@fox-kemper2021]. Scenario uncertainty, uncertainty
-due to modelling under uncertain future conditions, plays a large role in projecting
-ecosystem models under climate change [@payne2016].
+ecosystem model, employing an exploratory scenario modelling approach to uncover possible
+future climate change impacts and causal drivers of change. In EBUS, such as the Southern
+Benguela, conditions under climate change are highly uncertain due to a limited
+understanding of how and to what magnitude wind-driven upwelling processes may change
+[@fox-kemper2021]. High uncertainty in nutrient upwelling leads to low confidence in
+ecosystem response predictions [@fox-kemper2021]. Scenario uncertainty, uncertainty due to
+modelling under uncertain future conditions, plays a large role in projecting ecosystem
+models under climate change [@payne2016].
 
 This investigation aims to identify causal relationships between environmental drivers,
-including inorganic nutrients and upwelling, and ecosystem state for the Southern
-Benguela Upwelling System using a scenario modelling approach across six decades and
-four possible futures to account for high scenario uncertainty.
+including inorganic nutrients and upwelling, and ecosystem state for the Southern Benguela
+Upwelling System using a scenario modelling approach across six decades and four possible
+futures to account for high scenario uncertainty.
 
 # Methods
 
@@ -92,10 +92,11 @@ The Agulhas Current terminates at the Agulhas Bank, where the Southern Benguela 
 begins, transporting upwelled cold water northwards along the western coast. This creates a
 distinct divide in environmental conditions in the currents to the east and west of the
 Agulhas Bank [@lutjeharms2006]. To define the continental shelf region included in this
-investigation, we exclude any areas that are situated at more than 800m depth (@sfig-distance-depth-map). Cumulative
-fishing effort data [@globalfishingwatch2025] suggests that this domain definition captures
-a key fishing region, with different spatial patterns of fishing occurring in deeper waters
-and in the waters of the Agulhas current (@sfig-fishing-map).
+investigation, we exclude any areas that are situated at more than 800m depth
+(@sfig-distance-depth-map). Cumulative fishing effort data [@globalfishingwatch2025]
+suggests that this domain definition captures a key fishing region, with different spatial
+patterns of fishing occurring in deeper waters and in the waters of the Agulhas current
+(@sfig-fishing-map).
 
 We define the inshore region of the Southern Benguela modelling domain as continental shelf
 with a distance to shore of 20km and depth of less than 50m. This inshore region is defined
@@ -104,14 +105,16 @@ nearshore fishing pressure from the offshore region. The offshore region encapsu
 other areas in the model domain beyond this boundary.
 
 The model domain is separated into 8 sediment-derived habitat types: rock, gravel, sand and
-mud sediment types for the inshore and offshore zones (@fig-habitat-map). Sediment maps were digitised and
-georeferenced from Birch et al. [-@birch1987]. These sediment types represent different
-levels of nutrient reflectance back into the water column after settlement. The 8 habitat
-types are primarily used to parameterise the distribution of fishing fleet pressure over the
-model domain area, rather than explicitly represent the spatial distribution of the
+mud sediment types for the inshore and offshore zones (@fig-habitat-map). Sediment maps were
+digitised and georeferenced from Birch et al. [-@birch1987]. These sediment types represent
+different levels of nutrient reflectance back into the water column after settlement. The 8
+habitat types are primarily used to parameterise the distribution of fishing fleet pressure
+over the model domain area, rather than explicitly represent the spatial distribution of the
 functional groups' biomass over the habitats.
 
-![Model habitat map indicating the domain region and the distinct model habitat types for inshore and offshore regions that are used to distributed fishing effort.](../figs/habitat_map.png){#fig-habitat-map width="14.82cm"}
+![Model habitat map indicating the domain region and the distinct model habitat types for
+inshore and offshore regions that are used to distributed fishing
+effort.](../figs/habitat_map.png){#fig-habitat-map width="14.82cm"}
 
 ## Ecosystem model
 
@@ -302,36 +305,137 @@ model outputs across permutation runs where variable groups have been altered.
 
 # Results
 
-### Future climate impacts
+## Future climate impacts
 
-![Final year biomass conditions for each decade of forcing data under each future scenario.
-The y axis represents the mean final year biomass in mMNm^-2^ for each guild type. The x
-axis represents the model decades. The line colours represent the four future scenarios
-analysed with CNRM-SSP1-2.6 represented in blue, CNRM-SSP3-7.0 represented in yellow,
-GFDL-SSP1-2.6 represented in green and GFDL-SSP3-7.0 represented in pink. Results are shown
-for the adult and larval fish guild biomasses (demersal fish, demersal fish larvae,
-planktivorous fish, planktivorous fish larvae and migratory
-fish).](../figs/initial_cc_assessment/biomass_timeseries.png){#fig-biomass-timeseries
+Modelled changes in the Southern Benguela under climate change vary predominantly by guild
+and selected Earth System Model. High trophic level guilds such as Birds, Cetaceans,
+Pinnipeds and Demersal fish are projected to increase in biomass under future climate change
+relative to 2010-2019 baselines, under both Earth System Models (@fig-biomass-timeseries).
+Guilds such as Benthos Carnivorous/Scavenge Feeders, Planktivorous fish and deep layer
+Phytoplankton are projected to experience declining biomass levels under climate change
+relative to 2010-2019 baselines under both Earth System Models (@fig-biomass-timeseries).
+Low trophic level ecosystem components such as total nitrogen mass and Omnivorous and
+Carnivorous Zooplankton are projected to experience diverging biomass outcomes depending on
+the Earth System Model used to force StrathE2E (@fig-biomass-timeseries). There is little
+difference in guild biomasses between SSP1-2.6 and SSP3-7.0 (@fig-biomass-timeseries).
+
+![Final year, whole - domain, biomass conditions for each decade of forcing data under each
+future scenario. The y axis represents the mean final year biomass in millimoles of Nitrogen
+per gram of wet weight for each guild type. The x axis represents the modelled decades. The
+line colours represent the two climate models, GFDL-ESM4 in blue and CNRM-CM6-1-HR in
+yellow. Linestyles represent the two Shared Socio-Economic Pathways, SSP1-2.6 with solid
+lines and SSP3-7.0 with dashed
+lines.](../figs/initial_cc_assessment/biomass_timeseries.png){#fig-biomass-timeseries
 width="14.82cm"}
 
+Despite substantial biomass changes over time, there is little change in ecosystem weighted
+mean trophic level, while there is slight divergence between the ESMs in mean trophic level
+(@sfig-mean-trophic). Ecosystem net primary productivity is projected to substantially
+increase across modelled decades under GFDL-ESM4 (@sfig-net-primprod). Net primary
+productivity is projected to decrease across decades under CNRM-CM6-1-HR, indicating a
+divergence between ESMs.
+
+![Final year whole - domain net primary production across each decade of forcing data under
+each future scenario. The y axis represents net primary production in millimoles of Nitrogen
+per m~2~ per year. The x axis represents the modelled decades. The line colours represent
+the two climate models, GFDL-ESM4 in blue and CNRM-CM6-1-HR in yellow. Linestyles represent
+the two Shared Socio-Economic Pathways, SSP1-2.6 with solid lines and SSP3-7.0 with dashed
+lines.](../figs/initial_cc_assessment/net_primary_production_timeseries.png){#sfig-net-primprod
+width="12cm"}
+
+Principal Component Analysis highlights the influence of decadal changes and Earth System
+Model choice on overall modelled ecosystem biomass states, explaining 72% of ecosystem
+biomass variance using two principal components. Guild contributions to the principal
+components (loadings; @fig-biomass-pca, Panel B) indicate which guilds align with
+differences in the ecosystem across decades and differences in the modelled ecosystem across
+the two Earth System Models used. Benthos Suspension/Deposit Feeders, Omnivorous
+Zooplankton, surface layer Phytoplankton, total nitrogen mass and Carnivorous Zooplankton
+align strongly with ecosystem changes across the Earth System Models (@sfig-pca-separation).
+Pinnipeds, Demersal fish, deep layer Phytoplankton, Birds, Benthos Carnivorous/Scavenge
+Feeders and Cetaceans align strongly with ecosystem changes over time under climate change.
+
 ![Panel A: PCA results for final year biomass conditions for each decade of forcing data
-under each future scenario. The line colours represent the four future scenarios analysed
-with CNRM-SSP1-2.6 represented in blue, CNRM-SSP3-7.0 represented in yellow, GFDL-SSP1-2.6
-represented in green and GFDL-SSP3-7.0 represented in pink. Point shapes represent the
-decade for which the model was run. Panel B: PCA axis loadings for each of the guild biomass
-state variables.](../figs/initial_cc_assessment/biomass_pca.png){#fig-biomass-pca width="14.82cm"}
+under each future scenario and Earth System Model. The line colours represent the two
+climate models, GFDL-ESM4 in blue and CNRM-CM6-1-HR in yellow. Linestyles represent the two
+Shared Socio-Economic Pathways, SSP1-2.6 with solid lines and SSP3-7.0 with dashed lines.
+Dot points represent 2010-2019 decade of forcing, and arrowheads represent the 2060-2069
+decade of forcing. Panel B: PCA axis loadings for each of the guild biomass state variables.
+Red and blue dashed lines represent the average direction of change in PC values across ESMs
+and decades respectively.](../figs/initial_cc_assessment/biomass_pca.png){#fig-biomass-pca
+width="14.82cm"}
 
-### Within decade scenario permutation analyses
+## Drivers of temporal ecosystem change
 
-### Within scenario decade permutation analyses
+For guilds strongly correlated with temporal ecosystem change, Shapley Effect environmental
+variable contribution values indicate that temperature, boundary flow and vertical mixing
+driving variables contribute to 100% of the variance in modelled biomass levels. Light,
+river outputs, nutrient concentrations and atmospheric nutrient flux driving variables do
+not contribute to variance in modelled biomasses. When forced by CNRM-CM6-1-HR, under
+SSP1-2.6 five of the six guilds are primarily driven by boundary flows, followed by
+temperature and vertical mixing. Under SSP3-7.0 the contribution of temperature to biomass
+variance increases. When forced by GFDL-ESM4, three of the six guilds are primarily driven
+by boundary flows and three are primarily driven by vertical mixing, with all guilds having
+low importance of temperature. Under all ESMs and SSPs deep layer phytoplankton have
+distinct Shapley Effect values to other guilds.
 
-![PCA results for guild Shapley Effect values for variables. Clusters are defined by using
-guild Shapley Effect values for input variable groups as inputs for a kmeans clustering
-algorithm.](../figs/example_guild_clustering.png){width="14.82cm"}
+![Shapley Effect contribution values for guilds identified as being strongly correlated with
+ecosystem state change over time (@fig-pca-separation) under each ESM-SSP scenario. Bars
+represent the contribution of each variable group to guild biomass variance, with a value of
+1 representing explanation of 100% of guild variance. Variables are represented by different
+colours, with a lack of colour indicating no contribution of output variance (no
+contribution from light, river outputs, nutrient concentrations and atmospheric nutrient
+flux variable
+groups).](../figs/across_decade_permutations/important_guild_shapley.png){#fig-across-decade-shap
+width="14.82cm"}
 
-#### 
+## Drivers of Earth System Model deviation
+
+For guilds strongly correlated with ecosystem state separation across the Earth System
+Models, Shapley Effect contribution values indicate high contribution from vertical mixing
+(@fig-across-esm-shap). Boundary flows have the second highest contribution to across – ESM
+variance. Variable groups such as nutrient concentrations, river outputs, light and
+temperature have low contributions to across – ESM variance. Variable group contributions
+for each guild show low sensitivity to StrathE2E model parameterisation, when compared
+across the parameteristations for CNRM-CM6-1-HR baseline and GFDL-ESM4 baseline
+(@fig-fig-across-esm-shap).
+
+![Shapley Effect contribution values for guilds identified as being strongly correlated with
+differences in ecosystem state across the Earth System Models (@fig-pca-separation), for
+each StrathE2E parameterisation. Points represent the median Shapley Effect value for each
+guild and variable group across the combinations of two SSPs and six decades. Error bars
+represent the interquartile range of Shapley Effect values for each guild and variable
+group.](../figs/across_esm_permutations/mean_shapley_effects.png){#fig-across-esm-shap
+width="14.82cm"}
 
 # Discussion
+
+High level summary of results: Modelling the Southern Bengeula ecosystem using StrathE2E
+end-to-end ecosystem models highlights a possible strong influence of climate change.
+Modelled increases in high trophic level predatory guilds are consistent across Earth System
+Models and Shared Socio-Economic Pathways, indicating possible greater certainty in modelled
+outputs compared to guilds that diverge across ESMs. While the ecosystem is modelled to
+transition to a increased predatory guild biomass and decreased low-trophic-level guild
+biomass, ecosystem - scale mean trophic level is projected to show low levels of change as a
+result of the high biomass of Omnivorous Zooplankton relative to other guilds in the
+ecosystem.
+
+Possible future ecosystem states and their meanings for Southern Benguela ecosystem:
+
+Guilds with strong decadal trends and low ESM differences:
+
+High model uncertainty in Earth System Modelling and associated driving variables:
+
+Implications for monitoring and research under climate change:
+
+## Limitations
+
+Low ESM sample size.
+
+Poor quality parameter and fitting data.
+
+Lack of a full parameter sensitivity analysis.
+
+## Conclusions
 
 # References
 
@@ -354,6 +458,29 @@ fisheries landing target data. This fitting process was performed for a 2010-201
 SSP3-7.0 baseline model. Additional information on model fitting can be found in **link to
 implementation doc**.
 
-![Map showing an indicative distribution of commercial fishing effort along the South African coastline (pixels) relative to the model domain area (red polygon). Fishing effort is calculated using daily fishing effort in hours between 2012 and 2019. Pixels with effort > 10h over this time period are displayed.](../figs/gfw_fishing_domain_map.png){#sfig-fishing-map width="14.82cm"}
+![Map showing an indicative distribution of commercial fishing effort along the South
+African coastline (pixels) relative to the model domain area (red polygon). Fishing effort
+is calculated using daily fishing effort in hours between 2012 and 2019. Pixels with effort
+\> 10h over this time period are
+displayed.](../figs/gfw_fishing_domain_map.png){#sfig-fishing-map width="14.82cm"}
 
-![Map showing ocean bathymetry and distance to the shoreline along the South African coastline (pixels) relative to the model domain area (red polygon). Pixels used in volume specification (distances < 20km and depths < 800m) are displayed in the map.](../figs/domain_separation_map.png){#sfig-distance-depth-map width="14.82cm"}
+![Map showing ocean bathymetry and distance to the shoreline along the South African
+coastline (pixels) relative to the model domain area (red polygon). Pixels used in volume
+specification (distances \< 20km and depths \< 800m) are displayed in the
+map.](../figs/domain_separation_map.png){#sfig-distance-depth-map width="14.82cm"}
+
+![Final year whole - domain ecosystem weighted mean trophic level across each decade of
+forcing data under each future scenario. The y axis represents ecosystem weighted mean
+trophic level (calculated by as the biomass weighted average trophic level of guilds). The x
+axis represents the modelled decades. The line colours represent the two climate models,
+GFDL-ESM4 in blue and CNRM-CM6-1-HR in yellow. Linestyles represent the two Shared
+Socio-Economic Pathways, SSP1-2.6 with solid lines and SSP3-7.0 with dashed
+lines.](../figs/initial_cc_assessment/ecosystem_mean_trophiclevel_timeseries.png){#sfig-mean-trophic
+width="14.82cm"}
+
+![Guild contributions to ecosystem separation across Earth System Models (left) and decades
+(right). Contribution values are calculated as the absolute angle between guild loadings and
+the respective separation vector (ESM separation vector and decade separation vector
+displayed in @fig-biomass-pca; Panel B). Red lines indicate the 30° angle cutoff for further
+assessments.](../figs/initial_cc_assessment/decade_esm_separation.png){#sfig-pca-separation
+width="14.82cm"}
