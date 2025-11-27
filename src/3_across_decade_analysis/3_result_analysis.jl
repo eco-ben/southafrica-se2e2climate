@@ -568,35 +568,70 @@ ESM_SSP_cov = [
     cov(Matrix(shapley_wide[shapley_wide.ESM_SSP .== esm_ssp, [:PC1, :PC2]]))
     for esm_ssp in ESM_SSPs
 ]
-ESM_SSP_ellipse = getellipsepoints.(ESM_SSP_μ, ESM_SSP_cov)
+ESM_SSP_ellipse = getellipsepoints.(ESM_SSP_μ, ESM_SSP_cov, 0.999)
 ESM_SSP_ellipse = [GB.Polygon(Point.(tuple.(points[1], points[2]))) for points in ESM_SSP_ellipse]
 ESM_SSP_ellipse = DataFrame(ESM_SSP = ESM_SSPs, ellipse = ESM_SSP_ellipse)
+ESM_SSP_convex = [
+    GO.convex_hull(Point.(tuple.(
+        shapley_wide[shapley_wide.ESM_SSP .== esm_ssp, :PC1], 
+        shapley_wide[shapley_wide.ESM_SSP .== esm_ssp, :PC2]
+    )))
+    for esm_ssp in ESM_SSPs
+]
 
-fig_opts = (;
-    fontsize = fontsize,
-    size = (18.42centimetre, 18.42centimetre)
-)
-scale = scales(
-    X = (; label = "PC1"), 
-    Y = (; label = "PC2"),
-    Color = (; palette = [ESM_SSP_colors; vcat(guild_individual_colours...)])
-)
-legend_opts = (; position=:bottom, nbanks=3)
+dist_mat = pairwise(Cityblock(), Matrix(shapley_wide[:, variables])')
+shapley_wide.cluster = kmedoids(dist_mat, 4).assignments
+clusters = unique(shapley_wide.cluster)
+cluster_colours = Dict(zip(clusters, Makie.wong_colors()[1:length(clusters)]))
 
-ellipse = data(ESM_SSP_ellipse) * mapping(:ellipse, color=:ESM_SSP) * visual(Poly, alpha=0.3)
-lines = data(shapley_wide) * mapping(:PC1, :PC2, color=:output) * visual(Lines)
+cluster_μ = [
+    [
+        mean(shapley_wide[shapley_wide.cluster .== cluster, :PC1]), 
+        mean(shapley_wide[shapley_wide.cluster .== cluster, :PC2])
+    ]
+    for cluster in clusters
+]
+cluster_cov = [
+    cov(Matrix(shapley_wide[shapley_wide.cluster .== cluster, [:PC1, :PC2]]))
+    for cluster in clusters
+]
+cluster_ellipse = getellipsepoints.(cluster_μ, cluster_cov, 0.999)
+cluster_ellipse = [GB.Polygon(Point.(tuple.(points[1], points[2]))) for points in cluster_ellipse]
+cluster_ellipse = DataFrame(cluster = clusters, ellipse = cluster_ellipse)
 
-fig = draw(ellipse + lines, scale; figure=fig_opts, legend=legend_opts)
+cluster_convex = [
+    GO.convex_hull(Point.(tuple.(
+        shapley_wide[shapley_wide.cluster .== cluster, :PC1], 
+        shapley_wide[shapley_wide.cluster .== cluster, :PC2]
+    )))
+    for cluster in clusters
+]
+
+# fig_opts = (;
+#     fontsize = fontsize,
+#     size = (18.42centimetre, 18.42centimetre)
+# )
+# scale = scales(
+#     X = (; label = "PC1"), 
+#     Y = (; label = "PC2"),
+#     Color = (; palette = [ESM_SSP_colors; vcat(guild_individual_colours...)])
+# )
+# legend_opts = (; position=:bottom, nbanks=3)
+
+# ellipse = data(ESM_SSP_ellipse) * mapping(:ellipse, color=:ESM_SSP) * visual(Poly, alpha=0.3)
+# lines = data(shapley_wide) * mapping(:PC1, :PC2, color=:output) * visual(Lines)
+
+# fig = draw(ellipse + lines, scale; figure=fig_opts, legend=legend_opts)
 
 fig = Figure(
-    size = (18.42centimetre, 15centimetre),
+    size = (28centimetre, 15centimetre),
     fontsize = fontsize
 )
 ax = Axis(fig[1,1], xlabel = "PC1", ylabel = "PC2", aspect = 1)
 
 poly!(
     ax,
-    ESM_SSP_ellipse.ellipse,
+    ESM_SSP_convex,
     color=getindex.([Dict(ESM_SSP_colors)], ESM_SSP_ellipse.ESM_SSP),
     alpha=0.2
 )
@@ -616,6 +651,28 @@ ESM_SSP_elements = [PolyElement(color=(Dict(ESM_SSP_colors)[esm_ssp], 0.6)) for 
 Legend(fig[3, 1], ESM_SSP_elements, getindex.([Dict(ESM_SSP_categories)], ESM_SSPs), title = "ESM - SSP", nbanks=2, patchsize = (10,5), orientation = :horizontal, tellwidth=false)
 rowgap!(fig.layout, 2, Relative(0.005))
 
+
+ax2 = Axis(fig[1,2], xlabel = "PC1", aspect = 1)
+poly!(
+    ax2,
+    cluster_convex,
+    color=getindex.([cluster_colours], cluster_ellipse.cluster),
+    alpha=0.2
+)
+scatter!(
+    ax2, 
+    shapley_wide.PC1, 
+    shapley_wide.PC2, 
+    color=getindex.([guild_individual_colours], shapley_wide.output),
+    markersize=15,
+    alpha=0.6
+)
+
+cluster_elements = [PolyElement(color=(cluster_colours[cluster], 0.6)) for cluster in clusters]
+Legend(fig[2, 2], cluster_elements, ["Boundary flow\ndriven", "Temperature and\nVertical mixing", "Vertical mixing\ndriven", "Temperature and\nboundary flows"], title = "Clusters", nbanks=2, patchsize = (10,5), orientation = :horizontal, tellwidth=false)
+rowgap!(fig.layout, 2, Relative(0.005))
+
+
 L = projection(M_pca)
 ev = principalvars(M_pca) ./ sum(principalvars(M_pca))  # variance explained
 corr_circle = L .* sqrt.(ev[1:2]')                      # scale loadings
@@ -624,8 +681,8 @@ scaling_factor = maximum(abs, y_pca)  # heuristic for visibility
 L_scaled = corr_circle .* scaling_factor
 corr_circle = L_scaled
 
-ax2 = Axis(
-    fig.layout[1,2],
+ax3 = Axis(
+    fig.layout[1,3],
     xticks = ax.xticks,
     xlabel = "PC1",
     # limits = (extrema(y_pca[1, :]), extrema(y_pca[2, :])),
@@ -633,18 +690,19 @@ ax2 = Axis(
 )
 # Draw arrows for variables
 # rename!(shapley_wide, "water_flows" => "boundary_flows")
-for (i, variable) in enumerate(names(shapley_wide[:, Not([:output, :ESM_SSP, :PC1, :PC2])]))
-    arrows2d!(ax2, [mean(y_pca[1, :])], [mean(y_pca[2, :])], [corr_circle[i,1]], [corr_circle[i,2]], 
+for (i, variable) in enumerate(names(shapley_wide[:, Not(:output, :ESM_SSP, :cluster, :PC1, :PC2)]))
+    arrows2d!(ax3, [mean(y_pca[1, :])], [mean(y_pca[2, :])], [corr_circle[i,1]], [corr_circle[i,2]], 
             shaftwidth=2, color=variable_colours[variable], alpha=0.6)
     # text!(ax, corr_circle[i,1], corr_circle[i,2], text=guilds[i], align=(:left, :bottom), alpha=0.5)
 end
 
 Label(fig.layout[1,1, TopLeft()], "A", font=:bold)
 Label(fig.layout[1,2, TopLeft()], "B", font=:bold)
+Label(fig.layout[1,3, TopLeft()], "C", font=:bold)
 
 legend_entries = [PolyElement(color=variable_colours[variable]) for variable in variables]
 Legend(
-    fig[2,2],
+    fig[2,3],
     legend_entries,
     getindex.([variable_clean_names], variables),
     nbanks=2,
@@ -654,7 +712,85 @@ Legend(
     tellwidth=false
 )
 rowgap!(fig.layout, 1, Relative(0.005))
-linkyaxes!(ax, ax2)
-linkxaxes!(ax, ax2)
+linkyaxes!(ax, ax2, ax3)
+linkxaxes!(ax, ax2, ax3)
 
-save(joinpath(figs_path, "shapley_importance_scenario_pca.png"), fig, px_per_unit=dpi)
+save(joinpath(figs_path, "shapley_importance_clustered_pca.png"), fig, px_per_unit=dpi)
+
+
+## Plotting contributions for guilds that contribute most to across decade signals
+dat = shapley_effects_all
+rename!(dat, ["output" => "guild", "variable_group" => "variable"])
+dat.variable = ifelse.(dat.variable .== "water_flows", "boundary_flows", dat.variable)
+dat = dat[dat.variable .!= "constant", :]
+test = dat[dat.guild .∈ [pca_loadings[pca_loadings.decade_sep_similarity .>= cosd(30), :guild]], :]
+test = combine(
+    groupby(test, [:guild, :variable]), 
+    :shapley_effect => median,
+    :shapley_effect => minimum,
+    :shapley_effect => maximum,
+    :shapley_effect => (x -> quantile(x, 0.75)) => :shapley_effect_75,
+    :shapley_effect => (x -> quantile(x, 0.25)) => :shapley_effect_25
+)
+test = sort(test, :shapley_effect_median)
+test.variable_clean_name = getindex.([variable_clean_names], test.variable)
+test.guild_clean_name = getindex.([guild_clean_names], test.guild)
+test.jitter = rand(-0.2:0.05:0.2, nrow(test))
+
+unique_variables = unique(test.variable_clean_name)
+test.x_position = Vector{Int64}(indexin(test.variable_clean_name, unique_variables))
+test.std_bar_line = [
+    [[r.x_position + r.jitter, r.x_position + r.jitter],
+    [max(0, r.shapley_effect_25), min(1, r.shapley_effect_75)]]
+for r in eachrow(test)]
+
+decade_guilds = unique(test.guild)
+decade_guild_colours = Dict(zip(decade_guilds, Makie.wong_colors()[eachindex(decade_guilds)]))
+
+cnrm_ssp126 = test[test.ESM_SSP .== "CNRM-ssp126", :]
+gfdl_ssp126 = test[test.ESM_SSP .== "GFDL-ssp126", :]
+
+fig = Figure(fontsize = fontsize, size = (18.42centimetre, 12centimetre))
+
+ax1 = Axis(
+    fig[1,1], 
+    title = "CNRM parameterisation", 
+    ylabel = "median Shapley effect", 
+    xticks = (eachindex(unique_variables), unique_variables), 
+    xticklabelrotation=π/4,
+    ylabelpadding=15
+)
+scatter!(ax1, test.x_position .+ test.jitter, test.shapley_effect_median, color = getindex.([decade_guild_colours], test.guild))
+map(x -> lines!(ax1, test.std_bar_line[x][1], test.std_bar_line[x][2], color = getindex(decade_guild_colours, test.guild[x])), eachindex(eachrow(test)))
+
+
+
+test2 = dat[dat.guild .∈ [pca_loadings[pca_loadings.decade_sep_similarity .>= cosd(30), :guild]], :]
+test2 = sort(test2, :variable, rev=true)
+
+fig_opts = (; fontsize=fontsize, size=(18.42centimetre, 18.42centimetre))
+ax_opts = (; xticklabelrotation=π/4, ylabelpadding=10)
+
+bars = data(test2) * mapping(:guild, :shapley_effect, layout = :ESM_SSP, color=:variable, stack=:variable) * visual(BarPlot)
+fig = draw(bars, axis=ax_opts, figure=fig_opts)
+
+save("../figs/across_decade_permutations/important_guild_shapley.png", fig, px_per_unit=dpi)
+
+
+
+ax2 = Axis(
+    fig[1,2], 
+    title = 
+    "GFDL parameterisation", 
+    xticks = (eachindex(unique_variables), 
+    unique_variables), xticklabelrotation=π/4
+)
+scatter!(ax2, gfdl_ssp126.x_position .+ gfdl_ssp126.jitter, gfdl_ssp126.shapley_effect_median, color = getindex.([esm_guild_colours], gfdl_ssp126.guild))
+map(x -> lines!(ax2, gfdl_ssp126.std_bar_line[x][1], gfdl_ssp126.std_bar_line[x][2], color = getindex(esm_guild_colours, gfdl_ssp126.guild[x])), eachindex(eachrow(gfdl_ssp126)))
+
+esm_guild_elements = [[
+    MarkerElement(color=esm_guild_colours[guild], marker=:circle), 
+    LineElement(color=esm_guild_colours[guild])
+] for guild in esm_guilds]
+Legend(fig[2, :], esm_guild_elements, getindex.([guild_clean_names], esm_guilds), nbanks=2, orientation=:horizontal)
+save("../figs/across_esm_permutations/mean_shapley_effects.png", fig, px_per_unit=dpi)

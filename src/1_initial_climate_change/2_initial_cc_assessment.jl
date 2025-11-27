@@ -131,14 +131,14 @@ for l in ax.scene.plots
         points = l[1][]   # extract line data
         dx = points[end][1] - points[end-1][1]
         dy = points[end][2] - points[end-1][2]
-        angle = atan(dy, dx)
+        r_angle = atan(dy, dx)
 
         scatter!(
             ax,
             points[end],
             marker = :rtriangle,
             markersize = 15,
-            rotation = angle,
+            rotation = r_angle,
             color = l.color[]
         )
         scatter!(
@@ -146,7 +146,7 @@ for l in ax.scene.plots
             points[1],
             marker = :circle,
             markersize = 10,
-            rotation = angle,
+            rotation = r_angle,
             color = l.color[]
         )
     end
@@ -174,6 +174,9 @@ for (i, output) in enumerate(guilds)
     # text!(ax, corr_circle[i,1], corr_circle[i,2], text=guilds[i], align=(:left, :bottom), alpha=0.5)
 end
 
+lines!(ax2, [first(esm_separation), -first(esm_separation)], [last(esm_separation), -last(esm_separation)], linestyle=:dash, color=:red)
+lines!(ax2, [first(decade_separation), -first(decade_separation)], [last(decade_separation), -last(decade_separation)], linestyle=:dash, color=:blue)
+
 Label(fig.layout[1,1, TopLeft()], "A", font=:bold)
 Label(fig.layout[1,2, TopLeft()], "B", font=:bold)
 
@@ -188,13 +191,63 @@ Legend(
     tellheight=false,
     tellwidth=false
 )
+Legend(
+    fig[3,2], 
+    [
+        LineElement(color=:red, linestyle=:dash), 
+        LineElement(color=:blue, linestyle=:dash)
+    ],
+    ["across ESM signal", "across decade signal"],
+    tellheight=false,
+    tellwidth=false,
+    orientation=:horizontal
+)
 rowsize!(fig.layout, 2, Relative(0.2))
 rowgap!(fig.layout, 1, Relative(0.01))
+rowsize!(fig.layout, 3, Relative(0.05))
+rowgap!(fig.layout, 2, Relative(0.05))
 linkyaxes!(ax, ax2)
 linkxaxes!(ax, ax2)
 fig
 
 save("../figs/initial_cc_assessment/biomass_pca.png", fig, px_per_unit=dpi)
+
+esm_separation = (
+    [mean(pca_val_df[pca_val_df.ESM .== "CNRM", :PC1]), mean(pca_val_df[pca_val_df.ESM .== "CNRM", :PC2])] .-
+    [mean(pca_val_df[pca_val_df.ESM .== "GFDL", :PC1]), mean(pca_val_df[pca_val_df.ESM .== "GFDL", :PC2])]
+)
+decade_separation = (
+    [mean(pca_val_df[pca_val_df.decade .== "2060-2069", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2060-2069", :PC2])] .-
+    [mean(pca_val_df[pca_val_df.decade .== "2050-2059", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2050-2059", :PC2])] .-
+    [mean(pca_val_df[pca_val_df.decade .== "2040-2049", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2040-2049", :PC2])] .-
+    [mean(pca_val_df[pca_val_df.decade .== "2030-2039", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2030-2039", :PC2])] .-
+    [mean(pca_val_df[pca_val_df.decade .== "2020-2029", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2020-2029", :PC2])] .-
+    [mean(pca_val_df[pca_val_df.decade .== "2010-2019", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2010-2019", :PC2])]
+)
+pca_loadings = DataFrame(hcat(guilds, L), ["guild", "PC1_loading", "PC2_loading"])
+
+function cos_similarity(a, b)
+    return clamp(a⋅b/(norm(a)*norm(b)), -1, 1)
+end
+
+pca_loadings.esm_sep_similarity .= [abs(cos_similarity(esm_separation, [row.PC1_loading, row.PC2_loading])) for row in eachrow(pca_loadings)]
+pca_loadings.decade_sep_similarity .= [abs(cos_similarity(decade_separation, [row.PC1_loading, row.PC2_loading])) for row in eachrow(pca_loadings)]
+pca_loadings = sort(pca_loadings, :esm_sep_similarity, rev=true)
+pca_loadings.guild_clean_names = getindex.([guild_clean_names], pca_loadings.guild)
+
+fig = Figure(
+    fontsize = fontsize,
+    size = (18.42centimetre, 10centimetre)
+)
+ax1 = Axis(fig[1,1], xlabel = "Contribution to ESM separation", ylabel = "Guilds", yticks=(1:nrow(pca_loadings), pca_loadings.guild_clean_names))
+barplot!(ax1, 1:nrow(pca_loadings), pca_loadings.esm_sep_similarity; direction=:x)
+vlines!(ax1, cosd(30), color=:red)
+
+ax2 = Axis(fig[1,2], xlabel = "Contribution to decadal separation", yticksvisible=false, yticklabelsvisible=false)
+barplot!(ax2, 1:nrow(pca_loadings), pca_loadings.decade_sep_similarity; direction=:x)
+vlines!(ax2, cosd(30), color=:red)
+
+save("../figs/initial_cc_assessment/decade_esm_separation_quantified.png", fig, px_per_unit=dpi)
 
 master.ESM_SSP = master.ESM .* "-" .* master.SSP
 master_month_average = combine(groupby(master, [:variable, :decade, :SSP, :ESM]), :value => mean)
@@ -263,4 +316,31 @@ facet_opts = (; linkyaxes=:none)
 line = data(ecosystem_indices) * mapping(:decade, :value, color=:ESM, linestyle=:SSP, layout=:variable) * visual(Lines)
 fig = draw(line, scale; figure=fig_opts, axis=axis_opts, legend=legend_opts, facet=facet_opts)
 
-save("../figs/initial_cc_assessment/ecosystem_mean_trophiclevel_timeseries.png", fig, px_per_unit=dpi)
+save("../figs/initial_cc_assessment/overall_trophiclevel_timeseries.png", fig, px_per_unit=dpi)
+
+
+net_primprod = [CSV.read(result_files[contains.(result_files, variant)], DataFrame) for variant in variants]
+net_primprod = [parse(Float64, first(df[df.Description .== "netprimprod", :].Value)) for df in net_primprod]
+
+net_primprod = DataFrame(hcat(variants, hcat(net_primprod...)'), ["variant", "netprimprod"])
+
+net_primprod.decade = [first(match(r"(\d{4}-\d{4})", var).captures) for var in net_primprod.variant]
+net_primprod.ESM = [first(match(r"([[:upper:]]{4})", var).captures) for var in net_primprod.variant]
+net_primprod.SSP = [first(match(r"([[:lower:]]{3}\d{3})", var).captures) for var in net_primprod.variant]
+
+fig_opts = (;
+    fontsize = fontsize,
+    size = (12centimetre, 10centimetre)
+)
+scale = scales(
+    X = (; label = "Decade"), 
+    Y = (; label = "Net Primary Production [mMN ⋅ m² ⋅ y]"),
+    Color = (; label = "Earth System Model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
+    LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
+)
+legend_opts = (; position=:bottom, orientation = :horizontal)
+
+line = data(net_primprod) * mapping(:decade, :netprimprod, color=:ESM, linestyle=:SSP) * visual(Lines)
+fig = draw(line, scale; figure=fig_opts, legend=legend_opts, facet=facet_opts)
+
+save("../figs/initial_cc_assessment/net_primary_production_timeseries.png", fig, px_per_unit=dpi)

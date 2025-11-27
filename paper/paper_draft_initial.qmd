@@ -331,9 +331,7 @@ width="14.82cm"}
 Despite substantial biomass changes over time, there is little change in ecosystem weighted
 mean trophic level, while there is slight divergence between the ESMs in mean trophic level
 (@sfig-mean-trophic). Ecosystem net primary productivity is projected to substantially
-increase across modelled decades under GFDL-ESM4 (@sfig-net-primprod). Net primary
-productivity is projected to decrease across decades under CNRM-CM6-1-HR, indicating a
-divergence between ESMs.
+increase across modelled decades under GFDL-ESM4 (@sfig-net-primprod) and decrease under CNRM-CM6-1-HR. There is little difference in net primary productivity between SSP1-2.6 and SSP3-7.0.
 
 ![Final year whole - domain net primary production across each decade of forcing data under
 each future scenario. The y axis represents net primary production in millimoles of Nitrogen
@@ -413,11 +411,7 @@ High level summary of results: Modelling the Southern Bengeula ecosystem using S
 end-to-end ecosystem models highlights a possible strong influence of climate change.
 Modelled increases in high trophic level predatory guilds are consistent across Earth System
 Models and Shared Socio-Economic Pathways, indicating possible greater certainty in modelled
-outputs compared to guilds that diverge across ESMs. While the ecosystem is modelled to
-transition to a increased predatory guild biomass and decreased low-trophic-level guild
-biomass, ecosystem - scale mean trophic level is projected to show low levels of change as a
-result of the high biomass of Omnivorous Zooplankton relative to other guilds in the
-ecosystem.
+outputs compared to guilds that diverge across ESMs. Ecosystem net primary production shows substantial divergence across the Earth System Models used to force StrathE2E2.
 
 Possible future ecosystem states and their meanings for Southern Benguela ecosystem:
 
