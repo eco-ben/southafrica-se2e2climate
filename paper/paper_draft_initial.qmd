@@ -70,7 +70,7 @@ declines due to temperature change, leading to increases in planktivorous fish
 ecosystem model, employing an exploratory scenario modelling approach to uncover possible
 future climate change impacts and causal drivers of change. In EBUS, such as the Southern
 Benguela, conditions under climate change are highly uncertain due to a limited
-understanding of how and to what magnitude wind-driven upwelling processes may change
+understanding of how and by what magnitude wind-driven upwelling processes may change
 [@fox-kemper2021]. High uncertainty in nutrient upwelling leads to low confidence in
 ecosystem response predictions [@fox-kemper2021]. Scenario uncertainty, uncertainty due to
 modelling under uncertain future conditions, plays a large role in projecting ecosystem
@@ -328,17 +328,21 @@ lines and SSP3-7.0 with dashed
 lines.](../figs/initial_cc_assessment/biomass_timeseries.png){#fig-biomass-timeseries
 width="14.82cm"}
 
-Despite substantial biomass changes over time, there is little change in ecosystem weighted
-mean trophic level, while there is slight divergence between the ESMs in mean trophic level
-(@sfig-mean-trophic). Ecosystem net primary productivity is projected to substantially
-increase across modelled decades under GFDL-ESM4 (@sfig-net-primprod) and decrease under CNRM-CM6-1-HR. There is little difference in net primary productivity between SSP1-2.6 and SSP3-7.0.
+The most substantial changes relative to 2010-2019 biomass levels are experienced by
+demersal fish and pinnipeds, with 40% increase from baseline biomass levels under climate
+change (@sfig-percent-biomass-timeseries). Despite substantial biomass changes over time,
+there is little change in ecosystem weighted mean trophic level, while there is slight
+divergence between the ESMs in mean trophic level (@sfig-mean-trophic). Ecosystem net
+primary productivity is projected to substantially increase across modelled decades under
+GFDL-ESM4 (@fig-net-primprod) and decrease under CNRM-CM6-1-HR. There is little difference
+in net primary productivity between SSP1-2.6 and SSP3-7.0.
 
 ![Final year whole - domain net primary production across each decade of forcing data under
 each future scenario. The y axis represents net primary production in millimoles of Nitrogen
 per m~2~ per year. The x axis represents the modelled decades. The line colours represent
 the two climate models, GFDL-ESM4 in blue and CNRM-CM6-1-HR in yellow. Linestyles represent
 the two Shared Socio-Economic Pathways, SSP1-2.6 with solid lines and SSP3-7.0 with dashed
-lines.](../figs/initial_cc_assessment/net_primary_production_timeseries.png){#sfig-net-primprod
+lines.](../figs/initial_cc_assessment/net_primary_production_timeseries.png){#fig-net-primprod
 width="12cm"}
 
 Principal Component Analysis highlights the influence of decadal changes and Earth System
@@ -368,16 +372,19 @@ For guilds strongly correlated with temporal ecosystem change, Shapley Effect en
 variable contribution values indicate that temperature, boundary flow and vertical mixing
 driving variables contribute to 100% of the variance in modelled biomass levels. Light,
 river outputs, nutrient concentrations and atmospheric nutrient flux driving variables do
-not contribute to variance in modelled biomasses. When forced by CNRM-CM6-1-HR, under
-SSP1-2.6 five of the six guilds are primarily driven by boundary flows, followed by
-temperature and vertical mixing. Under SSP3-7.0 the contribution of temperature to biomass
-variance increases. When forced by GFDL-ESM4, three of the six guilds are primarily driven
-by boundary flows and three are primarily driven by vertical mixing, with all guilds having
-low importance of temperature. Under all ESMs and SSPs deep layer phytoplankton have
-distinct Shapley Effect values to other guilds.
+not contribute to variance in modelled biomasses (@fig-across-decade-shap). When forced by
+CNRM-CM6-1-HR, under SSP1-2.6 five of the six guilds are primarily driven by boundary flows,
+followed by temperature and vertical mixing. Under SSP3-7.0 the contribution of temperature
+to biomass variance increases. When forced by GFDL-ESM4, three of the six guilds are
+primarily driven by boundary flows and three are primarily driven by vertical mixing, with
+all guilds having low importance of temperature. Under all ESMs and SSPs deep layer
+phytoplankton have distinct Shapley Effect values to other guilds. Interactions between
+environmental variable groups account largely do not influence guild biomass outcomes, with
+most variable interactions acting in a purely additively (variable 1 effect + variable 2
+effect) (@sfig-var-interaction-hist).
 
 ![Shapley Effect contribution values for guilds identified as being strongly correlated with
-ecosystem state change over time (@fig-pca-separation) under each ESM-SSP scenario. Bars
+ecosystem state change over time (@sfig-pca-separation) under each ESM-SSP scenario. Bars
 represent the contribution of each variable group to guild biomass variance, with a value of
 1 representing explanation of 100% of guild variance. Variables are represented by different
 colours, with a lack of colour indicating no contribution of output variance (no
@@ -395,10 +402,10 @@ variance. Variable groups such as nutrient concentrations, river outputs, light 
 temperature have low contributions to across – ESM variance. Variable group contributions
 for each guild show low sensitivity to StrathE2E model parameterisation, when compared
 across the parameteristations for CNRM-CM6-1-HR baseline and GFDL-ESM4 baseline
-(@fig-fig-across-esm-shap).
+(@fig-across-esm-shap).
 
 ![Shapley Effect contribution values for guilds identified as being strongly correlated with
-differences in ecosystem state across the Earth System Models (@fig-pca-separation), for
+differences in ecosystem state across the Earth System Models (@sfig-pca-separation), for
 each StrathE2E parameterisation. Points represent the median Shapley Effect value for each
 guild and variable group across the combinations of two SSPs and six decades. Error bars
 represent the interquartile range of Shapley Effect values for each guild and variable
@@ -407,17 +414,97 @@ width="14.82cm"}
 
 # Discussion
 
-High level summary of results: Modelling the Southern Bengeula ecosystem using StrathE2E
-end-to-end ecosystem models highlights a possible strong influence of climate change.
-Modelled increases in high trophic level predatory guilds are consistent across Earth System
-Models and Shared Socio-Economic Pathways, indicating possible greater certainty in modelled
-outputs compared to guilds that diverge across ESMs. Ecosystem net primary production shows substantial divergence across the Earth System Models used to force StrathE2E2.
+High level summary of results:
+
+Modelling the Southern Bengeula ecosystem using StrathE2E end-to-end ecosystem models
+highlights a possible strong influence of climate change. Modelled increases in high trophic
+level predatory guilds are consistent across Earth System Models and Shared Socio-Economic
+Pathways, indicating possible greater certainty in modelled outputs compared to guilds that
+diverge across ESMs. Ecosystem net primary production shows substantial divergence over time
+between the ESMs used.
 
 Possible future ecosystem states and their meanings for Southern Benguela ecosystem:
 
+The results of this investigation suggest the Southern Benguela ecosystem is projected to
+change substantially from a 2010-2019 baseline. While benthos, phytoplankton and
+planktivorous fish guilds are projected to decline, declines are not projected to cause
+trophic cascades to top predators such as cetaceans, birds and demersal fish. Climate driven
+ecosystem changes are projected to be primarily influenced by changes in temperature, flows
+of nutrients into the region, and downwelling and upwelling between the deep and shallow
+layers of the ecosystem. There have been few investigations into ecosystem impacts already
+experienced due to climate change, however spatial distribution changes in West Coast Rock
+Lobster *Jasus lalandii* in the region are correlated with changes in upwelling
+[@blamey2012]. A surface level comparison of StrathE2E results suggests Carnivorous/Scavenge
+feeding benthos may decline under climate change in the modelled region.
+
 Guilds with strong decadal trends and low ESM differences:
 
+Under climate change predatory guilds are predicted to change in consistent ways across
+ESMs, with many predatory guilds showing substantial increases in biomass relative to
+2010-2019 levels. Under CNRM-CM6-1-HR, these guilds are primarily driven by temperature and
+the boundary flows between external water masses and modelled ecosystem volumes, while under
+GFDL-ESM4 these guilds are primarily driven by boundary flows and vertical mixing.
+Environmental forcing data modelled using CNRM-CM6-1-HR shows substantially greater change
+in temperature over future decades compared to GFDL-ESM4 (@sfig-driver-temp), aligning with
+the model's increased sensitivity to increases in CO~2~ compared to GFDL-ESM4 **citation**.
+Additionally, CNRM driving data shows substantially different seasonal trends in boundary
+flows compared to GFDL-ESM4 with distinct patterns of nutrient inflows and outflows in the
+inshore region (@sfig-driver-boundary-flows). GFDL-ESM4 forcing data shows greater a greater
+degree of seasonal minimum and maximum levels of vertical diffusivity and offshore upwelling
+and downwelling (@sfig-driver-vertical-mixing).
+
+Although these predatory guilds, that experience substantial change in biomass, are
+influenced by different climate change mechanisms when forced by different ESMs, their
+biomass timeseries outcomes are similar across the ESMs. This indicates a greater level of
+certainty in projected timeseries and biomass trends compared to other guilds that show high
+levels of divergence and uncertainty across the ESMs chosen. Modelling for the Southern
+Benguela region using an Atlantis ecosystem model projected declines for almost all
+functional groups including top predators such as Cetaceans, seabirds and demersal fish such
+as sharks [@ortega-cisneros2018]. Additionally, temperature was suggested as the most
+influential driver of climate impacts on guilds, with water mixing having minor indirect
+effects [@ortega-cisneros2018]. Differing magnitudes, directions and mechanisms of climate
+change impacts on the ecosystem when modelled using Atlantis and StrathE2E frameworks
+suggests there may be a high influence of structural (model) uncertainty for the Southern
+Benguela.
+
+Structural uncertainty arises due to choices made in the construction and implementation of
+different ecosystem models such as the resolution of components (spatial, temporal,
+taxonomic) and relationships/links that are represented [@payne2016]. @eddy2025 conducted a
+large scale comparison of global (12 ecosystem models) and regional (Atlantis and Ecopath
+with Ecosim) projections of biomass under climate change, including for the Southern
+Benguela region. This comparison revealed high divergences in biomass projections in the
+Southern Benguela region depending on the spatial scale of modelling and the ecosystem model
+used [@eddy2025]. An in-depth comparison of modelling for the Southern Benguela ecosystem
+using Atlantis, Ecopath with Ecosim, and StrathE2E would improve understanding about the
+possible magnitude and drivers of climate change impacts, enhancing informed decision making
+processes [@hill2007].
+
 High model uncertainty in Earth System Modelling and associated driving variables:
+
+The choice of the two Earth System Models for forcing StrathE2E strongly influences
+projected ecosystem outcomes (@fig-biomass-pca). Low trophic level model components, as well
+as Net Primary Production, display diverging trajectories under each ESM. Vertical mixing
+contributes the most (\> 60%) to variance for the majority of these ecosystem components.
+Vertical mixing variables (downwelling and upwelling rates, and vertical diffusivity) show
+similar patterns under GFDL-ESM4 and CNRM-CM6-1-HR, with GFDL-ESM4 projecting greater
+extremes and variance in vertical mixing. The high influence of vertical mixing on these
+guilds despite lower future variance across ESMs than variable groups such as temperature
+highlights the sensitivity of the lower trophic levels in the ecosystem to vertical mixing
+changes.
+
+The Southern Bengeula is known to experience high variability on multiple spatial and
+temporal scales as a result of the high influence of upwelling [@lamont2014; @shannon2020].
+Additionally, there is little consensus on how this ecosystem, and other EBUS globally, may
+change in the future due to high levels of uncertainty around future upwelling changes
+[@bograd2023; @garcía-reyes2015; @fox-kemper2021]. In a global comparison of EBUS NPP
+projections using 13 ESMs @cioffi2025 found that differences in projected changes of
+upwelling-favourable winds resulted in substantial model uncertainty in NPP. These
+conclusions are supported by the results of this investigation, which suggest a high level
+of uncertainty in ecosystem state projections is due to differences in vertical mixing
+projections across Earth System Models. Alongside ecosystem model comparisons, expanding the
+range of Earth System Models used to force StrathE2E in the region would improve estimates
+of model and scenario uncertainty, particularly for low trophic level guilds highly
+influenced by vertical mixing.
 
 Implications for monitoring and research under climate change:
 
@@ -463,6 +550,15 @@ coastline (pixels) relative to the model domain area (red polygon). Pixels used 
 specification (distances \< 20km and depths \< 800m) are displayed in the
 map.](../figs/domain_separation_map.png){#sfig-distance-depth-map width="14.82cm"}
 
+![Change in guild final year whole domain biomass relative to 2010-2019 for each decade of
+forcing data under each future scenario. The y axis represents the change in final year
+biomass as a percentage of 2010-2019 biomass for each guild. The x axis represents the
+modelled decades. The line colours represent the two climate models, GFDL-ESM4 in blue and
+CNRM-CM6-1-HR in yellow. Linestyles represent the two Shared Socio-Economic Pathways,
+SSP1-2.6 with solid lines and SSP3-7.0 with dashed
+lines.](../figs/initial_cc_assessment/percent_biomass_timeseries.png){#sfig-percent-biomass-timeseries
+width="14.82cm"}
+
 ![Final year whole - domain ecosystem weighted mean trophic level across each decade of
 forcing data under each future scenario. The y axis represents ecosystem weighted mean
 trophic level (calculated by as the biomass weighted average trophic level of guilds). The x
@@ -476,5 +572,43 @@ width="14.82cm"}
 (right). Contribution values are calculated as the absolute angle between guild loadings and
 the respective separation vector (ESM separation vector and decade separation vector
 displayed in @fig-biomass-pca; Panel B). Red lines indicate the 30° angle cutoff for further
-assessments.](../figs/initial_cc_assessment/decade_esm_separation.png){#sfig-pca-separation
+assessments.](../figs/initial_cc_assessment/decade_esm_separation_quantified.png){#sfig-pca-separation
+width="14.82cm"}
+
+![Distribution of residual interaction effects between environmental variables based on
+biomass change from the 2010-2019 to 2060-2069 decades. Values are collated across guilds
+and Earth System Model - Shared Socio-Economic Pathway scenarios. Blue lines indicate the
+1st and 99th percentile interaction effect
+values.](../figs/across_decade_permutations/variable_interaction_histogram.png){#sfig-var-interaction-hist
+width="10cm"}
+
+![Monthly timeseries (decadal averages) of environmental driving data for variables in the
+temperature variable group (d_temp - deep layer temperature, si_temp - shallow layer inshore
+temperature, so_temp - shallow layer offshore temperature). Values indicate levels of each
+driving variable across 12 months of the year. Line colours represent the decade of driving
+data and line styles represent the four Earth System Model and Shared Socio-Economic Pathway
+combinations.](../figs/initial_cc_assessment/temperature_driver_timeseries.png){#sfig-driver-temp
+width="14.82cm"}
+
+![Monthly timeseries (decadal averages) of environmental driving data for variables in the
+boundary flows variable group (d_inflow - inflow of water from external sources into the
+deep layer, si_inflow - inflow of water from external sources into the shallow layer inshore
+compartment, si_outflow - outflow of water from the shallow layer inshore compartment to
+external water masses, so_inflow - inflow of water from external sources into the shallow
+layer offshore compartment, so_si_inflow - horizontal flow of water from the offshore to
+inshore shallow layer.). Values indicate levels of each driving variable across 12 months of
+the year. Line colours represent the decade of driving data and line styles represent the
+four Earth System Model and Shared Socio-Economic Pathway
+combinations.](../figs/initial_cc_assessment/boundary_flows_driver_timeseries.png){#sfig-driver-boundary-flows
+width="14.82cm"}
+
+![Monthly timeseries (decadal averages) of environmental driving data for variables in the
+vertical mixing variable group (d_so_upwelling - upwelling of water from the deep layer to
+the shallow offshore compartment, logkvert - Log10 vertical diffusion coefficient at the
+interface between the deep and shallow offshore layers, so_d_downwelling - downwelling of
+water from the shallow offshore compartment to the deep layer). Values indicate levels of
+each driving variable across 12 months of the year. Line colours represent the decade of
+driving data and line styles represent the four Earth System Model and Shared Socio-Economic
+Pathway
+combinations.](../figs/initial_cc_assessment/vertical_mixing_driver_timeseries.png){#sfig-driver-vertical-mixing
 width="14.82cm"}
