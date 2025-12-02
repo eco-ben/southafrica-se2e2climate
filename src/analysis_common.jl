@@ -19,9 +19,11 @@ guilds = [
     "Demersal_fish",
     "Birds",
     "Pinnipeds",
-    "Cetaceans"
+    "Cetaceans",
+    "netprimprod"
 ]
 guild_clean_names = Dict(zip(guilds, replace.(guilds, "_" => " ")))
+guild_clean_names["netprimprod"] = "Net Primary Production"
 guild_individual_colours = Dict(zip(guilds, distinguishable_colors(length(guilds))))
 
 # Define constant variables for importance analysis

@@ -41,7 +41,7 @@ all_shapley_effects = all_shapley_effects[all_shapley_effects.variable .!= "cons
 scat = data(all_shapley_effects[all_shapley_effects.guild .∈ [pca_loadings[pca_loadings.similarity .>= cosd(30), :guild]], :]) * mapping(:variable, :shapley_effect, color=:SSP_decade, marker=:guild, layout=:ESM_param) * visual(Scatter)
 fig = draw(scat)
 
-test = all_shapley_effects[all_shapley_effects.guild .∈ [pca_loadings[pca_loadings.esm_sep_similarity .>= cosd(30), :guild]], :]
+test = all_shapley_effects[all_shapley_effects.guild .∈ [[pca_loadings[pca_loadings.esm_sep_similarity .>= cosd(30), :guild]; "netprimprod"]], :]
 test = combine(
     groupby(test, [:guild, :ESM_param, :variable]), 
     :shapley_effect => median,

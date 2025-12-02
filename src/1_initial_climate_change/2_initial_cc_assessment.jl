@@ -36,10 +36,12 @@ result_df_lines.SSP = [first(match(r"([[:lower:]]{3}\d{3})", var).captures) for 
 result_df_lines.ESM_SSP = [first(match(r"([[:upper:]]{4}-[[:lower:]]{3}\d{3})", var).captures) for var in result_df_lines.variant]
 result_df_lines.guild_clean = getindex.([guild_clean_names], result_df_lines.Description)
 
-percent_change = combine(groupby(result_df_lines, [:Description, :ESM_SSP])) do sdf
+result_df_lines = result_df_lines[result_df_lines.guild_clean .!= "Net primary production", :]
+
+percent_change = combine(groupby(result_df_lines, [:Description, :ESM_SSP, :ESM, :SSP, :guild_clean])) do sdf
     baseline = sdf[sdf.decade .== "2010-2019", :Model_annual_mean]
     (
-        percent_change = (sdf.Model_annual_mean ./ baseline) .* 100,
+        percent_change = (sdf.Model_annual_mean ./ baseline) .* 100 .- 100,
         decade = sdf.decade
     )
 end
@@ -63,6 +65,16 @@ biomass_ts_fig = draw(biomass_timeseries, scale; facet=facet_opts, figure=fig_op
 
 save("../figs/initial_cc_assessment/biomass_timeseries.png", biomass_ts_fig, px_per_unit=dpi)
 
+scale = scales(
+    X = (; label = "Decade"), 
+    Y = (; label = "Change in biomass from \n2010-2019 [%]"),
+    Color = (; label = "Earth System Model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
+    LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
+)
+percent_timeseries = data(percent_change) * mapping(:decade, :percent_change, color=:ESM, linestyle=:SSP, layout=:guild_clean) * visual(Lines)
+percent_ts_fig = draw(percent_timeseries, scale; facet=facet_opts, figure=fig_opts, legend=legend_opts, axis=axis_opts)
+
+save("../figs/initial_cc_assessment/percent_biomass_timeseries.png", percent_ts_fig, px_per_unit=dpi)
 
 
 # test = leftjoin(test, shapley_effects_wide[:, [:output, :cluster]], on = :Description => :output)
@@ -344,3 +356,41 @@ line = data(net_primprod) * mapping(:decade, :netprimprod, color=:ESM, linestyle
 fig = draw(line, scale; figure=fig_opts, legend=legend_opts, facet=facet_opts)
 
 save("../figs/initial_cc_assessment/net_primary_production_timeseries.png", fig, px_per_unit=dpi)
+
+function grouped_coefficient_of_var(values, groupings)
+    Dict(k => Float64[] for k in unique(groupings))
+end
+
+annual_variance = combine(groupby(master, [:variable, :decade, :SSP, :ESM]), :value => var)
+annual_variance = annual_variance[annual_variance.value_var .!= 0.0, :]
+
+across_decade = combine(groupby(annual_variance, [:variable, :decade]), :value_var => mean)
+across_decade_cv = combine(groupby(across_decade, :variable), :value_var_mean => variation)
+across_decade_cv[!, "analysis_level"] .= "across decade"
+
+across_esm = combine(groupby(annual_variance, [:variable, :ESM]), :value_var => mean)
+across_esm_cv = combine(groupby(across_esm, :variable), :value_var_mean => variation)
+across_esm_cv[!, "analysis_level"] .= "across esm"
+
+coef_variation_data = vcat(across_decade_cv, across_esm_cv)
+coef_variation_data = coef_variation_data[coef_variation_data.variable .∈ [vcat(collect(values(variable_groups))...)], :]
+coef_variation_data.variable_group = [first([k for (k, v) in variable_groups if in(var, v)]) for var in coef_variation_data.variable]
+coef_variation_data.variable_clean_group = getindex.([variable_clean_names], coef_variation_data.variable_group)
+
+fig_opts = (;
+    fontsize = fontsize,
+    size = (18centimetre, 14centimetre)
+)
+scale = scales(
+    X = (; label = "Individual variables"), 
+    Y = (; label = "Coefficient of Variation across levels"),
+    Color = (; label = "Variable groups"),
+    Layout = (; categories = ["across decade" => "Across decades", "across esm" => "Across ESMs"])
+)
+axis_opts = (; xticklabelrotation = π/2)
+legend_opts = (; position=:bottom, orientation = :horizontal, nbanks=2)
+
+bar = data(sort(coef_variation_data, :variable_group)) * mapping(:variable => presorted, :value_var_mean_variation , color=:variable_clean_group, layout=:analysis_level) * visual(BarPlot)
+fig = draw(bar, scale; figure = fig_opts, legend = legend_opts, axis = axis_opts)
+
+save("../figs/initial_cc_assessment/driving_variable_variation.png", fig, px_per_unit=dpi)

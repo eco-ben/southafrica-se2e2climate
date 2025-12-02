@@ -69,24 +69,3 @@ for (model_parm in model_parameterisations) {
         }
     }
 }
-
-# production_outputs <- c("netprimprod")
-# for (model_parm in model_parameterisations) {
-#     for (decade in decades) {
-#         for (ssp in ssps) {
-#             sub_output_path <- file.path(output_path, glue("{model_parm}_parameterisation"), ssp, decade)
-#             cat("Assessing Shapley Effects for", model_parm, ssp, decade)
-
-#             shapley_results <- expand.grid(variable_group = variable_group_names, output = production_outputs, stringsAsFactors = FALSE)
-#             shapley_results$shapley_effect <- NA
-#             permutation_plan <- read.csv(file.path(sub_output_path, "permutation_plan.csv"), col.names = c(variable_group_names, "perm_id"))
-
-#             for (guild in production_outputs) {
-#                 shap_effects <- e2e_driver_variance_analysis(permutation_plan, sub_output_path, guild, output_file_base = "ecosystem_indices_", output_extraction_func = extract_ecosystem_indices_output)
-#                 shapley_results[shapley_results$output == guild, ]$shapley_effect <- shap_effects
-#             }
-
-#             write.csv(shapley_results, file.path(sub_output_path, "shapley_effects.csv"), row.names = FALSE)
-#         }
-#     }
-# }

@@ -50,8 +50,8 @@ for (esm_ssp in ESM_SSP) {
 # Extracting ecosystem_indices using initial conditions
 
 extract_ecosystem_indices <- function(model_results) {
-    final_year <- elt(model_results, "final.year.outputs")
-    ecosystem_indices <- elt(final_year, "ecosystem_indices")
+    final_year <- StrathE2E2:::elt(model_results, "final.year.outputs")
+    ecosystem_indices <- StrathE2E2:::elt(final_year, "ecosystem_indices")
     return(ecosystem_indices)
 }
 
@@ -65,7 +65,7 @@ for (esm_ssp in ESM_SSP) {
 
     permutation_sources <- split(permutation_plan, permutation_plan$perm_id)
 
-    cat("Running permutations for", esm_ssp)
+    cat("Extracting ecosystem indices for", esm_ssp)
     future_map(
         permutation_sources,
         function(x) {

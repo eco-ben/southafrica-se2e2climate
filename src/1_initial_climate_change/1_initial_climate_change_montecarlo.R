@@ -13,6 +13,7 @@ variants <- str_split_i(variants, str_glue("{model_path}South_Africa_MA/"), 2)
 results_path_base <- "./outputs/initial_runs/"
 sapply(variants, function(x) dir.create(file.path(results_path_base, x)))
 
+
 load_and_run_variants <- function(model_variant, model_name, model_path, nyears = 50, output_file_base = "final_biomass_", initial_cond_file_base = "initial_conditions_", indices_file_base = "ecosystem_indices_") {
     print(str_glue("Running model for South Africa MA {model_variant}"))
 
@@ -68,7 +69,7 @@ future_map(
 future_map(
     variants,
     function(x) {
-        load_and_run_montecarlo(x, "South_Africa_MA", model_path, result_path_base = paste0(results_path_base, x))
+        load_and_run_montecarlo(x, "South_Africa_MA", model_path, result_path = paste0(results_path_base, x))
     },
     .progress = TRUE
 )

@@ -428,7 +428,7 @@ function find_permutation(permutation_plan, base_variant, comparison_variant, va
     return first(permutation_plan[bool_vec, permutation_id_col])
 end
 
-function collate_variable_interactions(permutation_plan, perm_plan_outputs, base_variant, comp_variant, variable, variables; permutation__id_col=:perm_id)
+function collate_variable_interactions(permutation_plan, perm_plan_outputs, base_variant, comp_variant, variable, variables, guilds; permutation_id_col=:perm_id)
     others = setdiff(variables, [variable])
     interactions = vcat.(variable, others)
     
@@ -765,18 +765,207 @@ map(x -> lines!(ax1, test.std_bar_line[x][1], test.std_bar_line[x][2], color = g
 
 
 
-test2 = dat[dat.guild .∈ [pca_loadings[pca_loadings.decade_sep_similarity .>= cosd(30), :guild]], :]
+test2 = dat[dat.guild .∈ [[pca_loadings[pca_loadings.decade_sep_similarity .>= cosd(30), :guild]; "netprimprod"]], :]
 test2 = sort(test2, :variable, rev=true)
+test2.variable_clean_name = getindex.([variable_clean_names], test2.variable)
+test2.guild_clean_name = getindex.([guild_clean_names], test2.guild)
 
 fig_opts = (; fontsize=fontsize, size=(18.42centimetre, 18.42centimetre))
+scale = scales(
+    X = (; label = " "), 
+    Y = (; label = "Shapley Effect"),
+    Color = (; label = "Variable group"),
+    Layout = (; categories = ESM_SSP_categories)
+)
 ax_opts = (; xticklabelrotation=π/4, ylabelpadding=10)
 
-bars = data(test2) * mapping(:guild, :shapley_effect, layout = :ESM_SSP, color=:variable, stack=:variable) * visual(BarPlot)
-fig = draw(bars, axis=ax_opts, figure=fig_opts)
+bars = data(test2) * mapping(:guild_clean_name => sorter(test2.guild_clean_name), :shapley_effect, layout = :ESM_SSP, color=:variable_clean_name, stack=:variable) * visual(BarPlot)
+fig = draw(bars, scale; axis=ax_opts, figure=fig_opts)
 
 save("../figs/across_decade_permutations/important_guild_shapley.png", fig, px_per_unit=dpi)
 
+function get_esmssp_interactions(esm_ssp, output_path)
+    sub_output_path = joinpath(output_path, esm_ssp)
 
+    permutation_plan = CSV.read(joinpath(sub_output_path, "permutation_plan.csv"), DataFrame)
+    rename!(
+        permutation_plan,
+        variable_levels
+    )
+
+    files = readdir(sub_output_path; join=true)
+    files = files[contains.(files, ["model_outputs_"])]
+    perm_outputs = [CSV.read(files[contains.(files, ["perm_$(pid).csv"])], DataFrame) for pid in permutation_plan.perm_id]
+
+    perm_plan_outputs = permutation_plan
+    for guild in guilds
+        if any(perm_outputs[1].Description .== guild)
+            output = [out_df[out_df.Description .== [guild], :Model_annual_mean] for out_df in perm_outputs]
+            output = vcat(output...)
+            perm_plan_outputs[!, guild] = output
+        end
+    end
+
+    files = readdir(sub_output_path; join=true)
+    files = files[contains.(files, ["ecosystem_indices_"])]
+    perm_outputs = [CSV.read(files[contains.(files, ["perm_$(pid).csv"])], DataFrame) for pid in permutation_plan.perm_id]
+    
+    net_prim_prod = vcat([parse.(Float64, out_df[out_df.Description .== ["netprimprod"], :Value]) for out_df in perm_outputs]...)
+    perm_plan_outputs[!, "netprimprod"] = net_prim_prod
+    
+    base_variant = "2010-2019-" * esm_ssp
+    comp_variant = "2060-2069-" * esm_ssp
+
+    var_permutation_outputs = vcat([
+        collate_variable_interactions(permutation_plan, perm_plan_outputs, base_variant, comp_variant, var, variables, guilds)
+        for var in variables
+    ]...)
+    percentage_columns = guilds .* "_percent_change"
+    
+    var_permutation_outputs = stack(var_permutation_outputs, Not(:variable_changed, :perm_id, :labels, :analysis_variable), variable_name=:guild, value_name=:value)
+    var_permutation_outputs = var_permutation_outputs[var_permutation_outputs.variable_changed .!= "baseline", :]
+    
+    base_variable_changes = var_permutation_outputs[.!occursin.(":", var_permutation_outputs.labels), :]
+    interaction_rows = var_permutation_outputs[
+        occursin.(":", var_permutation_outputs.labels) .& occursin.("percent_change", var_permutation_outputs.guild), 
+    :]
+    
+    variable_interaction_labels = combine(groupby(interaction_rows, [:labels, :analysis_variable, :guild])) do sdf
+        dfrow = sdf[1, :]
+
+        base_variable = first(split(dfrow.labels, ":"))
+        interacting_variable = last(split(dfrow.labels, ":"))
+        guild = dfrow.guild
+
+        Δ_base_var = first(base_variable_changes[
+            (base_variable_changes.labels .== base_variable) .& 
+            (base_variable_changes.guild .== guild), 
+        :value])
+        Δ_second_var = first(base_variable_changes[
+            (base_variable_changes.labels .== interacting_variable) .& 
+            (base_variable_changes.guild .== guild), 
+        :value])
+
+        direction_type = sign(Δ_base_var) == sign( Δ_second_var) ? "same_direction" : "opposing_direction"
+        
+        expected_additive_change = Δ_base_var + Δ_second_var
+        tolerance = max(0.005, 0.05 * abs(expected_additive_change))
+        Δ_interaction = dfrow.value
+        residual = Δ_interaction - expected_additive_change
+
+        interaction_type = abs(residual) <= tolerance ? "linear" : "non-linear"
+
+        (;
+            direction_class = direction_type,
+            interaction_class = interaction_type,
+            interaction_value = Δ_interaction,
+            pure_interaction = residual,
+            interaction_ratio = abs(Δ_interaction) != 0 ? abs(residual) / abs(expected_additive_change) : 0
+        )
+    end
+    
+    variable_interaction_labels.ESM_SSP .= esm_ssp
+
+    return variable_interaction_labels
+end
+
+var_interaction_data = vcat(get_esmssp_interactions.(ESM_SSPs, output_path)...)
+
+# for guild in guilds
+#     guild_interact = var_interaction_data[var_interaction_data.guild .== "$(guild)_percent_change", :]
+#     guild_interact.interaction_sign = ifelse.(sign.(guild_interact.interaction_value) .> 0, "positive", "negative")
+#     guild_interact.interaction_info = guild_interact.direction_class .* " " .* guild_interact.interaction_class .* " " .* guild_interact.interaction_sign
+#     guild_interact.strength_prop = abs.(guild_interact.interaction_value ./ 100)
+
+#     guild_interact.interact_info = guild_interact.direction_class .* " " .* guild_interact.interaction_class
+    
+#     guild_interact.second_variable = last.(split.(guild_interact.labels, ":"))
+#     x = unique(guild_interact.analysis_variable)
+#     y = unique(guild_interact.second_variable)
+#     info_levels = unique(guild_interact.interaction_info)
+#     colours = Dict(zip(info_levels, Makie.wong_colors()[eachindex(info_levels)]))
+
+#     guild_interact.info_colour = getindex.([colours], guild_interact.interaction_info)
+#     alpha.(guild_interact.info_colour) .= guild_individual_colours.strength_prop
+
+#     interact_info_wide = [
+#         Matrix{Union{String, Missing}}(unstack(
+#             guild_interact[guild_interact.ESM_SSP .== esm_ssp, :], 
+#             :analysis_variable, 
+#             :second_variable, 
+#             :interaction_info
+#         )[:, Not(:analysis_variable)])
+#         for esm_ssp in ESM_SSPs
+#     ]
+#     interact_info_wide = cat(interact_info_wide..., dims=3)
+    
+#     interact_strength_wide = [
+#         Matrix{Union{Float64, Missing}}(unstack(
+#             guild_interact[guild_interact.ESM_SSP .== esm_ssp, :], 
+#             :analysis_variable, 
+#             :second_variable, 
+#             :interaction_value
+#         )[:, Not(:analysis_variable)])
+#         for esm_ssp in ESM_SSPs
+#     ]
+#     interact_strength_wide = cat(interact_strength_wide..., dims=3)
+#     interact_strength_wide = abs.(interact_strength_wide)
+    
+
+#     fig_opts = Figure(size = (20centimetre, 20centimetre), fontsize=fontsize)
+
+
+#     fig_opts = (; size = (50centimetre, 20centimetre), fontsize=fontsize)
+#     ax_opts = (; xticklabelrotation=π/4)
+
+#     # hm = data(guild_interact[guild_interact.ESM_SSP .== ESM_SSPs[1], :]) * mapping(:analysis_variable, :second_variable,color=:interaction_info, markersize=:interaction_ratio) * visual(Scatter)
+#     # fig = draw(hm; figure=fig_opts, axis=ax_opts)
+    
+#     hm = data(guild_interact) * mapping(:second_variable, :pure_interaction, color=:interact_info, dodge=:ESM_SSP, layout=:analysis_variable) * visual(BarPlot)
+    
+#     scale = scales(
+#         Y = (; label="Interacting variables"),
+#         X = (; label="Interaction effect \n[% change in biomass from 2010-2019 baseline]"),
+#         Color = (; 
+#             label="Biomass outcome", 
+#             categories = ["positive" => "increase", "negative" => "decrease"],
+#             palette = ["positive" => :green, "negative" => :red]
+#         ),
+#         Row = (; categories = ["opposing_direction" => "Opposing variables", "same_direction" => "Synergistic variables"]),
+#         Col = (; categories = ESM_SSP_categories)
+#     )
+#     hm = data(guild_interact[abs.(guild_interact.pure_interaction) .> 0.1, :]) * 
+#         mapping(:labels, :pure_interaction, color=:interaction_sign, row=:direction_class, col=:ESM_SSP) * 
+#         visual(BarPlot, direction=:x)
+#     fig = draw(hm, scale; figure=fig_opts, axis=ax_opts)
+
+#     fig = fig.figure
+#     axes = filter(x -> isa(x, Axis), fig.content)
+#     map(x -> vlines!(x, 0.0, color=:black), axes)
+
+# end
+
+# esm_interact = var_interaction_data[var_interaction_data.ESM_SSP .== ESM_SSPs[1], :]
+# esm_interact.interaction_sign = ifelse.(sign.(esm_interact.interaction_value) .> 0, "positive", "negative")
+# esm_interact.interaction_info = esm_interact.direction_class .* " " .* esm_interact.interaction_class .* " " .* esm_interact.interaction_sign
+# esm_interact.strength_prop = abs.(esm_interact.interaction_value ./ 100)
+
+# esm_interact.interact_info = esm_interact.direction_class .* " " .* esm_interact.interaction_class
+
+# test = esm_interact[esm_interact.pure_interaction .> 1, :]
+# test.nrow = eachindex(eachrow(test))
+
+# hm = data(test) * mapping(:pure_interaction, :guild, color=:labels) * visual(Scatter)
+# fig = draw(hm; figure=fig_opts, axis=ax_opts)
+
+# his = data(var_interaction_data) * mapping(:pure_interaction, col=:guild) * visual(Hist, color = :red, strokewidth = 1, strokecolor = :black)
+# fig = draw(his; figure=fig_opts)
+
+fig = Figure(size = (10centimetre, 10centimetre), fontsize=fontsize)
+ax = Axis(fig[1,1], xlabel = "Environmental variable interaction effect \n[% change in biomass from 2010-2019 baseline]", ylabel="number of samples")
+hist!(ax, var_interaction_data.pure_interaction, bins = 20, color = :red, strokewidth = 1, strokecolor = :black)
+vlines!(ax, quantile.([var_interaction_data.pure_interaction], [0.01, 0.99]), color=:blue)
+save("../figs/across_esm_permutations/variable_interaction_histogram.png", fig, px_per_unit=dpi)
 
 ax2 = Axis(
     fig[1,2], 
