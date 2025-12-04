@@ -28,6 +28,12 @@ author:
           name: Plymouth Marine Laboratory
           address: Plymouth
           country: United Kingdom
+  - name: Matthew Hatton
+    affiliations:
+        - id: UStrath
+          name: University of Strathclyde
+          address: Glasgow
+          country: United Kingdom 
   - name: Lynne Shannon
     affiliations:
         - id: UCT
@@ -376,10 +382,37 @@ The most substantial changes relative to 2010-2019 biomass levels are experience
 demersal fish and pinnipeds, with 40% increase from baseline biomass levels under climate
 change (@sfig-percent-biomass-timeseries). Despite substantial biomass changes over time,
 there is little change in ecosystem weighted mean trophic level, while there is slight
-divergence between the ESMs in mean trophic level (@sfig-mean-trophic). Ecosystem net
-primary productivity is projected to substantially increase across modelled decades under
-GFDL-ESM4 (@fig-net-primprod) and decrease under CNRM-CM6-1-HR. There is little difference
-in net primary productivity between SSP1-2.6 and SSP3-7.0.
+divergence between the ESMs in mean trophic level (@sfig-mean-trophic). Increases in
+pinniped, cetacean and seabird biomass overtime follows trends in increasing demersal fish
+biomass over time due to demersal fish making up a considerable proportion of these guilds'
+diets (@sfig-decade-sep-diet). Increases in demersal fish across decades are caused by high
+rates of spawning and recruitment, maintaining the guild despite negative net production
+rates (@tbl-dfish-biology).
+
+```{julia}
+#| echo: false
+#| warning: false
+#| message: false
+#| output: asis
+
+cap = """
+Biological values and rates for demersal fish and demersal fish larvae guilds when modelled in decades 2010-2019 and 2060-2069 under CNRM-CM6-1-HR and SSP3-7.0. Values represent the outputs from the final model year after running to steady state. `T_uptake` represents the total uptake of nitrogen by the guild. `T_defec_excr` represents the total nitrogen output by the guild as a result of metabolism and excretion. `Recruitment` represents the total nitrogen gained through recruitment of larvae to adults. `Spawning` represents the total nitrogen gained through spawning. `Net_Prod_feeding` represents conversion rate of nitrogen ingested to biomass, less nitrogen lost through excretion (T_uptake - T_defec_excr). `Net_Prod` represents the total rate of nitrogen gained including recruitment and spawning processes (Recruitment + Spawning + Net_Prod_feeding).
+"""
+using Markdown, Tables, MarkdownTables, CSV, DataFrames
+cd("../src")
+dfish_rates = CSV.read("./../outputs/initial_runs/demersal_fish_rates_variants_filtered.csv", DataFrame)
+print("""
+::: {.table #tbl-dfish-biology}
+$(markdown_table(dfish_rates, String))
+
+$(cap)
+:::
+""")
+```
+
+Ecosystem net primary productivity is projected to substantially increase across modelled
+decades under GFDL-ESM4 (@fig-net-primprod) and decrease under CNRM-CM6-1-HR. There is
+little difference in net primary productivity between SSP1-2.6 and SSP3-7.0.
 
 ![Final year whole - domain net primary production across each decade of forcing data under
 each future scenario. The y axis represents net primary production in millimoles of Nitrogen
@@ -700,4 +733,17 @@ across ESM values). Bars are coloured by the variable groupings used for permuta
 analyses. Variables in the "atmospheric nutrient flux" group do not vary across ESMs so were
 removed from across ESM permutation
 analyses.](../figs/initial_cc_assessment/driving_variable_variation.png){#sfig-driving-variable-variation
+width="14.82cm"}
+
+![Proportional sources of nitrogen influx to guilds whose PCA loadings correlate strongly
+(within 30°) with ecosystem decadal trends. Diet proportions are displayed for each model
+variant (six decades, two ESMs and two SSPs). Rows display different decades and columns
+display different ESM - SSP combinations. Nitrogen sources are represented by different
+colours, including benthos carnivorous/scavenge feeders (benthc), benthos suspension/deposit
+feeders (benths), carnivorous zooplankton (carnzoo), corpses, demersal fish (dfish),
+demersal fish larvae (dfishlar), fisheries discards, kelp, kelp debris, migratory fish
+(mfish), direct intake from outside of the model domain (ocean_horizontal), omnivorous
+zooplankton (omnivzoo), planktivorous fish (pfsih), planktivorous fish larvae (pfishlar),
+pinnipeds (seal), water column ammonia (wcammonia), water column nitrate
+(wcnitrate).](../figs/initial_cc_assessment/decade_sep_guilds_nitrogen_sources.png){#sfig-decade-sep-diet
 width="14.82cm"}

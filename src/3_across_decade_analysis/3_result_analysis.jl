@@ -769,17 +769,20 @@ test2 = dat[dat.guild .∈ [[pca_loadings[pca_loadings.decade_sep_similarity .>=
 test2 = sort(test2, :variable, rev=true)
 test2.variable_clean_name = getindex.([variable_clean_names], test2.variable)
 test2.guild_clean_name = getindex.([guild_clean_names], test2.guild)
+test2.ESM = first.(split.(test2.ESM_SSP, ["-"]))
+test2.SSP = last.(split.(test2.ESM_SSP, ["-"]))
 
 fig_opts = (; fontsize=fontsize, size=(18.42centimetre, 18.42centimetre))
 scale = scales(
     X = (; label = " "), 
     Y = (; label = "Shapley Effect"),
     Color = (; label = "Variable group"),
-    Layout = (; categories = ESM_SSP_categories)
+    Row = (; categories = ESM_categories),
+    Col = (; categories = SSP_categories)
 )
 ax_opts = (; xticklabelrotation=π/4, ylabelpadding=10)
 
-bars = data(test2) * mapping(:guild_clean_name => sorter(test2.guild_clean_name), :shapley_effect, layout = :ESM_SSP, color=:variable_clean_name, stack=:variable) * visual(BarPlot)
+bars = data(test2) * mapping(:guild_clean_name => sorter(test2.guild_clean_name), :shapley_effect, row=:ESM, col=:SSP, color=:variable_clean_name, stack=:variable) * visual(BarPlot)
 fig = draw(bars, scale; axis=ax_opts, figure=fig_opts)
 
 save("../figs/across_decade_permutations/important_guild_shapley.png", fig, px_per_unit=dpi)
@@ -864,12 +867,37 @@ function get_esmssp_interactions(esm_ssp, output_path)
         )
     end
     
+    base_variable_changes.ESM_SSP .= esm_ssp
     variable_interaction_labels.ESM_SSP .= esm_ssp
 
-    return variable_interaction_labels
+    return (main_effects = base_variable_changes, interaction_effects = variable_interaction_labels)
 end
 
-var_interaction_data = vcat(get_esmssp_interactions.(ESM_SSPs, output_path)...)
+var_main_effects = vcat(first.(get_esmssp_interactions.(ESM_SSPs, output_path))...) 
+var_interaction_data = vcat(last.(get_esmssp_interactions.(ESM_SSPs, output_path))...)
+
+main_percent_change = var_main_effects[occursin.("percent_change", var_main_effects.guild), :]
+main_percent_change.guild = first.(split.(main_percent_change.guild, ["_percent_change"]))
+main_percent_change.positive = main_percent_change.value .> 0
+
+hline_data = unique(main_percent_change[:, [:ESM_SSP, :guild]])
+hline_data.line .= 0.0
+
+fig_opts = (; fontsize=fontsize, size=(18.42centimetre, 22centimetre))
+scale = scales(
+    X = (; label = "Variable sourced from 2060-2069"), 
+    Y = (; label = "Biomass change from 2010-2019 [%]"),
+    Color = (; palette=[true => :green, false => :red], categories = [true => "Increase", false => "Decline"])
+)
+ax_opts = (; xticklabelrotation=π/2)
+legend_opts = (; position=:bottom, orientation=:horizontal)
+facet_opts = (; linkyaxes=false)
+
+bar = data(main_percent_change[main_percent_change.guild .∈ [decade_sep_guilds], :]) * mapping(:analysis_variable, :value, row=:guild, col=:ESM_SSP, color=:positive) * visual(BarPlot)
+hline_zero = mapping(0.0) * visual(HLines; linestyle=:dash)
+fig = draw(bar + hline_zero, scale; figure=fig_opts, axis=ax_opts, legend=legend_opts, facet=facet_opts)
+
+save("../figs/across_decade_permutations/main_effects_on_important_guilds.png", fig, px_per_unit=dpi)
 
 # for guild in guilds
 #     guild_interact = var_interaction_data[var_interaction_data.guild .== "$(guild)_percent_change", :]
@@ -983,3 +1011,121 @@ esm_guild_elements = [[
 ] for guild in esm_guilds]
 Legend(fig[2, :], esm_guild_elements, getindex.([guild_clean_names], esm_guilds), nbanks=2, orientation=:horizontal)
 save("../figs/across_esm_permutations/mean_shapley_effects.png", fig, px_per_unit=dpi)
+
+
+
+
+result_files = readdir("../outputs/initial_runs/", join=true)
+result_files = vcat(readdir.(result_files; join=true)...)
+result_files = result_files[contains.(result_files, ["opt_results"])]
+result_files = result_files[contains.(result_files, "csv")]
+
+indicators = ["Annual_demersal_fish_gross_production", "Annual_net_production_of_birds", "Annual_net_production_of_cetaceans", "Annual_net_production_of_pinnipeds"]
+guild_prod = [CSV.read(result_files[contains.(result_files, variant)], DataFrame) for variant in variants]
+guild_prod = [df[df.Description .∈ [indicators], :] for df in guild_prod]
+
+for (v, df) in enumerate(guild_prod) df[!, :variant] .= variants[v] end
+
+guild_prod = vcat(hcat.(guild_prod, [indicators])...)
+guild_prod = guild_prod[:, [:variant, :Name, :Model_data]]
+
+guild_prod.decade = [first(match(r"(\d{4}-\d{4})", var).captures) for var in guild_prod.variant]
+guild_prod.ESM = [first(match(r"([[:upper:]]{4})", var).captures) for var in guild_prod.variant]
+guild_prod.SSP = [first(match(r"([[:lower:]]{3}\d{3})", var).captures) for var in guild_prod.variant]
+
+fig_opts = (;
+    fontsize = fontsize,
+    size = (18.42centimetre, 14centimetre)
+)
+scale = scales(
+    Color = (; label = "Earth System Model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
+    LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
+)
+axis_opts = (; xticklabelrotation = π/4)
+legend_opts = (; position=:bottom, tellheight=false, tellwidth=false, nbanks=2)
+
+# scat = data(pca_val_df) * mapping(:PC1, :PC2, marker=:decade, color=:ESM_SSP) * visual(Scatter, markersize=20)
+line = data(guild_prod) * mapping(:decade, :Model_data, color=:ESM, linestyle=:SSP, layout=:Name) * visual(Lines)
+fig = draw(line, scale; figure=fig_opts, axis=axis_opts, legend=legend_opts, facet=faceet_opts)
+
+
+
+
+total_flux.decade = [first(match(r"(\d{4}-\d{4})", var).captures) for var in total_flux.variant]
+total_flux.ESM = [first(match(r"([[:upper:]]{4})", var).captures) for var in total_flux.variant]
+total_flux.SSP = [first(match(r"([[:lower:]]{3}\d{3})", var).captures) for var in total_flux.variant]
+total_flux_plot = total_flux[total_flux.guild .∈ [["bird", "dfish", "ceta", "seal"]], :]
+
+fig_opts = (;
+    fontsize = fontsize,
+    size = (18.42centimetre, 14centimetre)
+)
+scale = scales(
+    Color = (; label = "Earth System Model", categories = ESM_categories, palette = ESM_colors),
+    LineStyle = (; label = "Socio-Economic Pathway", categories = SSP_categories, palette=SSP_colors)
+)
+axis_opts = (; xticklabelrotation = π/4)
+legend_opts = (; position=:bottom, tellheight=false, tellwidth=false, nbanks=2)
+facet_opts = (; linkyaxes=false)
+
+# scat = data(pca_val_df) * mapping(:PC1, :PC2, marker=:decade, color=:ESM_SSP) * visual(Scatter, markersize=20)
+line = data(total_flux_plot) * mapping(:decade, :total_uptake, color=:ESM, linestyle=:SSP, layout=:guild) * visual(Lines)
+fig = draw(line, scale; figure=fig_opts, axis=axis_opts, legend=legend_opts, facet=facet_opts)
+
+
+scale = scales(
+    Color = (; label = "Earth System Model", categories = ESM_categories, palette = ESM_colors),
+    LineStyle = (; label = "Socio-Economic Pathway", categories = SSP_categories, palette=SSP_linestyles)
+)
+line = data(dem_prod) * mapping(:decade, :net_production, color=:ESM, linestyle=:SSP) * visual(Lines)
+fig = draw(line; figure=fig_opts, axis=axis_opts, legend=legend_opts, facet=facet_opts)
+
+result_files = readdir("../outputs/initial_runs/", join=true)
+result_files = vcat(readdir.(result_files; join=true)...)
+result_files = result_files[contains.(result_files, ["ann_flux"])]
+result_files = result_files[contains.(result_files, "csv")]
+
+indicators = ["Dem.fish_net_production"]
+dem_net_prod = [CSV.read(result_files[contains.(result_files, variant)], DataFrame) for variant in variants]
+dem_net_prod = [df[df.Description .∈ [indicators], :] for df in dem_net_prod]
+
+dem_prod.assimilation .= 0.0
+dem_prod.net_production .= 0.0
+dem_prod.net_production_efficiency .= 0.0
+for v in eachindex(dem_prod.variant)
+    net_production = dem_net_prod[v][1, :].Model_annual_flux
+    
+    consumption = sum(flux_matrices[v][:, "dfish"])
+    waste = sum(vec(Matrix(flux_matrices[v][
+        flux_matrices[v].source .== "dfish", 
+        [
+            # :wcammonia, 
+            # :sedammonia, 
+            # :wcnitrate, 
+            # :sednitrate, 
+            :wcdetritus, 
+            :seddetritus, 
+            :seddetritusR
+        ]
+    ])))
+    metabolic_loss = sum(vec(Matrix(flux_matrices[v][
+        flux_matrices[v].source .== "dfish", 
+        [
+            :wcammonia, 
+            :sedammonia, 
+            :wcnitrate, 
+            :sednitrate, 
+            # :wcdetritus, 
+            # :seddetritus, 
+            # :seddetritusR
+        ]
+    ])))
+
+    # net_production = assimilation - metabolic_loss
+    assimilation = consumption - waste
+    npe = net_production / assimilation
+
+    dem_prod[v, :].assimilation = consumption - waste
+    dem_prod[v, :].net_production = net_production
+    dem_prod[v, :].net_production_efficiency = npe
+end

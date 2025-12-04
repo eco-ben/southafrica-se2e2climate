@@ -20,11 +20,28 @@ guilds = [
     "Birds",
     "Pinnipeds",
     "Cetaceans",
-    "netprimprod"
+    "netprimprod",
+    "Demersal_fish_larvae"
 ]
 guild_clean_names = Dict(zip(guilds, replace.(guilds, "_" => " ")))
 guild_clean_names["netprimprod"] = "Net Primary Production"
 guild_individual_colours = Dict(zip(guilds, distinguishable_colors(length(guilds))))
+
+flux_guilds = Dict(
+    "Surface_layer_phytoplankton" => "phyt",
+    "Deep_layer_phytoplankton" => "phyt",
+    "Omnivorous_zooplankton" => "omnivzoo",
+    "Carnivorous_zooplankton" => "carnzoo",
+    "Benthos_susp/dep_feeders" => "benths",
+    "Benthos_carn/scav_feeders" => "benthc",
+    "Planktivorous_fish" => "pfish",
+    "Migratory_fish" => "mfish",
+    "Demersal_fish" => "dfish",
+    "Birds" => "bird",
+    "Pinnipeds" => "seal",
+    "Cetaceans" => "ceta",
+    "Demersal_fish_larvae" => "dfishlar"
+)
 
 # Define constant variables for importance analysis
 variable_levels = [
