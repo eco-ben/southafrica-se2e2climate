@@ -53,24 +53,9 @@ author:
           address: Glasgow
           country: United Kingdom 
 abstract: |
-    Climate change is projected to alter marine species abundance in many ecosystems globally,
-    including in the highly productive, and variable, Southern Benguela Upwelling System (SBUS) 
-    in South Africa. A key challenge in ecosystem modelling is assessing future climate impacts 
-    and identifying causal relationships. We parameterised the StrathE2E end-to-end ecosystem model 
-    for the Southern Benguela region, forced by NEMO-ERSEM physical-biogeochemistry model outputs. 
-    Simulations were forced by a four-member climate ensemble including GFDL-ESM4 and CNRM-CM6-1-HR 
-    Earth System Models (ESMs) under Shared Socioeconomic Pathways (SSPs) 1-2.6 and 3-7.0.
-    High trophic level guilds such as Cetaceans, demersal fish and seabirds were consistently 
-    projected to increase in biomass under climate change. Net Primary Production, among other 
-    low trophic level ecosystem components, exhibit diverging trajectories across the ESMs, 
-    driven by differential representations of vertical mixing under climate change. These 
-    findings suggest that ecosystem modelling in the southern Benguela region is experiences 
-    a high degree of scenario uncertainty due to structural uncertainty in Earth System Model 
-    projections. An in-depth comparison of model outputs across multiple ecosystem models 
-    and a wider ensemble of ESMs is needed to better understand possible climate impacts for 
-    the system. Importantly, these findings highlight the sensitivity of the ecosystem to 
-    future changes in upwelling, and the need for advancements in monitoring and modelling of 
-    upwelling changes for the region.
+    Climate change is projected to alter marine ecosystem structure and function globally. Modelling these changes is challenging, partly because projections of the future physical environment are uncertain, especially in the highly productive, and variable, ocean upwelling areas such as the Southern Benguela Upwelling System (SBUS) off southern Africa. Here, we describe application of the StrathE2E functional guild-based end-to-end ecosystem model to the SBSU, forced by a four-member ensemble of NEMO-ERSEM physical-biogeochemistry model outputs. The ensemble covered two different Earth System Models (ESM) which provided driving data sets (2010 – 2070) for NEMO (GFDL-ESM4 and CNRM-CM6-1-HR), each under two different Shared Socioeconomic Pathway (SSP) and Relative Concentration Pathway (RCP) emissions scenarios (1-2.6: Sustainability – Taking the Green Road, and 3-7.0: Regional Rivalry – A Rocky Road).
+    High trophic level guilds in StrathE2E, such as cetaceans, demersal fish and seabirds, were consistently projected to increase in biomass under all the driving data ensemble members. However, net primary production, and other low trophic level guilds, exhibited diverging trajectories between the two ESM driving data members, implying major differences in the emergent trophic efficiency of the system. Environmental driver sensitivity analyses suggest high contribution of vertical mixing to variation in low trophic level guilds across the ESMs. These findings highlight the sensitivity of the SPSU ecosystem to ocean conditions, and especially the need for advancements in monitoring and modelling of upwelling changes for the region.
+
 keywords:
     - StrathE2E2
 date: last-modified
@@ -517,21 +502,37 @@ feeding benthos may decline under climate change in the modelled region.
 **For Kelly: Would you be able to expand on the consequences of the possible result
 trajectories for the ecosystem?**
 
--   **Guilds with strong decadal trends and low ESM differences:**
+**Guilds with strong decadal trends and low ESM differences:**
+
+High trophic level guilds in the southern Benguela model show high levels of variation due
+to model parameter uncertainty. Monte Carlo simulations reveal particular uncertainty in
+current and future estimates for Demersal Fish. In the southern Benguela implementation
+adult Demersal fish are reliant on high recruitment of larvae into the guild to maintain
+biomass. Top-predator guilds such as pinnipeds and seabirds are also sensitive to parameter
+values influencing demersal fish larvae due to demersal fish contributing to substantial
+proportions of their diets. Conclusions about demersal fish and top-predator guilds using
+these StrathE2E implementations must consider that demersal fish event timing parameters
+reflect available literature for Cape Hake species (*Merluccius capensis* and *Merluccius
+paradoxus*).
+
+It has been suggested that Cape Hake in the northern Benguela region (Namibia) experience
+high annual variability in stock biomass [@macpherson1991] and recruitment [@kainge2013].
+This investigation suggests that projections for demersal fish, 
+and top predators, under climate change are highly uncertain due to their sensitivity to
+demersal fish larval parameters.
 
 Under climate change predatory guilds are predicted to change in consistent ways across
 ESMs, with many predatory guilds showing substantial increases in biomass relative to
-2010-2019 levels. Under CNRM-CM6-1-HR, these guilds are primarily driven by temperature and
-the boundary flows between external water masses and modelled ecosystem volumes, while under
-GFDL-ESM4 these guilds are primarily driven by boundary flows and vertical mixing.
-Environmental forcing data modelled using CNRM-CM6-1-HR shows substantially greater change
-in temperature over future decades compared to GFDL-ESM4 (@sfig-driver-temp), aligning with
-the model's increased sensitivity to increases in CO~2~ compared to GFDL-ESM4 **citation**.
-Additionally, CNRM driving data shows substantially different seasonal trends in boundary
-flows compared to GFDL-ESM4 with distinct patterns of nutrient inflows and outflows in the
-inshore region (@sfig-driver-boundary-flows). GFDL-ESM4 forcing data shows greater a greater
-degree of seasonal minimum and maximum levels of vertical diffusivity and offshore upwelling
-and downwelling (@sfig-driver-vertical-mixing). While the low importance of nutrient
+2010-2019 levels. These guilds show low levels of trajectory divergence across the ESMs,
+however the driving variables influencing biomass are distinct. Environmental forcing data
+modelled using CNRM-CM6-1-HR shows substantially greater change in temperature over future
+decades compared to GFDL-ESM4 (@sfig-driver-temp), aligning with the increased sensitivity
+of CNRM-CM6-1-HR to increases in CO~2~ compared to GFDL-ESM4 **citation**. Additionally,
+CNRM driving data shows substantially different seasonal trends in boundary flows compared
+to GFDL-ESM4 with distinct patterns of nutrient inflows and outflows in the inshore region
+(@sfig-driver-boundary-flows). GFDL-ESM4 forcing data shows greater a greater degree of
+seasonal minimum and maximum levels of vertical diffusivity and offshore upwelling and
+downwelling (@sfig-driver-vertical-mixing). While the low importance of nutrient
 concentration variables
 
 Although these predatory guilds, that experience substantial change in biomass, are
@@ -637,7 +638,7 @@ SSP3-7.0 baseline model. Additional information on model fitting can be found in
 implementation doc**.
 
 | Source | Model Inputs | Time Period |
-|------------------------------------|-----------------------|---------------------------------|
+|------------------------------------|------------------------|---------------------------------|
 | Sea Around Us - fishing catch data | Catch data separated into catch power (catch/activity) and discard rates | Parameterised with 2010-2019 data |
 | South Africa National Biodiversity Institute - spatial fishing pressure data | Spatial distribution of fishing fleet activity | 2018 - layers finalised 2025 |
 | Regional expert collaboration - target data | Fitting target data | 1978-2015 |
