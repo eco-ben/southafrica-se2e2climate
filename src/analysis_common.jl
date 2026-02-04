@@ -121,3 +121,30 @@ function rescale!(x)
 
     return μ, σ
 end
+
+se2e_mc_guilds = Dict(
+    "Total_nitrogen_mass" => "tot_nit_mass_bd",
+    "Surface_layer_phytoplankton" => "sphyt_bd",
+    "Deep_layer_phytoplankton" => "dphyt_bd",
+    "Omnivorous_zooplankton" => "omni_bd",
+    "Carnivorous_zooplankton" => "carn_bd",
+    "Benthos_susp/dep_feeders" => "benth_susp_bd",
+    "Benthos_carn/scav_feeders" => "benth_carn_bd",
+    "Planktivorous_fish" => "plankfish_bd",
+    "Migratory_fish" => "migfish_bd",
+    "Demersal_fish" => "demfish_bd",
+    "Birds" => "bird_bd",
+    "Pinnipeds" => "seal_bd",
+    "Cetaceans" => "ceta_bd",
+    "netprimprod" => missing,
+    "Demersal_fish_larvae" => "demfish_larvae_bd"
+)
+
+param_categories = [
+    "xxdfish" => "Density dependent mortality\n coefficient - Demersal fish", 
+    "xxdfishlar" => "Density dependent mortality\n coefficient - Demersal fish larvae", 
+    "h_fishd" => "Nitrogen uptake half-saturation\n coefficient - Demersal fish", 
+    "h_fishdlar" => "Nitrogen uptake half-saturation\n coefficient - Demersal fish larvae",
+    "u_fishd" => "Maximum nitrogen uptake\n rate - Demersal fish",
+    "u_fishdlar" => "Maximum nitrogen uptake\n rate - Demersal fish larvae" 
+] 

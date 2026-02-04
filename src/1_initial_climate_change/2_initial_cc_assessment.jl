@@ -18,6 +18,7 @@ using MultivariateStats
 using AlgebraOfGraphics
 using GLMakie
 using Colors
+using LinearAlgebra
 
 import GeometryBasics as GB
 
@@ -25,8 +26,11 @@ include("../analysis_common.jl")
 
 CairoMakie.activate!()
 
+monte_carlo_dir = "../outputs/initial_runs/monte_carlo_results/S_Benguela_MA/"
+
 # 1. Plotting the initial assessment biomass timeseries
 biomass_files = readdir("../outputs/initial_runs/", join=true)
+biomass_files = biomass_files[isdir.(biomass_files)]
 biomass_files = vcat(readdir.(biomass_files; join=true)...)
 biomass_files = biomass_files[contains.(biomass_files, ["final_biomass"])]
 biomass_files = biomass_files[contains.(biomass_files, "csv")]
@@ -47,6 +51,26 @@ result_df_lines.SSP = [first(match(r"([[:lower:]]{3}\d{3})", var).captures) for 
 result_df_lines.ESM_SSP = [first(match(r"([[:upper:]]{4}-[[:lower:]]{3}\d{3})", var).captures) for var in result_df_lines.variant]
 result_df_lines.guild_clean = getindex.([guild_clean_names], result_df_lines.Description)
 
+result_df_lines[!, :min_quant] .= 0.0
+result_df_lines[!, :max_quant] .= 0.0
+
+for variant in variants
+    mc_dir = joinpath(monte_carlo_dir, variant, "CredInt")
+    aam_files = readdir(mc_dir; join=true)
+    aam_file = first(aam_files[contains.(aam_files, ["AAMresults_whole-$(variant)-MC"])])
+
+    aam_mc = CSV.read(aam_file, DataFrame)
+    for guild in guilds
+        if ismissing(se2e_mc_guilds[guild]) continue end
+        
+        guild_low_quant = first(aam_mc[aam_mc.Column1 .== "lowlimit", se2e_mc_guilds[guild]])
+        result_df_lines[(result_df_lines.variant .== variant) .& (result_df_lines.Description .== guild), :min_quant] .= guild_low_quant
+
+        guild_upp_quant = first(aam_mc[aam_mc.Column1 .== "upplimit", se2e_mc_guilds[guild]])
+        result_df_lines[(result_df_lines.variant .== variant) .& (result_df_lines.Description .== guild), :max_quant] .= guild_upp_quant
+    end
+end
+
 fig_opts = (;
     fontsize = fontsize,
     size = (18.42centimetre, 18.42centimetre)
@@ -62,6 +86,10 @@ legend_opts = (; position=:bottom)
 axis_opts = (; xticklabelrotation = π/4)
 
 biomass_timeseries = data(result_df_lines) * mapping(:decade, :Model_annual_mean, color=:ESM, linestyle=:SSP, layout=:guild_clean) * visual(Lines)
+# biomass_bands_1 = data(result_df_lines[result_df_lines.SSP .== "ssp126", :]) * mapping(:decade, :min_quant, :max_quant, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
+# biomass_bands_2 = data(result_df_lines[result_df_lines.SSP .== "ssp370", :]) * mapping(:decade, :min_quant, :max_quant, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
+
+# biomass_ts_fig = draw(biomass_timeseries + biomass_bands_1 + biomass_bands_2, scale; facet=facet_opts, figure=fig_opts, legend=legend_opts, axis=axis_opts)
 biomass_ts_fig = draw(biomass_timeseries, scale; facet=facet_opts, figure=fig_opts, legend=legend_opts, axis=axis_opts)
 
 save("../figs/initial_cc_assessment/biomass_timeseries.png", biomass_ts_fig, px_per_unit=dpi)
@@ -109,6 +137,36 @@ pca_val_df.decade = [first(match(r"(\d{4}-\d{4})", var).captures) for var in pca
 pca_val_df.ESM = [first(match(r"([[:upper:]]{4})", var).captures) for var in pca_val_df.variant]
 pca_val_df.SSP = [first(match(r"([[:lower:]]{3}\d{3})", var).captures) for var in pca_val_df.variant]
 pca_val_df.ESM_SSP = [first(match(r"([[:upper:]]{4}-[[:lower:]]{3}\d{3})", var).captures) for var in pca_val_df.variant]
+
+# Quantify the separation between decades and between ESMs in PC space
+esm_separation = (
+    [mean(pca_val_df[pca_val_df.ESM .== "CNRM", :PC1]), mean(pca_val_df[pca_val_df.ESM .== "CNRM", :PC2])] .-
+    [mean(pca_val_df[pca_val_df.ESM .== "GFDL", :PC1]), mean(pca_val_df[pca_val_df.ESM .== "GFDL", :PC2])]
+)
+decade_separation = (
+    [mean(pca_val_df[pca_val_df.decade .== "2060-2069", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2060-2069", :PC2])] .-
+    [mean(pca_val_df[pca_val_df.decade .== "2050-2059", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2050-2059", :PC2])] .-
+    [mean(pca_val_df[pca_val_df.decade .== "2040-2049", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2040-2049", :PC2])] .-
+    [mean(pca_val_df[pca_val_df.decade .== "2030-2039", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2030-2039", :PC2])] .-
+    [mean(pca_val_df[pca_val_df.decade .== "2020-2029", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2020-2029", :PC2])] .-
+    [mean(pca_val_df[pca_val_df.decade .== "2010-2019", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2010-2019", :PC2])]
+)
+pca_loadings = DataFrame(hcat(rescaled_vars, projection(M_pca)), ["guild", "PC1_loading", "PC2_loading"])
+
+# Calculate the angle between PCA loadings and the separation vectors
+function cos_similarity(a, b)
+    return clamp(a⋅b/(norm(a)*norm(b)), -1, 1)
+end
+
+# Calculate angles to loadings
+pca_loadings.esm_sep_similarity .= [abs(cos_similarity(esm_separation, [row.PC1_loading, row.PC2_loading])) for row in eachrow(pca_loadings)]
+pca_loadings.decade_sep_similarity .= [abs(cos_similarity(decade_separation, [row.PC1_loading, row.PC2_loading])) for row in eachrow(pca_loadings)]
+pca_loadings = sort(pca_loadings, :esm_sep_similarity, rev=true)
+pca_loadings.guild_clean_names = getindex.([guild_clean_names], pca_loadings.guild)
+
+# Define guilds that have an angle of less than 30 degrees
+esm_sep_guilds = pca_loadings[pca_loadings.esm_sep_similarity .>= cosd(30), :guild]
+decade_sep_guilds = pca_loadings[pca_loadings.decade_sep_similarity .>= cosd(30), :guild]
 
 # Plot PCA data
 fig_opts = (;
@@ -177,7 +235,7 @@ ax2 = Axis(
     aspect=1
 )
 # Draw arrows for variables
-for (i, output) in enumerate(guilds)
+for (i, output) in enumerate(guilds[guilds .!= "netprimprod"])
     arrows2d!(ax2, [mean(y_pca[1, :])], [mean(y_pca[2, :])], [corr_circle[i,1]], [corr_circle[i,2]], 
             shaftwidth=2, color=guild_individual_colours[output], alpha=0.6)
 end
@@ -188,11 +246,11 @@ lines!(ax2, [first(decade_separation), -first(decade_separation)], [last(decade_
 Label(fig.layout[1,1, TopLeft()], "A", font=:bold)
 Label(fig.layout[1,2, TopLeft()], "B", font=:bold)
 
-legend_entries = [PolyElement(color=guild_individual_colours[guild]) for guild in guilds]
+legend_entries = [PolyElement(color=guild_individual_colours[guild]) for guild in guilds[guilds .!= "netprimprod"]]
 Legend(
     fig[2,2],
     legend_entries,
-    guilds,
+    guilds[guilds .!= "netprimprod"],
     nbanks=2,
     patchsize = (5,5),
     title="Guild",
@@ -219,36 +277,6 @@ linkxaxes!(ax, ax2)
 
 save("../figs/initial_cc_assessment/biomass_pca.png", fig, px_per_unit=dpi)
 
-# Quantify the separation between decades and between ESMs in PC space
-esm_separation = (
-    [mean(pca_val_df[pca_val_df.ESM .== "CNRM", :PC1]), mean(pca_val_df[pca_val_df.ESM .== "CNRM", :PC2])] .-
-    [mean(pca_val_df[pca_val_df.ESM .== "GFDL", :PC1]), mean(pca_val_df[pca_val_df.ESM .== "GFDL", :PC2])]
-)
-decade_separation = (
-    [mean(pca_val_df[pca_val_df.decade .== "2060-2069", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2060-2069", :PC2])] .-
-    [mean(pca_val_df[pca_val_df.decade .== "2050-2059", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2050-2059", :PC2])] .-
-    [mean(pca_val_df[pca_val_df.decade .== "2040-2049", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2040-2049", :PC2])] .-
-    [mean(pca_val_df[pca_val_df.decade .== "2030-2039", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2030-2039", :PC2])] .-
-    [mean(pca_val_df[pca_val_df.decade .== "2020-2029", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2020-2029", :PC2])] .-
-    [mean(pca_val_df[pca_val_df.decade .== "2010-2019", :PC1]), mean(pca_val_df[pca_val_df.decade .== "2010-2019", :PC2])]
-)
-pca_loadings = DataFrame(hcat(rescaled_vars, projection(M_pca)), ["guild", "PC1_loading", "PC2_loading"])
-
-# Calculate the angle between PCA loadings and the separation vectors
-function cos_similarity(a, b)
-    return clamp(a⋅b/(norm(a)*norm(b)), -1, 1)
-end
-
-# Calculate angles to loadings
-pca_loadings.esm_sep_similarity .= [abs(cos_similarity(esm_separation, [row.PC1_loading, row.PC2_loading])) for row in eachrow(pca_loadings)]
-pca_loadings.decade_sep_similarity .= [abs(cos_similarity(decade_separation, [row.PC1_loading, row.PC2_loading])) for row in eachrow(pca_loadings)]
-pca_loadings = sort(pca_loadings, :esm_sep_similarity, rev=true)
-pca_loadings.guild_clean_names = getindex.([guild_clean_names], pca_loadings.guild)
-
-# Define guilds that have an angle of less than 30 degrees
-esm_sep_guilds = pca_loadings[pca_loadings.esm_sep_similarity .>= cosd(30), :guild]
-decade_sep_guilds = pca_loadings[pca_loadings.decade_sep_similarity .>= cosd(30), :guild]
-
 # Plot the guild anlges to the separation vectors (small plot with thresholds indicated)
 fig = Figure(
     fontsize = fontsize,
@@ -267,6 +295,7 @@ save("../figs/initial_cc_assessment/decade_esm_separation_quantified.png", fig, 
 
 # 3. Plotting ecosystem mean trophic level over time
 indices_files = readdir("../outputs/initial_runs/", join=true)
+indices_files = indices_files[isdir.(indices_files)]
 indices_files = vcat(readdir.(indices_files; join=true)...)
 indices_files = indices_files[contains.(indices_files, ["ecosystem_indices"])]
 indices_files = indices_files[contains.(indices_files, "csv")]
@@ -488,6 +517,7 @@ save("../figs/initial_cc_assessment/decade_sep_guilds_nitrogen_sources.png", fig
 # This information is saved out to csvs for creating tables for communication of high turnover rates of dfish
 
 prod_files = readdir("../outputs/initial_runs/", join=true)
+prod_files = prod_files[isdir.(prod_files)]
 prod_files = vcat(readdir.(prod_files; join=true)...)
 prod_files = prod_files[contains.(prod_files, ["trophic_prod"])]
 
@@ -519,3 +549,81 @@ for col in desired_col_labels
     sub_wide_dfish[!, col] = round.(sub_wide_dfish[:, col], sigdigits=4)
 end
 CSV.write("../outputs/initial_runs/demersal_fish_rates_variants_filtered.csv", sub_wide_dfish)
+
+
+# Demersal fish parameter sensitivity
+target_guilds = ["Planktivorous_fish", "Demersal_fish", "Demersal_fish_larvae", "Birds", "Cetaceans"]
+
+param_permutations = CSV.read("../outputs/initial_runs/demfish_sens_params.csv", DataFrame)[:, 2:5]
+param_permutations = stack(param_permutations, Not([:param_name, :param_id]), variable_name = :ESM, value_name = :param_value)
+sens_variants = ["2010-2019-CNRM-ssp370", "2010-2019-GFDL-ssp370"]
+
+base_params = CSV.read("../outputs/initial_runs/demfish_sens_base_params.csv", DataFrame)
+base_params = stack(base_params, Not(:param_name), variable_name = :ESM, value_name = :param_value)
+
+for tg in target_guilds
+    param_permutations[!, tg] .= 0.0
+    base_params[!, tg] .= 0.0
+end
+
+for variant in sens_variants
+    esm = first(match(r"([[:upper:]]{4})", variant).captures)
+    perm_files = readdir("../outputs/initial_runs/$(variant)/demfish_sens/"; join = true)
+    perm_files = perm_files[contains.(perm_files, ["final_year"])]
+
+    for pn in unique(param_permutations.param_id)
+        pfn = first(perm_files[contains.(perm_files, ["p$(pn).csv"])])
+        final_year = CSV.read(pfn, DataFrame)
+        
+        for tg in target_guilds
+            tg_mass = first(final_year[final_year.Description .== tg, :].Model_annual_mean)
+            param_permutations[(param_permutations.ESM .== esm) .& (param_permutations.param_id .== pn), tg] .= tg_mass
+        end
+    end
+
+    for tg in target_guilds
+        tg_mean_mass = first(result_df_lines[(result_df_lines.Description .== tg) .& (result_df_lines.variant .== variant), :].Model_annual_mean)
+        base_params[base_params.ESM .== esm, tg] .= tg_mean_mass
+    end
+end
+
+param_permutations = stack(param_permutations, Not([:param_name, :ESM, :param_value, :param_id]), variable_name = :guild, value_name = :biomass)
+param_permutations.guild_clean_name = getindex.([guild_clean_names], param_permutations.guild)
+base_params = stack(base_params, Not([:param_name, :ESM, :param_value]), variable_name = :guild, value_name = :biomass)
+base_params.guild_clean_name = getindex.([guild_clean_names], base_params.guild)
+
+fig_opts = (;
+    fontsize = fontsize,
+    size = (18.42centimetre, 18.42centimetre)
+)
+facet_opts = (; linkxaxes=:none)
+legend_opts = (; position=:bottom)
+axis_opts = (; xticklabelrotation = π/4)
+
+# Plots for larval parameter sensitivity analysis
+lar_params_scale = scales(
+    X = (; label = "Parameter value"), 
+    Y = (; label = "Annual average biomass\n[mMN ⋅ gWW⁻¹]"),
+    Color = (; label = "Earth System Model", categories = ESM_categories),
+    Row = (; categories = param_categories[contains.(first.(param_categories), ["lar"])])
+)
+
+demfishlar_sens_scatter = data(param_permutations[contains.(param_permutations.param_name, ["lar"]), :]) * mapping(:param_value, :biomass, color=:ESM, row=:param_name, col=:guild_clean_name) * visual(Scatter; alpha=0.4)
+demfishlar_sens_means = data(base_params[contains.(base_params.param_name, ["lar"]), :]) * mapping(:param_value, :biomass, row=:param_name, col = :guild_clean_name) * visual(Scatter, alpha = 0.4, marker=:utriangle, color=:red, markersize=15)
+
+demfishlar_sens_fig = draw(demfishlar_sens_scatter + demfishlar_sens_means, lar_params_scale; facet=facet_opts, figure=fig_opts, legend=legend_opts, axis=axis_opts)
+save("../figs/initial_cc_assessment/demfishlar_param_sens.png", demfishlar_sens_fig, px_per_unit=dpi)
+
+# Plots for adult parameter sensitivity analysis
+dfish_params_scale = scales(
+    X = (; label = "Parameter value"), 
+    Y = (; label = "Annual average biomass\n[mMN ⋅ gWW⁻¹]"),
+    Color = (; label = "Earth System Model", categories = ESM_categories),
+    Row = (; categories = param_categories[.!contains.(first.(param_categories), ["lar"])])
+)
+
+dfish_sens_scatter = data(param_permutations[.!contains.(param_permutations.param_name, ["lar"]), :]) * mapping(:param_value, :biomass, color=:ESM, row=:param_name, col=:guild_clean_name) * visual(Scatter; alpha=0.4)
+dfish_sens_means = data(base_params[.!contains.(base_params.param_name, ["lar"]), :]) * mapping(:param_value, :biomass, row=:param_name, col = :guild_clean_name) * visual(Scatter, alpha = 0.4, marker=:utriangle, color=:red, markersize=15)
+
+dfish_sens_fig = draw(dfish_sens_scatter + dfish_sens_means, dfish_params_scale; facet=facet_opts, figure=fig_opts, legend=legend_opts, axis=axis_opts)
+save("../figs/initial_cc_assessment/demfish_param_sens.png", dfish_sens_fig, px_per_unit=dpi)

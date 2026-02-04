@@ -23,6 +23,9 @@ base_params <- sapply(
         sapply(params, function(x) {model_e$data$fitted.parameters[[x]]})
     }
 )
+base_params_save <- as.data.frame(base_params)
+base_params_save$param_name <- rownames(base_params)
+write.csv(base_params_save, "./outputs/initial_runs/demfish_sens_base_params.csv", row.names = FALSE)
 
 variants <- c("2010-2019-CNRM-ssp370", "2010-2019-GFDL-ssp370") # Run only a subset of variants due to computational constraints
 variation <- 0.25
