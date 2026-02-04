@@ -25,7 +25,7 @@ base_params <- sapply(
 )
 
 variation <- 0.25
-steps <- 100
+steps <- 50
 
 sampled_params <- lapply(
     esms,
