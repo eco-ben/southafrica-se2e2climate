@@ -24,8 +24,9 @@ base_params <- sapply(
     }
 )
 
+variants <- c("2010-2019-CNRM-ssp370", "2010-2019-GFDL-ssp370") # Run only a subset of variants due to computational constraints
 variation <- 0.25
-steps <- 50
+steps <- 100
 
 sampled_params <- lapply(
     esms,
@@ -34,7 +35,7 @@ sampled_params <- lapply(
         lapply(params, function(x) {
             base_val <- base_p[x]
             sampled_p <- seq(base_val * (1 - variation), base_val * (1 + variation), length.out = steps)
-            return(data.frame(param_name = rep(x, 100), param_value = sampled_p))
+            return(data.frame(param_name = rep(x, steps), param_value = sampled_p))
         })
     }
 )
@@ -42,7 +43,7 @@ sampled_params <- lapply(sampled_params, function(x) {do.call(rbind, x)})
 for(i in 1:length(sampled_params)) {sampled_params[[i]]$esm <- esms[i]}
 
 param_runs <- do.call(rbind, sampled_params)
-param_runs$param_id <- rep(seq(1, length(params) * 100), 2)
+param_runs$param_id <- rep(seq(1, length(params) * steps), 2)
 param_runs <- pivot_wider(param_runs, id_cols = c(param_name, param_id), names_from = esm, values_from = param_value)
 write.csv(param_runs, file.path(results_path_base, "demfish_sens_params.csv"))
 
@@ -63,5 +64,5 @@ param_run <- function(variant, param_row) {
 
 for (variant in variants) {
     param_list <- split(param_runs, param_runs$param_id)
-    future_walk(param_list, function(x) {param_run(variant, x)})
+    future_walk(param_list, function(x) {param_run(variant, x)}, .progress = TRUE)
 }
