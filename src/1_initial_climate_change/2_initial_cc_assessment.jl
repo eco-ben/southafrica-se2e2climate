@@ -54,6 +54,9 @@ result_df_lines.guild_clean = getindex.([guild_clean_names], result_df_lines.Des
 result_df_lines[!, :min_quant] .= 0.0
 result_df_lines[!, :max_quant] .= 0.0
 
+result_df[!, :min_quant] .= 0.0
+result_df[!, :max_quant] .= 0.0
+
 for variant in variants
     mc_dir = joinpath(monte_carlo_dir, variant, "CredInt")
     aam_files = readdir(mc_dir; join=true)
@@ -65,9 +68,11 @@ for variant in variants
         
         guild_low_quant = first(aam_mc[aam_mc.Column1 .== "lowlimit", se2e_mc_guilds[guild]])
         result_df_lines[(result_df_lines.variant .== variant) .& (result_df_lines.Description .== guild), :min_quant] .= guild_low_quant
+        result_df[(result_df.variant .== variant) .& (result_df.Description .== guild), :min_quant] .= guild_low_quant
 
         guild_upp_quant = first(aam_mc[aam_mc.Column1 .== "upplimit", se2e_mc_guilds[guild]])
         result_df_lines[(result_df_lines.variant .== variant) .& (result_df_lines.Description .== guild), :max_quant] .= guild_upp_quant
+        result_df[(result_df.variant .== variant) .& (result_df.Description .== guild), :max_quant] .= guild_upp_quant
     end
 end
 
@@ -86,19 +91,23 @@ legend_opts = (; position=:bottom)
 axis_opts = (; xticklabelrotation = π/4)
 
 biomass_timeseries = data(result_df_lines) * mapping(:decade, :Model_annual_mean, color=:ESM, linestyle=:SSP, layout=:guild_clean) * visual(Lines)
-# biomass_bands_1 = data(result_df_lines[result_df_lines.SSP .== "ssp126", :]) * mapping(:decade, :min_quant, :max_quant, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
-# biomass_bands_2 = data(result_df_lines[result_df_lines.SSP .== "ssp370", :]) * mapping(:decade, :min_quant, :max_quant, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
+biomass_bands_1 = data(result_df_lines[result_df_lines.SSP .== "ssp126", :]) * mapping(:decade, :min_quant, :max_quant, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
+biomass_bands_2 = data(result_df_lines[result_df_lines.SSP .== "ssp370", :]) * mapping(:decade, :min_quant, :max_quant, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
 
-# biomass_ts_fig = draw(biomass_timeseries + biomass_bands_1 + biomass_bands_2, scale; facet=facet_opts, figure=fig_opts, legend=legend_opts, axis=axis_opts)
-biomass_ts_fig = draw(biomass_timeseries, scale; facet=facet_opts, figure=fig_opts, legend=legend_opts, axis=axis_opts)
+biomass_ts_fig = draw(biomass_timeseries + biomass_bands_1 + biomass_bands_2, scale; facet=facet_opts, figure=fig_opts, legend=legend_opts, axis=axis_opts)
+# biomass_ts_fig = draw(biomass_timeseries, scale; facet=facet_opts, figure=fig_opts, legend=legend_opts, axis=axis_opts)
 
-save("../figs/initial_cc_assessment/biomass_timeseries.png", biomass_ts_fig, px_per_unit=dpi)
+save("../figs/initial_cc_assessment/biomass_timeseries_mc.png", biomass_ts_fig, px_per_unit=dpi)
 
 # Additionally calculate percentage change data
 percent_change = combine(groupby(result_df_lines, [:Description, :ESM_SSP, :ESM, :SSP, :guild_clean])) do sdf
-    baseline = sdf[sdf.decade .== "2010-2019", :Model_annual_mean]
+    baseline_median = sdf[sdf.decade .== "2010-2019", :Model_annual_mean]
+    baseline_min = sdf[sdf.decade .== "2010-2019", :min_quant]
+    baseline_max = sdf[sdf.decade .== "2010-2019", :max_quant]
     (
-        percent_change = (sdf.Model_annual_mean ./ baseline) .* 100 .- 100,
+        percent_change_median = ((sdf.Model_annual_mean .- baseline_median) ./ baseline_median ).* 100,
+        percent_change_min = ((sdf.min_quant .- baseline_median) ./ baseline_median) .* 100,
+        percent_change_max = ((sdf.max_quant .- baseline_median) ./ baseline_median) .* 100,
         decade = sdf.decade
     )
 end
@@ -109,10 +118,13 @@ scale = scales(
     Color = (; label = "Earth System Model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
     LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
 )
-percent_timeseries = data(percent_change) * mapping(:decade, :percent_change, color=:ESM, linestyle=:SSP, layout=:guild_clean) * visual(Lines)
-percent_ts_fig = draw(percent_timeseries, scale; facet=facet_opts, figure=fig_opts, legend=legend_opts, axis=axis_opts)
+percent_timeseries = data(percent_change) * mapping(:decade, :percent_change_median, color=:ESM, linestyle=:SSP, layout=:guild_clean) * visual(Lines)
+percent_bands_1 = data(percent_change[percent_change.SSP .== "ssp126", :]) * mapping(:decade, :percent_change_min, :percent_change_max, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
+percent_bands_2 = data(percent_change[percent_change.SSP .== "ssp370", :]) * mapping(:decade, :percent_change_min, :percent_change_max, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
 
-save("../figs/initial_cc_assessment/percent_biomass_timeseries.png", percent_ts_fig, px_per_unit=dpi)
+percent_ts_fig = draw(percent_timeseries + percent_bands_1 + percent_bands_2, scale; figure=fig_opts, legend=legend_opts, axis=axis_opts)
+
+save("../figs/initial_cc_assessment/percent_biomass_timeseries_mc.png", percent_ts_fig, px_per_unit=dpi)
 
 
 # 2. plotting and analyses of biomass PCA
@@ -120,18 +132,41 @@ save("../figs/initial_cc_assessment/percent_biomass_timeseries.png", percent_ts_
 result_df_wide = unstack(result_df, :variant, :Description, :Model_annual_mean)
 result_df_wide = result_df_wide[:, ["variant"; guilds[guilds .!= "netprimprod"]]]
 result_wide_standard = result_df_wide
+result_wide_standard.type .= "median"
+
+result_df_min = unstack(result_df, :variant, :Description, :min_quant)
+result_df_min = result_df_min[:, ["variant"; guilds[guilds .!= "netprimprod"]]]
+result_df_min.type .= "min_quant"
+
+result_df_max = unstack(result_df, :variant, :Description, :max_quant)
+result_df_max = result_df_max[:, ["variant"; guilds[guilds .!= "netprimprod"]]]
+result_df_max.type .= "max_quant"
+
+result_wide_all = vcat(result_wide_standard, result_df_min, result_df_max)
 
 # Rescale variables
 rescaled_vars = guilds[guilds .!= "netprimprod"]
 for col in rescaled_vars
-    if all(result_wide_standard[:, col] .== 0.0) continue end
-    μ, σ = rescale!(result_wide_standard[!, col])
+    if all(result_wide_all[:, col] .== 0.0) continue end
+    μ, σ = rescale!(result_wide_all[!, col])
 end
 
 # Perform PCA 
-M_pca = fit(PCA, Matrix{Float64}(Matrix(result_df_wide[:, rescaled_vars])'); maxoutdim=2)
-y_pca = predict(M_pca, Matrix{Float64}(Matrix(result_df_wide[:, rescaled_vars])'))
-pca_val_df = DataFrame(variant = result_wide_standard.variant, PC1 = y_pca[1, :], PC2 = y_pca[2, :])
+M_pca = fit(PCA, Matrix{Float64}(Matrix(result_wide_all[result_wide_all.type .== "median", rescaled_vars])'); maxoutdim=2)
+y_pca = predict(M_pca, Matrix{Float64}(Matrix(result_wide_all[result_wide_all.type .== "median", rescaled_vars])'))
+
+min_pca = predict(M_pca, Matrix{Float64}(Matrix(result_wide_all[result_wide_all.type .== "min_quant", rescaled_vars])'))
+max_pca = predict(M_pca, Matrix{Float64}(Matrix(result_wide_all[result_wide_all.type .== "max_quant", rescaled_vars])'))
+
+pca_val_df = DataFrame(
+    variant = result_wide_standard.variant, 
+    PC1 = y_pca[1, :], 
+    PC2 = y_pca[2, :],
+    min_PC1 = min_pca[1, :],
+    min_PC2 = min_pca[2, :],
+    max_PC1 = max_pca[1, :],
+    max_PC2 = max_pca[2, :]
+)
 
 pca_val_df.decade = [first(match(r"(\d{4}-\d{4})", var).captures) for var in pca_val_df.variant]
 pca_val_df.ESM = [first(match(r"([[:upper:]]{4})", var).captures) for var in pca_val_df.variant]
@@ -168,6 +203,18 @@ pca_loadings.guild_clean_names = getindex.([guild_clean_names], pca_loadings.gui
 esm_sep_guilds = pca_loadings[pca_loadings.esm_sep_similarity .>= cosd(30), :guild]
 decade_sep_guilds = pca_loadings[pca_loadings.decade_sep_similarity .>= cosd(30), :guild]
 
+# Make plotting PCA confidence interval polygons
+pca_polygons = combine(groupby(pca_val_df, [:ESM, :SSP])) do sdf
+    min_points = GB.Point.(tuple.(sdf.min_PC1, sdf.min_PC2))
+    max_points = GB.Point.(tuple.(sdf.max_PC1, sdf.max_PC2))
+    
+    all_points = vcat(min_points, max_points)
+    hull = GO.convex_hull(all_points)
+    (
+        ;geometry = hull
+    )
+end
+
 # Plot PCA data
 fig_opts = (;
     fontsize = fontsize,
@@ -181,7 +228,9 @@ axis_opts = (; aspect=1)
 legend_opts = (; position=:bottom, tellheight=false, tellwidth=false, nbanks=2)
 
 line = data(pca_val_df) * mapping(:PC1, :PC2, color=:ESM, linestyle=:SSP) * visual(Lines)
-pca_line_fig = draw(line, scale; figure=fig_opts, axis=axis_opts, legend=legend_opts)
+pca_bands_1 = data(pca_polygons[pca_polygons.SSP .== "ssp126", :]) * mapping(:geometry, color=:ESM) * visual(Poly; alpha = 0.2)
+pca_bands_2 = data(pca_polygons[pca_polygons.SSP .== "ssp370", :]) * mapping(:geometry, color=:ESM) * visual(Poly; alpha = 0.2)
+pca_line_fig = draw(line + pca_bands_1 + pca_bands_2, scale; figure=fig_opts, axis=axis_opts, legend=legend_opts)
 
 fig = pca_line_fig.figure
 ax = first(filter(x -> isa(x, Axis), fig.content))
@@ -275,7 +324,7 @@ rowgap!(fig.layout, 2, Relative(0.05))
 linkyaxes!(ax, ax2)
 linkxaxes!(ax, ax2)
 
-save("../figs/initial_cc_assessment/biomass_pca.png", fig, px_per_unit=dpi)
+save("../figs/initial_cc_assessment/biomass_pca_mc.png", fig, px_per_unit=dpi)
 
 # Plot the guild anlges to the separation vectors (small plot with thresholds indicated)
 fig = Figure(
@@ -539,10 +588,10 @@ wide_trophic_prod = wide_trophic_prod[wide_trophic_prod.Rate .∈ [[
 
 CSV.write("../outputs/initial_runs/demersal_fish_rates_variants.csv", wide_trophic_prod)
 
-desired_col_labels = ["Demersal fish 2010-2019-CNRM-ssp370", 
-    "Demersal fish 2060-2069-CNRM-ssp370", 
-    "Demersal fish larvae 2010-2019-CNRM-ssp370", 
-    "Demersal fish larvae 2060-2069-CNRM-ssp370"
+desired_col_labels = ["Demersal fish 2010-2019-CNRM-ssp370",
+    "Demersal fish larvae 2010-2019-CNRM-ssp370",
+    "Demersal fish 2010-2019-GFDL-ssp370",
+    "Demersal fish larvae 2010-2019-GFDL-ssp370"
 ]
 sub_wide_dfish = wide_trophic_prod[:, ["Rate"; desired_col_labels]]
 for col in desired_col_labels
