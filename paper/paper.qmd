@@ -237,28 +237,27 @@ the ESMs in PC space. We then quantify the guild's contribution as the angle bet
 biomass PCA loadings and the variation vectors, selecting guilds that strongly correlate
 with across decade and ESM variation.
 
-Following initial climate change analyses, both CNRM-CM6-1-HR and GFDL-ESM4 StrathE2E
-models for the Southern Benguela ecosystem experienced high levels of parameter 
-uncertainty (@fig-biomass-timeseries). High parameter uncertainty indicates low confidence 
-in forcasted model values. As a result, this investigation does not focus on specific
-predictions of guild biomasses. Instead, this investigation focusses on identifying
-causal drivers of change in the ecosystem using environmental driver experiments.
-This experimental rather than predictive approach emphasises the utility of a 
-computationally efficient end-to-end ecosystem model in a data-poor context.
+Following initial climate change analyses, both CNRM-CM6-1-HR and GFDL-ESM4 StrathE2E models
+for the Southern Benguela ecosystem experienced high levels of parameter uncertainty
+(@fig-biomass-timeseries). High parameter uncertainty indicates low confidence in forcasted
+model values. As a result, this investigation does not focus on specific predictions of
+guild biomasses. Instead, this investigation focusses on identifying causal drivers of
+change in the ecosystem using environmental driver experiments. This experimental rather
+than predictive approach emphasises the utility of a computationally efficient end-to-end
+ecosystem model in a data-poor context.
 
 ## Demersal fish sensitivity analysis
 
-Initial results from the StrathE2E models identified high parameter uncertainty
-for closely linked predatory guilds such as planktivorous fish, demersal fish,
-pinnipeds, birds and cetaceans, likely due to high reliance of demersal fish on 
-recruitment for biomass maintainence **\[Need to include supplementary table showing dfish biomass rates.\]**. 
-To investigate the influence of demersal fish
-larvae parameterisation on predatory guilds a One-at-a-Time local sensitivity analysis
-was performed. Demersal fish larvae density dependent mortality; nitrogen uptake
-half-saturation coefficient; and maximum nitrogen uptake rate parameter values were
-sampled in 100 evenly spaced steps from -25% to +25% of the base parameter value from
-CNRM-CM6-1-HR and GFDL-ESM4 models respectively. A total of 600 model runs were
-performed (300 for each parameterised StrathE2E model).
+Initial results from the StrathE2E models identified high parameter uncertainty for closely
+linked predatory guilds such as planktivorous fish, demersal fish, pinnipeds, birds and
+cetaceans, likely due to high reliance of demersal fish on recruitment for biomass
+maintainence **\[Need to include supplementary table showing dfish biomass rates.\]**. To
+investigate the influence of demersal fish larvae parameterisation on predatory guilds a
+One-at-a-Time local sensitivity analysis was performed. Demersal fish larvae density
+dependent mortality; nitrogen uptake half-saturation coefficient; and maximum nitrogen
+uptake rate parameter values were sampled in 100 evenly spaced steps from -25% to +25% of
+the base parameter value from CNRM-CM6-1-HR and GFDL-ESM4 models respectively. A total of
+600 model runs were performed (300 for each parameterised StrathE2E model).
 
 ## Climate permutation analyses
 
@@ -279,7 +278,7 @@ value of each variable for each of the target guild biomass result sets.
 | \*\_nitrate, \*\_ammonia, \*\_phyt, \*\_detritus | Volume nutrient concentrations | Nutrient concentrations for each water volume (so, si and d). | Decade, ESM, SSP |
 | so_atmnitrate, so_atmammonia, si_atmnitrate, si_atmammonia | Atmospheric nutrient flux | Deposition rates of nitrate and ammonia into surface water volumes. | Decade, SSP |
 
-: Environmental driving variables that are altered in climate permutation analyses and the
+: Environmental driving variables that are altered in climate permutation analyses, the
 groups allocated to variables, and levels they vary across. All other chemistry and physics
 driving variables are constant across variants of the Southern Benguela StrathE2E2 model.
 {#tbl-variable-groups}
@@ -366,14 +365,14 @@ interactions.
 ## Future climate impacts
 
 The StrathE2E models for the Southern Benguela experience high parameter uncertainty,
-resulting in large biomass confidence intervals for all guilds (@fig-biomass-timeseries).
-As a result, this investigation does not assess predicted future biomass levels.
-Despite large timeseries confidence intervals, these confidence bands remain largely
-uniform under climate change (excluding demersal fish, demersal fish larvae and pinnipeds)
-(@fig-biomass-timeseries), highlighting the consistent effects of climate change
-across investigated parameter sets. This is most evident for Omnivorous zooplankton,
-suspension/deposit feeding Benthos, and system total nitrogen mass, which maintain
-distinct differences across ESMs despite high parameter uncertainty.
+resulting in large biomass confidence intervals for all guilds (@fig-biomass-timeseries). As
+a result, this investigation does not assess predicted future biomass levels. Despite large
+timeseries confidence intervals, these confidence bands remain largely uniform under climate
+change (excluding demersal fish, demersal fish larvae and pinnipeds)
+(@fig-biomass-timeseries), highlighting the consistent effects of climate change across
+investigated parameter sets. This is most evident for Omnivorous zooplankton, and total
+nitrogen mass, experiencing diverging trajectories across ESMs despite large confidence
+intervals.
 
 ![Final year, whole - domain, biomass conditions for each decade of forcing data under each
 future scenario. The y axis represents the mean final year biomass in millimoles of Nitrogen
@@ -384,16 +383,15 @@ lines and SSP3-7.0 with dashed
 lines.](../figs/initial_cc_assessment/biomass_timeseries.png){#fig-biomass-timeseries
 width="14.82cm"}
 
-Demersal fish, demersal fish larvae and pinnipeds are particularly sensitive to
-changes in model parameters (@fig-biomass-timeseries), experiencing broader confidence
-intervals than lower trophic level guilds (@sfig-percent-biomass-timeseries).
-Guild production rates for demersal fish show that modelled demersal fish gain
-greater nitrogen mass from recruitment than from consumption, with recruitment sustaining
-net production at a positive level (@stbl-dfish-biology). A local
-sensitivity analysis on demersal fish larvae physiological parameters revealed that
-planktivorous fish, demersal fish, pinnipeds, birds and cetaceans are highly sensitive
-to demersal fish larvae maximum nitrate uptake rate and nitrogen uptake half-saturation
-coefficient values.
+Demersal fish, demersal fish larvae and pinnipeds are particularly sensitive to changes in
+model parameters (@fig-biomass-timeseries), experiencing broader confidence intervals than
+lower trophic level guilds (@sfig-percent-biomass-timeseries). Guild production rates for
+demersal fish show that modelled demersal fish gain greater nitrogen mass from recruitment
+than from consumption, with recruitment sustaining net production at a positive level
+(@stbl-dfish-biology). A local sensitivity analysis on demersal fish larvae physiological
+parameters revealed that planktivorous fish, demersal fish, pinnipeds, birds and cetaceans
+are highly sensitive to demersal fish larvae maximum nitrate uptake rate and nitrogen uptake
+half-saturation coefficient values.
 
 ```{julia}
 #| echo: false
@@ -429,15 +427,15 @@ lines.](../figs/initial_cc_assessment/net_primary_production_timeseries.png){#fi
 width="12cm"}
 
 Principal Component Analysis highlights the influence of decadal changes and Earth System
-Model choice on overall modelled ecosystem biomass states, explaining 72% of ecosystem
-biomass variance using two principal components. Guild contributions to the principal
-components (loadings; @fig-biomass-pca, Panel B) indicate which guilds align with
-differences in the ecosystem across decades and differences in the modelled ecosystem across
-the two Earth System Models used. Benthos Suspension/Deposit Feeders, Omnivorous
-Zooplankton, surface layer Phytoplankton, total nitrogen mass and Carnivorous Zooplankton
-align strongly with ecosystem changes across the Earth System Models (@sfig-pca-separation).
-Pinnipeds, Demersal fish, deep layer Phytoplankton, Birds, Benthos Carnivorous/Scavenge
-Feeders and Cetaceans align strongly with ecosystem changes over time under climate change.
+Model choice on overall modelled ecosystem biomass states. The first two principal
+components explain 72% of ecosystem biomass variance. Guild contributions to the principal
+components (loadings; @fig-biomass-pca, Panel B) indicate guilds that contribute to
+ecosystem divergence in median biomass states between ESMs over time. Benthos
+Suspension/Deposit Feeders, Omnivorous zooplankton, surface layer Phytoplankton, total
+nitrogen mass and Carnivorous zooplankton align strongly with ecosystem state changes across
+the Earth System Models (@sfig-pca-separation). Pinnipeds, Demersal fish, deep layer
+Phytoplankton, Birds, Benthos Carnivorous/Scavenge Feeders and Cetaceans align strongly with
+ecosystem changes across decades.
 
 ![Panel A: PCA results for final year biomass conditions for each decade of forcing data
 under each future scenario and Earth System Model. The line colours represent the two
@@ -501,16 +499,11 @@ width="14.82cm"}
 
 Modelling the Southern Bengeula ecosystem using StrathE2E models highlights a strong
 possible influence of climate change on the system, particularly for net primary
-productivity and total nitrogen mass. Despite high levels of parameter uncertainty
-under present and future conditions, future changes in temperature and water movement 
-within and in/out of the system may strongly effect ecosystem functioning.
+productivity and total nitrogen mass. Despite high levels of parameter uncertainty under
+present and future conditions, future changes in temperature and water movement within and
+in/out of the system may strongly effect ecosystem functioning.
 
--   **Possible future ecosystem states and their meanings for Southern Benguela ecosystem:**
-
-Due to high parameter uncertainty evident in modelled guild outputs, this investigation
-does not focus on specific predictions of guild biomass under climate change.
-
-The results of this investigation suggest the Southern Benguela ecosystem is projected to
+<!-- The results of this investigation suggest the Southern Benguela ecosystem is projected to
 change substantially from a 2010-2019 baseline. While benthos, phytoplankton and
 planktivorous fish guilds are projected to decline, declines are not projected to cause
 trophic cascades to top predators such as cetaceans, birds and demersal fish. Climate driven
@@ -523,7 +516,7 @@ Lobster *Jasus lalandii* in the region are correlated with changes in upwelling
 feeding benthos may decline under climate change in the modelled region.
 
 **For Kelly: Would you be able to expand on the consequences of the possible result
-trajectories for the ecosystem?**
+trajectories for the ecosystem?** -->
 
 **Guilds with strong decadal trends and low ESM differences:**
 
@@ -540,9 +533,9 @@ paradoxus*).
 
 It has been suggested that Cape Hake in the northern Benguela region (Namibia) experience
 high annual variability in stock biomass [@macpherson1991] and recruitment [@kainge2013].
-This investigation suggests that projections for demersal fish, 
-and top predators, under climate change are highly uncertain due to their sensitivity to
-demersal fish larval parameters.
+This investigation suggests that projections for demersal fish, and top predators, under
+climate change are highly uncertain due to their sensitivity to demersal fish larval
+parameters.
 
 Under climate change predatory guilds are predicted to change in consistent ways across
 ESMs, with many predatory guilds showing substantial increases in biomass relative to
@@ -584,7 +577,7 @@ using Atlantis, Ecopath with Ecosim, and StrathE2E would improve understanding a
 possible magnitude and drivers of climate change impacts, enhancing informed decision making
 processes [@hill2007].
 
--   **High scenario uncertainty (structural uncertainty in Earth System Modelling) and
+- **High scenario uncertainty (structural uncertainty in Earth System Modelling) and
     associated driving variables:**
 
 The choice of the two Earth System Models for forcing StrathE2E strongly influences
@@ -628,6 +621,25 @@ states, allowing the focussing of monitoring and trend assessment efforts.
 
 **For Kelly: Would you be able to expand on any monitoring or modelling efforts that are
 focussed on upwelling?**
+
+-   **Highlighting why prediction is not the :**
+
+Due to high parameter uncertainty evident in modelled guild outputs, this investigation does
+not focus on specific predictions of guild biomass under climate change. Overall, modelled
+trends have large confidence intervals for the biomass levels of all guilds. High
+uncertainty arising from parameter estimates may be due to biased or inconsistent target
+data used for fitting [@hilborn1992]. While parameterised using data spanning 2010-2019
+where possible, target data for guild production rates and P:B ratios were sourced from
+ecological models of the 1970-2015 that used departmental survey data to model fisheries
+[@shannon2020]. Due to limited data availability, this investigation used reconstructed
+fisheries data for the 2010-2019 period from Sea Around Us [@zeller2017] with domestic fleet
+uncertainty scores ranging from "low" ($+/-$ 30%) to "very low" ($+/-$ 50%). Despite high
+uncertainty scores, reconstructed catch timeseries for Sardines, Anchovies, Herring and Cape
+Hakes closely match those reported in @statuso2023. For more information on the model
+fitting process see **\\\[Insert Supplementary file link for implementation doc.\\\]**.
+Despite poor quality and completeness of fitting target data, we use the StrathE2E models
+outlined in this investigation to identify possible drivers of climate change impacts in the
+Southern Benguela ecosystem.
 
 ## Limitations and future opportunities
 
