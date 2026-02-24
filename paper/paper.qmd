@@ -522,26 +522,26 @@ trajectories for the ecosystem?** -->
 
 High trophic level guilds in the southern Benguela model show high levels of variation due
 to model parameter uncertainty. Monte Carlo simulations reveal particular uncertainty in
-current and future estimates for Demersal Fish. In the southern Benguela implementation
+current and future estimates for Demersal Fish. In the models
 adult Demersal fish are reliant on high recruitment of larvae into the guild to maintain
 biomass. Top-predator guilds such as pinnipeds and seabirds are also sensitive to parameter
 values influencing demersal fish larvae due to demersal fish contributing to substantial
-proportions of their diets. Conclusions about demersal fish and top-predator guilds using
+proportions of their diets. 
+
+Interpretation of demersal fish and top-predator guilds using
 these StrathE2E implementations must consider that demersal fish event timing parameters
 reflect available literature for Cape Hake species (*Merluccius capensis* and *Merluccius
-paradoxus*).
-
-It has been suggested that Cape Hake in the northern Benguela region (Namibia) experience
+paradoxus*). It has been suggested that Cape Hake in the northern Benguela region (Namibia) experience
 high annual variability in stock biomass [@macpherson1991] and recruitment [@kainge2013].
 This investigation suggests that projections for demersal fish, and top predators, under
 climate change are highly uncertain due to their sensitivity to demersal fish larval
 parameters.
 
-Under climate change predatory guilds are predicted to change in consistent ways across
+Under climate change, median likelihood trajectories for predatory guilds are predicted to change in consistent ways across
 ESMs, with many predatory guilds showing substantial increases in biomass relative to
-2010-2019 levels. These guilds show low levels of trajectory divergence across the ESMs,
-however the driving variables influencing biomass are distinct. Environmental forcing data
-modelled using CNRM-CM6-1-HR shows substantially greater change in temperature over future
+2010-2019 levels. These trajectories show high consistency across the ESMs, suggesting
+uncertainty across future scenarios is less influential than uncertainty across parameterisations.
+Environmental forcing data modelled using CNRM-CM6-1-HR shows substantially greater change in temperature over future
 decades compared to GFDL-ESM4 (@sfig-driver-temp), aligning with the increased sensitivity
 of CNRM-CM6-1-HR to increases in CO~2~ compared to GFDL-ESM4 **citation**. Additionally,
 CNRM driving data shows substantially different seasonal trends in boundary flows compared
@@ -551,11 +551,9 @@ seasonal minimum and maximum levels of vertical diffusivity and offshore upwelli
 downwelling (@sfig-driver-vertical-mixing). While the low importance of nutrient
 concentration variables
 
-Although these predatory guilds, that experience substantial change in biomass, are
-influenced by different climate change mechanisms when forced by different ESMs, their
-biomass timeseries outcomes are similar across the ESMs. This indicates a greater level of
-certainty in projected timeseries and biomass trends compared to other guilds that show high
-levels of divergence and uncertainty across the ESMs chosen. Modelling for the Southern
+Low scenario uncertainty, compared to high parameter uncertainty, suggests that
+data collection and model selection are important areas of focus for demersal fish
+and high trophic level guilds in the region. Modelling for the Southern
 Benguela region using an Atlantis ecosystem model projected declines for almost all
 functional groups including top predators such as Cetaceans, seabirds and demersal fish such
 as sharks [@ortega-cisneros2018]. Additionally, temperature was suggested as the most
@@ -573,17 +571,17 @@ with Ecosim) projections of biomass under climate change, including for the Sout
 Benguela region. This comparison revealed high divergences in biomass projections in the
 Southern Benguela region depending on the spatial scale of modelling and the ecosystem model
 used [@eddy2025]. An in-depth comparison of modelling for the Southern Benguela ecosystem
-using Atlantis, Ecopath with Ecosim, and StrathE2E would improve understanding about the
+using an ensemble approach including Atlantis, Ecopath with Ecosim, and StrathE2E would improve understanding about the
 possible magnitude and drivers of climate change impacts, enhancing informed decision making
 processes [@hill2007].
 
 - **High scenario uncertainty (structural uncertainty in Earth System Modelling) and
     associated driving variables:**
 
-The choice of the two Earth System Models for forcing StrathE2E strongly influences
+The choice of the two Earth System Models forcing StrathE2E strongly influences
 projected ecosystem outcomes (@fig-biomass-pca). Low trophic level model components, as well
 as Net Primary Production, display diverging trajectories under each ESM. Vertical mixing
-contributes the most (\> 60%) to variance for the majority of these ecosystem components.
+contributes the most (\> 60%) to variance for the majority of these guilds.
 Vertical mixing variables (downwelling and upwelling rates, and vertical diffusivity) show
 similar patterns under GFDL-ESM4 and CNRM-CM6-1-HR, with GFDL-ESM4 projecting greater
 extremes and variance in vertical mixing. The high influence of vertical mixing on these
@@ -600,8 +598,10 @@ projections using 13 ESMs @cioffi2025 found that differences in projected change
 upwelling-favourable winds resulted in substantial model uncertainty in NPP. These
 conclusions are supported by the results of this investigation, which suggest a high level
 of uncertainty in ecosystem state projections is due to differences in vertical mixing
-projections across Earth System Models. Expanding the range of Earth System Models used to
-force StrathE2E in the region would improve estimates of model and scenario uncertainty.
+projections across Earth System Models. Expanding the ensemble of Earth System Models
+used to force StrathE2E would improve incorporation of scenario uncertainty into
+predictions, particularly using models that have been assessed for reproduction 
+of upwelling in the region **Littell 2011**.
 
 **For Yuri: Would you be able to expand on the representation of upwelling in the Earth
 System Models and NEMO-ERSEM?**
@@ -613,14 +613,25 @@ climate change impact investigations would benefit from comparisons of a broad r
 ecosystem models, model parameterisations and environmental forcing scenarios. Approaches
 such as Decision Making Under Deep Uncertainty involve exploring a wide range of possible
 ecosystem futures, helping to identify trajectories of environmental conditions, ecosystem
-responses or management decisions that may lead to critical outcomes [@kalra2014]. The
-results of this investigation have identified a strong influence of upwelling intensity
-changes (minimum and maxmimum levels) under GFDL-ESM4. Exploring a broader range of futures
-could help to identify critical patterns of upwelling that may lead to poor ecosystem
-states, allowing the focussing of monitoring and trend assessment efforts.
+responses or management decisions that may lead to critical outcomes [@kalra2014]. 
+Exploring a broader range of futures could help to identify critical patterns of 
+upwelling that may lead to poor ecosystem states, allowing the focussing of monitoring
+and trend assessment efforts.
 
-**For Kelly: Would you be able to expand on any monitoring or modelling efforts that are
-focussed on upwelling?**
+The results of this investigation highlights, through a exploratory scenario approach,
+which ecosystem components and drivers should be prioritised for further investigation.
+Firstly, the strong influence of demersal fish reproductive parameterisation on
+various ecosystem guilds demonstrates the importance of data quality and literature
+for model parameterisation. Increased focus on representing additional demersal fish
+species in the guild and reducing parameter uncertainty may help to improve projections
+for high trophic level guilds. Overall, higher quality data for model parameterisation
+and validation are required to reduce parameter uncertainty for all model guilds.
+Secondly, the divergence of low trophic level guilds across ESMs highlights the
+importance of regional ESM assessments and improved understanding of wind-driven
+upwelling trends for projecting ecosystem states under climate change. Fields such
+as near-term ecological forecasting may offer a pathway to iteratively incorporate
+advancements in ecological and climate change understanding in the region at timescales
+relevant to management decisions **Dietze 2024**.
 
 -   **Highlighting why prediction is not the :**
 
@@ -641,13 +652,16 @@ Despite poor quality and completeness of fitting target data, we use the StrathE
 outlined in this investigation to identify possible drivers of climate change impacts in the
 Southern Benguela ecosystem.
 
-## Limitations and future opportunities
-
--   **Low ESM sample size, could be expanded in future studies.**
-
--   **Parameter and target data quality.**
-
--   **Full parameter sensitivity analysis.**
+Due to computational constraints, this investigation does not include full global
+parameter sensitivity analyses for the StrathE2E models presented. This technique 
+is recommended to understand the consequences of parameter uncertainty in an
+ecosystem model **Geary 2020**. While this investigation primarily utilises median
+timeseries for climate change analyses following on from Monte Carlo simulations,
+the scenario analysis approach used highlights the influence of environmental drivers
+in the model, rather than parameters. Future investigations using parameter ensemble
+approaches could investigate changing environmental driving influences across
+plausible model parameterisations, rather than a single "best fit" parameterisation 
+**geary 2020**.
 
 ## Conclusions
 
