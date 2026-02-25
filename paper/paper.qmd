@@ -127,8 +127,8 @@ This investigation aims to identify causal relationships between environmental d
 including inorganic nutrients and upwelling, and ecosystem state for the Southern Benguela
 Upwelling System using a scenario modelling approach across six decades and four possible
 futures to account for high scenario uncertainty. Modelled guilds in the Southern Benguela
-are subject to a high level of parameter uncertainty, particularly predatory guilds.
-While low trophic level guilds are sensitive to divergent projections in vertical
+are subject to a high level of parameter uncertainty, particularly high trophic level
+guilds. While low trophic level guilds are sensitive to divergent projections in vertical
 mixing across climate model forcings. Facing highly uncertain futures, this investigation 
 highlights important areas for future data and knowledge collection to better understand
 climate change impacts.
