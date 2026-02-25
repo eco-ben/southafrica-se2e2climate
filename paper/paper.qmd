@@ -97,7 +97,7 @@ ecosystem change in the Southern Benguela Upwelling System (SBUS), South Africa.
 -   **Southern Benguela Upwelling System**
 
 The SBUS is a large Eastern Boundary Upwelling System (EBUS) that extends around the western
-cape of South Africa, from the warm Aghulas current in the south to the northern Benguela
+cape of South Africa, from the warm Agulhas current in the south to the northern Benguela
 system in the north. The SBUS is a highly productive wind-driven upwelling system,
 supporting large-scale-commercial, small-scale and recreational fisheries for South Africa
 [@hutchings2009; @sumaila2016]. Productivity in this ecosystem exhibits high seasonal and
@@ -118,7 +118,7 @@ ecosystem model, employing an exploratory scenario modelling approach to uncover
 future climate change impacts and causal drivers of change. In EBUS, such as the Southern
 Benguela, conditions under climate change are highly uncertain due to a limited
 understanding of how and by what magnitude wind-driven upwelling processes may change
-[@fox-kemper2021]. High uncertainty in nutrient upwelling leads to low confidence in
+[@fox-kemper2021] **bograd et al 2023**. High uncertainty in nutrient upwelling leads to low confidence in
 ecosystem response predictions [@fox-kemper2021]. Scenario uncertainty, uncertainty due to
 modelling under uncertain future conditions, plays a large role in projecting ecosystem
 models under climate change [@payne2016].
@@ -138,7 +138,8 @@ Western Boundary current that flows southwards along the eastern coast of Southe
 The Agulhas Current terminates at the Agulhas Bank, where the Southern Benguela current
 begins, transporting upwelled cold water northwards along the western coast. This creates a
 distinct divide in environmental conditions in the currents to the east and west of the
-Agulhas Bank [@lutjeharms2006]. To define the continental shelf region included in this
+Agulhas Bank [@lutjeharms2006], while injection of warm water into the start of the Benguela Current
+enhances mixing **Veitch and Penven 2017**. To define the continental shelf region included in this
 investigation, we exclude any areas that are situated at more than 800m depth
 (@sfig-distance-depth-map). Cumulative fishing effort data [@globalfishingwatch2025]
 suggests that this domain definition captures a key fishing region, with different spatial
@@ -202,9 +203,15 @@ To implement StrathE2E (**Box 1**) for the Southern Benguela, we collated region
 inputs from available data, literature and regional expert knowledge. This includes input
 data representing fishing fleets operating in the region and their catch of the modelled
 guilds, biological event timing data for key regional species for each guild and
-observational target data for parameter optimisation of the ecosystem model. Additionally,
-environmental driving data for the model implementation region was extracted from NemoERSEM
-output **insert NEMO-ERSEM citation** (see environmental driving data section below).
+observational target data for parameter optimisation of the ecosystem model. Due 
+to limited data availability, demersal and planktivorous fish guilds were parameterised
+using data for Cape Hakes (*Merluccius capensis* and *Merluccius paradoxus*) and; 
+sardine (*Sardinops sagax*), anchovy (*Engraulis encrasicolus*) and West Coast 
+redeye round herring (*Etrumeus whiteheadi*) respectively. Parameterisation of the 
+fishing model for exploitable guilds used reconstructed catch data from Sea Around
+Us **White and Derrick, 2020**. Additionally, environmental driving data for the
+model implementation region was extracted from NemoERSEM output **insert NEMO-ERSEM citation**
+(see environmental driving data section below). **Insert link to GitHub/implementation document.**
 
 ### Environmental driving data
 
@@ -518,15 +525,27 @@ feeding benthos may decline under climate change in the modelled region.
 **For Kelly: Would you be able to expand on the consequences of the possible result
 trajectories for the ecosystem?** -->
 
+There have been few investigations into ecosystem impacts already experienced
+due to climate change and their drivers. **Blamey et al. 2015** suggest observed
+species range shifts over the 1980-2013 period are linked to cooling and increased
+upwelling variability in inshore waters. A future cooling trends is not represented
+in the environmental driving data used (@sfig-driver-temp), suggesting that
+regional scale biogeochemical modelling and validation of model behaviour with
+observed trends will help to reduce uncertainty in model projections. Additionally,
+to investigate possible future drivers of range shifts for species in the region,
+the climate change scenario analysis presented in this investigation could be
+applied to an ecosystem model that explicitly represents the spatial distribution
+and dispersal of guild biomass.
+
 **Guilds with strong decadal trends and low ESM differences:**
 
 High trophic level guilds in the southern Benguela model show high levels of variation due
 to model parameter uncertainty. Monte Carlo simulations reveal particular uncertainty in
-current and future estimates for Demersal Fish. In the models
-adult Demersal fish are reliant on high recruitment of larvae into the guild to maintain
-biomass. Top-predator guilds such as pinnipeds and seabirds are also sensitive to parameter
-values influencing demersal fish larvae due to demersal fish contributing to substantial
-proportions of their diets. 
+current and future estimates for Demersal Fish. Modelled adult Demersal fish are 
+reliant on high recruitment of larvae into the guild to maintain biomass. Top-predator
+guilds such as pinnipeds and seabirds are also sensitive to parameter values influencing
+demersal fish larvae due to demersal fish contributing to substantial proportions
+of their diets. 
 
 Interpretation of demersal fish and top-predator guilds using
 these StrathE2E implementations must consider that demersal fish event timing parameters
@@ -626,11 +645,11 @@ for model parameterisation. Increased focus on representing additional demersal 
 species in the guild and reducing parameter uncertainty may help to improve projections
 for high trophic level guilds. Overall, higher quality data for model parameterisation
 and validation are required to reduce parameter uncertainty for all model guilds.
-Secondly, the divergence of low trophic level guilds across ESMs highlights the
-importance of regional ESM assessments and improved understanding of wind-driven
-upwelling trends for projecting ecosystem states under climate change. Fields such
+Secondly, improved understanding and projection of wind-driven upwelling trends
+under climate change will be important for projecting ecosystem state, particularly
+for low trophic level guilds. Fields such
 as near-term ecological forecasting may offer a pathway to iteratively incorporate
-advancements in ecological and climate change understanding in the region at timescales
+such advancements in ecological and climate change understanding in the region at timescales
 relevant to management decisions **Dietze 2024**.
 
 -   **Highlighting why prediction is not the :**
@@ -662,6 +681,18 @@ in the model, rather than parameters. Future investigations using parameter ense
 approaches could investigate changing environmental driving influences across
 plausible model parameterisations, rather than a single "best fit" parameterisation 
 **geary 2020**.
+
+Additionally, this investigation focussed on the influence of environmental drivers
+in isolation. Observational investigations have suggested that trends in fishing
+effort in the region may interact with climate change driven environmental trends
+in the region, altering the hazards experienced by species **Jarre 2015, Ramirez 2022**.
+Using StrathE2E as a computationally efficient model to explore the interacting
+effects of climate and fishing changes may improve knowledge available for management
+decisions. Using a protocol such as Ocean System Pathways (developed by FishMIP - the Fisheries
+and Marine Ecosystems Model Intercomparison Project), which outlines
+a standardised approach for modelling the influence of future climate change and
+fisheries trends on ecosystems would allow StrathE2E to contribute to valuable model
+intercomparison investigations for this uncertain region **Maury 2025**.
 
 ## Conclusions
 
