@@ -9,6 +9,10 @@ import NCDatasets
 
 inch = 96
 
+include("analysis_common.jl")
+
+CairoMakie.activate!()
+
 land = GDF.read("../../../Spatial Data/ne_10m_land/ne_10m_land.shp")[1, :]
 habitats = GDF.read("../data/Habitats.gpkg")
 habitats.class = habitats.Shore .* " - " .* habitats.Habitat
@@ -112,3 +116,40 @@ poly!(ax2, habitats.geometry, color = (:red, 0.2))
 Colorbar(fig[1,3], hm2, label="Bathymetry (maximum 800m)")
 
 save("../figs/domain_separation_map.png", fig, px_per_unit = 300/inch)
+
+
+# Sea Around Us fishing data uncertainty plot
+gear_landings = DataFrame(
+    read_parquet("../../../../Downloads/sau_landings_strath_gears.parq")
+)
+gear_landings.uncertainty_score = string.(gear_landings.uncertainty_score)
+
+guild_totals = DataFrames.combine(groupby(gear_landings, [:year, :Guild]), :tonnes => sum => :total_guild)
+guild_landings = DataFrames.combine(groupby(gear_landings, [:year, :uncertainty_score, :Guild]), :tonnes => sum => :total_score_guild)
+guild_landings = leftjoin(guild_landings, guild_totals, on = [:year, :Guild])
+
+guild_landings.uncertainty_proportion = guild_landings.total_score_guild ./ guild_landings.total_guild
+
+fig_opts = (;
+    fontsize = fontsize,
+    size = (18.42centimetre, 18.42centimetre)
+)
+scale = scales(
+    X = (; label = "Year"), 
+    Y = (; label = "Proportion of guild landings"),
+    Color = (; label = "Uncertainty score"),
+    Layout = (; categories = [
+        "Benthos carnivore/scavenge feeder" => "Benthos carn/scav feeders",
+        "Benthos filter/deposit feeder" => "Benthos susp/dep feeders",
+        "Demersal" => "Demersal fish",
+        "Migratory" => "Migratory fish",
+        "Planktivore" => "Planktivorous fish",
+        "Zooplankton carnivore" => "Carnivorous zooplankton"
+    ])
+)
+legend_opts = (; position=:bottom)
+# axis_opts = (; xticklabelrotation = π/4)
+
+uncertainty_cols = data(guild_landings) * mapping(:year, :uncertainty_proportion, color=:uncertainty_score, stack=:uncertainty_score, layout=:Guild) * visual(BarPlot)
+fig = draw(uncertainty_cols, scale; figure=fig_opts, legend=legend_opts)
+save("../figs/SAU_landings_uncertainty.png", fig, px_per_unit=dpi)
