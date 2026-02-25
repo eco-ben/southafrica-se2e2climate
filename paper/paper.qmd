@@ -129,7 +129,7 @@ Upwelling System using a scenario modelling approach across six decades and four
 futures to account for high scenario uncertainty. Modelled guilds in the Southern Benguela
 are subject to a high level of parameter uncertainty, particularly high trophic level
 guilds. While low trophic level guilds are sensitive to divergent projections in vertical
-mixing across climate model forcings. Facing highly uncertain futures, this investigation 
+mixing GFDL-ESM4 and CNRM-CM6-1-HR forcings. Facing highly uncertain futures, this investigation 
 highlights important areas for future data and knowledge collection to better understand
 climate change impacts.
 
@@ -215,7 +215,7 @@ sardine (*Sardinops sagax*), anchovy (*Engraulis encrasicolus*) and West Coast
 redeye round herring (*Etrumeus whiteheadi*) respectively. Parameterisation of the 
 fishing model for exploitable guilds used reconstructed catch data from Sea Around
 Us **White and Derrick, 2020**. Additionally, environmental driving data for the
-model implementation region was extracted from NemoERSEM output **insert NEMO-ERSEM citation**
+model implementation region was extracted from NEMO-ERSEM output **Gurvan 2019; Butenshon 2016; Artioli 2025**
 (see environmental driving data section below). **Insert link to GitHub/implementation document.**
 
 ### Environmental driving data
@@ -225,17 +225,19 @@ from each decadal time period. Physical driving data include variables such as t
 light, river inflow volumes and boundary flow rates for each water volume. Chemical driving
 data include nutrient concentrations for each of the volumes and from sources such as water
 volume boundaries and river inputs. Environmental driving data were extracted from
-Nemo-ERSEM biogeochemical model outputs forced by two Earth System Models (ESMs: CNRM and
-GFDL \[**get the specific ESM identifiers\]**) under two Shared-Socioeconomic-Pathways
-(SSPs: SSP1-2.6 and SSP3-7.0). Environmental driving data were averaged across decades
-including 2010-2019, 2020-2029, 2030-2039, 2040-2049, 2050-2059, 2060-2069. Additional
-information on environmental driving data processing can be found in \[**insert
-supplementary table ref\]**.
+a set of four NEMO-ERSEM biogeochemical model simulations forced by two models from the
+Coupled Model Intercomparison Project Phase 6 (CMIP6 - CNRM-CM6-1-HR and GFDL-ESM4)
+under two Shared-Socioeconomic-Pathways (SSPs: SSP1-2.6 and SSP3-7.0). The two 
+CMIP6 models were chosen for their different climate sensitivity, so that for each 
+SSP scenario a range of potential impacts of climate change could be explored. 
+Environmental driving data were averaged across decades including 2010-2019, 
+2020-2029, 2030-2039, 2040-2049, 2050-2059, 2060-2069. Additional information on
+environmental driving data processing can be found in \[**insert supplementary table ref\]**.
 
 ## Initial climate change analyses
 
 To assess how future change may impact the Southern Benguela ecosystem we model the
-ecosystem using driving data across the six decades, under the two ESMs and two SSPs. Under
+ecosystem using driving data across the six decades, under the two forcing models and two SSPs. Under
 these scenarios we explore steady state biomass values, averaged across the domain area, for
 each modelled guild. To assess the broad climate change impacts across these decades and
 scenarios, we visualise these outputs as time series across the decades.
@@ -282,12 +284,12 @@ value of each variable for each of the target guild biomass result sets.
 
 | Variables | Variable group | Group description | Group varies across |
 |-----------------------|-----------------------|-----------------------|-----------------------|
-| sslight | Light | Surface light penetration. | Decade, ESM, SSP |
-| so_temp, d_temp, si_temp | Temperature | Water volume temperatures. | Decade, ESM, SSP |
-| rivervol, rivnitrate, rivammonia, rivdetritus | River outputs | River output volume and nutrient outflow concentrations into si habitat. | Decade, ESM, SSP |
-| logkvert, d_so_upwelling, so_d_downwelling | Vertical mixing | Upwelling, downwelling and vertical diffusivity between surface and deep offshore water volumes. | Decade, ESM, SSP |
-| domain inflow variables, so_si_flow | Horizontal flows | Inflow rates of water into si, so and d water volumes. Movement of water from surface offshore to inshore volumes. | Decade, ESM, SSP |
-| \*\_nitrate, \*\_ammonia, \*\_phyt, \*\_detritus | Volume nutrient concentrations | Nutrient concentrations for each water volume (so, si and d). | Decade, ESM, SSP |
+| sslight | Light | Surface light penetration. | Decade, CMIP6 forcing model, SSP |
+| so_temp, d_temp, si_temp | Temperature | Water volume temperatures. | Decade, CMIP6 forcing model, SSP |
+| rivervol, rivnitrate, rivammonia, rivdetritus | River outputs | River output volume and nutrient outflow concentrations into si habitat. | Decade, CMIP6 forcing model, SSP |
+| logkvert, d_so_upwelling, so_d_downwelling | Vertical mixing | Upwelling, downwelling and vertical diffusivity between surface and deep offshore water volumes. | Decade, CMIP6 forcing model, SSP |
+| domain inflow variables, so_si_flow | Horizontal flows | Inflow rates of water into si, so and d water volumes. Movement of water from surface offshore to inshore volumes. | Decade, CMIP6 forcing model, SSP |
+| \*\_nitrate, \*\_ammonia, \*\_phyt, \*\_detritus | Volume nutrient concentrations | Nutrient concentrations for each water volume (so, si and d). | Decade, CMIP6 forcing model, SSP |
 | so_atmnitrate, so_atmammonia, si_atmnitrate, si_atmammonia | Atmospheric nutrient flux | Deposition rates of nitrate and ammonia into surface water volumes. | Decade, SSP |
 
 : Environmental driving variables that are altered in climate permutation analyses, the

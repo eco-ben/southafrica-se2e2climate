@@ -83,7 +83,7 @@ fig_opts = (;
 scale = scales(
     X = (; label = "Decade"), 
     Y = (; label = "Annual average biomass\n[mMN ⋅ gWW⁻¹]"),
-    Color = (; label = "Earth System Model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
+    Color = (; label = "NEMO-ERSEM forcing model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
     LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
 )
 facet_opts = (; linkyaxes=:none)
@@ -115,14 +115,14 @@ end
 scale = scales(
     X = (; label = "Decade"), 
     Y = (; label = "Change in biomass from \n2010-2019 [%]"),
-    Color = (; label = "Earth System Model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
+    Color = (; label = "NEMO-ERSEM forcing model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
     LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
 )
 percent_timeseries = data(percent_change) * mapping(:decade, :percent_change_median, color=:ESM, linestyle=:SSP, layout=:guild_clean) * visual(Lines)
 percent_bands_1 = data(percent_change[percent_change.SSP .== "ssp126", :]) * mapping(:decade, :percent_change_min, :percent_change_max, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
 percent_bands_2 = data(percent_change[percent_change.SSP .== "ssp370", :]) * mapping(:decade, :percent_change_min, :percent_change_max, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
 
-percent_ts_fig = draw(percent_timeseries + percent_bands_1 + percent_bands_2, scale; figure=fig_opts, legend=legend_opts, axis=axis_opts)
+percent_ts_fig = draw(percent_timeseries + percent_bands_1 + percent_bands_2, scale; facet=(; linkyaxes=false), figure=fig_opts, legend=legend_opts, axis=axis_opts)
 
 save("../figs/initial_cc_assessment/percent_biomass_timeseries_mc.png", percent_ts_fig, px_per_unit=dpi)
 
@@ -221,7 +221,7 @@ fig_opts = (;
     size = (18.42centimetre, 14centimetre)
 )
 scale = scales(
-    Color = (; label = "Earth System Model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
+    Color = (; label = "NEMO-ERSEM forcing model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
     LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
 )
 axis_opts = (; aspect=1)
@@ -367,7 +367,7 @@ fig_opts = (;
 scale = scales(
     X = (; label = "Decade"), 
     Y = (; label = "Ecosystem Weighted Mean Trophic Level"),
-    Color = (; label = "Earth System Model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
+    Color = (; label = "NEMO-ERSEM forcing model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
     LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
 )
 legend_opts = (; position=:bottom, orientation = :horizontal)
@@ -397,7 +397,7 @@ fig_opts = (;
 scale = scales(
     X = (; label = "Decade"), 
     Y = (; label = "Net Primary Production [mMN ⋅ m² ⋅ y]"),
-    Color = (; label = "Earth System Model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
+    Color = (; label = "NEMO-ERSEM forcing model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
     LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
 )
 legend_opts = (; position=:bottom, orientation = :horizontal)
@@ -653,7 +653,7 @@ axis_opts = (; xticklabelrotation = π/4)
 lar_params_scale = scales(
     X = (; label = "Parameter value"), 
     Y = (; label = "Annual average biomass\n[mMN ⋅ gWW⁻¹]"),
-    Color = (; label = "Earth System Model", categories = ESM_categories),
+    Color = (; label = "NEMO-ERSEM forcing model", categories = ESM_categories),
     Row = (; categories = param_categories[contains.(first.(param_categories), ["lar"])])
 )
 
@@ -667,7 +667,7 @@ save("../figs/initial_cc_assessment/demfishlar_param_sens.png", demfishlar_sens_
 dfish_params_scale = scales(
     X = (; label = "Parameter value"), 
     Y = (; label = "Annual average biomass\n[mMN ⋅ gWW⁻¹]"),
-    Color = (; label = "Earth System Model", categories = ESM_categories),
+    Color = (; label = "NEMO-ERSEM forcing model", categories = ESM_categories),
     Row = (; categories = param_categories[.!contains.(first.(param_categories), ["lar"])])
 )
 
