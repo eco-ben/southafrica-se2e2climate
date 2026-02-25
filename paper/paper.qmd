@@ -670,13 +670,17 @@ where possible, target data for guild production rates and P:B ratios were sourc
 ecological models of the 1970-2015 that used departmental survey data to model fisheries
 [@shannon2020]. Due to limited data availability, this investigation used reconstructed
 fisheries data for the 2010-2019 period from Sea Around Us [@zeller2017] with domestic fleet
-uncertainty scores ranging from "low" ($+/-$ 30%) to "very low" ($+/-$ 50%). Despite high
-uncertainty scores, reconstructed catch timeseries for Sardines, Anchovies, Herring and Cape
+uncertainty scores ranging from "low" ($+/-$ 30%) to "very low" ($+/-$ 50%). Reconstructed 
+catch timeseries for Sardines, Anchovies, Herring and Cape
 Hakes closely match those reported in @statuso2023. For more information on the model
 fitting process see **\\\[Insert Supplementary file link for implementation doc.\\\]**.
-Despite poor quality and completeness of fitting target data, we use the StrathE2E models
-outlined in this investigation to identify possible drivers of climate change impacts in the
-Southern Benguela ecosystem.
+Despite poor quality and completeness of fitting target data, we use StrathE2E
+models in an exploratory approach to identify key drivers of climate change impacts.
+In addition to exploratory scenario modelling approaches, it has been suggested
+that high uncertainty in predictions does not necessarily prevent decision support,
+but requires the use of alternative decision support methods such as probabilistic
+management strategy evaluation **Ascough 2008; Reichert and Borsuk 2005**.
+
 
 Due to computational constraints, this investigation does not include full global
 parameter sensitivity analyses for the StrathE2E models presented. This technique 
