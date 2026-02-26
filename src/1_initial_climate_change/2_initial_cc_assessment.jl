@@ -21,6 +21,7 @@ using Colors
 using LinearAlgebra
 
 import GeometryBasics as GB
+import GeometryOps as GO
 
 include("../analysis_common.jl")
 
@@ -130,22 +131,39 @@ save("../figs/initial_cc_assessment/percent_biomass_timeseries_mc.png", percent_
 # 2. plotting and analyses of biomass PCA
 # Convert the data to a wide format for later ana
 result_df_wide = unstack(result_df, :variant, :Description, :Model_annual_mean)
-result_df_wide = result_df_wide[:, ["variant"; guilds[guilds .!= "netprimprod"]]]
+result_df_wide = result_df_wide[:, ["variant"; guilds[(guilds .!= "netprimprod") .& (guilds .!= "Demersal_fish_larvae")]]]
 result_wide_standard = result_df_wide
 result_wide_standard.type .= "median"
 
 result_df_min = unstack(result_df, :variant, :Description, :min_quant)
-result_df_min = result_df_min[:, ["variant"; guilds[guilds .!= "netprimprod"]]]
+result_df_min = result_df_min[:, ["variant"; guilds[(guilds .!= "netprimprod") .& (guilds .!= "Demersal_fish_larvae")]]]
 result_df_min.type .= "min_quant"
 
 result_df_max = unstack(result_df, :variant, :Description, :max_quant)
-result_df_max = result_df_max[:, ["variant"; guilds[guilds .!= "netprimprod"]]]
+result_df_max = result_df_max[:, ["variant"; guilds[(guilds .!= "netprimprod") .& (guilds .!= "Demersal_fish_larvae")]]]
 result_df_max.type .= "max_quant"
+
+median_rows = result_wide_all.type .== "median"
+
+# Compute μ and σ from median only
+μ_dict = Dict()
+σ_dict = Dict()
+
+for col in rescaled_vars
+    x = result_wide_all[median_rows, col]
+    μ = mean(x)
+    σ = std(x)
+    μ_dict[col] = μ
+    σ_dict[col] = σ
+
+    # Apply scaling to ALL rows using median μ and σ
+    result_wide_all[!, col] .= (result_wide_all[!, col] .- μ) ./ σ
+end
 
 result_wide_all = vcat(result_wide_standard, result_df_min, result_df_max)
 
 # Rescale variables
-rescaled_vars = guilds[guilds .!= "netprimprod"]
+rescaled_vars = guilds[(guilds .!= "netprimprod") .& (guilds .!= "Demersal_fish_larvae")]
 for col in rescaled_vars
     if all(result_wide_all[:, col] .== 0.0) continue end
     μ, σ = rescale!(result_wide_all[!, col])
@@ -284,7 +302,7 @@ ax2 = Axis(
     aspect=1
 )
 # Draw arrows for variables
-for (i, output) in enumerate(guilds[guilds .!= "netprimprod"])
+for (i, output) in enumerate(guilds[(guilds .!= "netprimprod") .& (guilds .!= "Demersal_fish_larvae")])
     arrows2d!(ax2, [mean(y_pca[1, :])], [mean(y_pca[2, :])], [corr_circle[i,1]], [corr_circle[i,2]], 
             shaftwidth=2, color=guild_individual_colours[output], alpha=0.6)
 end
@@ -295,11 +313,11 @@ lines!(ax2, [first(decade_separation), -first(decade_separation)], [last(decade_
 Label(fig.layout[1,1, TopLeft()], "A", font=:bold)
 Label(fig.layout[1,2, TopLeft()], "B", font=:bold)
 
-legend_entries = [PolyElement(color=guild_individual_colours[guild]) for guild in guilds[guilds .!= "netprimprod"]]
+legend_entries = [PolyElement(color=guild_individual_colours[guild]) for guild in guilds[(guilds .!= "netprimprod") .& (guilds .!= "Demersal_fish_larvae")]]
 Legend(
     fig[2,2],
     legend_entries,
-    guilds[guilds .!= "netprimprod"],
+    getindex.([guild_clean_names], guilds[(guilds .!= "netprimprod") .& (guilds .!= "Demersal_fish_larvae")]),
     nbanks=2,
     patchsize = (5,5),
     title="Guild",
@@ -321,8 +339,8 @@ rowsize!(fig.layout, 2, Relative(0.2))
 rowgap!(fig.layout, 1, Relative(0.01))
 rowsize!(fig.layout, 3, Relative(0.05))
 rowgap!(fig.layout, 2, Relative(0.05))
-linkyaxes!(ax, ax2)
-linkxaxes!(ax, ax2)
+# linkyaxes!(ax, ax2) # I now unlink the axes because the dominance of the confidence intervals is not really relevant to the median PCA loadings
+# linkxaxes!(ax, ax2)
 
 save("../figs/initial_cc_assessment/biomass_pca_mc.png", fig, px_per_unit=dpi)
 
