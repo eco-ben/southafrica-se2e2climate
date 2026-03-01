@@ -13,7 +13,7 @@ include("analysis_common.jl")
 
 CairoMakie.activate!()
 
-land = GDF.read("../../../Spatial Data/ne_10m_land/ne_10m_land.shp")[1, :]
+land = GDF.read("../data/ne_10m_land/ne_10m_land.shp")[1, :]
 habitats = GDF.read("../data/Habitats.gpkg")
 habitats.class = habitats.Shore .* " - " .* habitats.Habitat
 
@@ -44,7 +44,7 @@ save("../figs/habitat_map.png", fig, px_per_unit = 300/inch)
 
 
 # Plot map with heatmap of indicative fishing
-gfw = DataFrame(read_parquet("../../../Spatial Data/fishing_effort_data/Global_fishing_watch/fleet-daily.parq"))
+gfw = DataFrame(read_parquet("../data/fleet-daily.parq"))
 gfw.date = Date.(gfw.date)
 gfw = gfw[
     (gfw.cell_ll_lat .< -28) .&
@@ -85,12 +85,12 @@ save("../figs/gfw_fishing_domain_map.png", fig, px_per_unit = 300/inch)
 # Plot bathymetry and distance to shore map
 sabounds = X(12 .. 40), Y(-39 .. -25) # Roughly cut out SA
 
-dist = Raster("../../Shared Data/distance-from-shore.tif"; lazy=true)
-dist = dist[sabounds...] |> trim
+dist = Raster("../data/distance-from-shore.tif"; lazy=true)
+dist = dist[sabounds...] |> Rasters.trim
 dist = ifelse.(((dist .== 0) .| (dist .> 20)), missing, dist)
 
-bathy = Raster("../../Shared Data/GEBCO_2020.nc"; lazy=true)
-bathy = bathy[sabounds...] |> trim
+bathy = Raster("../data/GEBCO_2020.nc"; lazy=true)
+bathy = bathy[sabounds...] |> Rasters.trim
 bathy = ifelse.(((bathy .>= 0) .| (bathy .< -800)), missing, bathy) # Remove cells that have less than 10h over the years
 bathy = .-bathy
 
@@ -120,7 +120,7 @@ save("../figs/domain_separation_map.png", fig, px_per_unit = 300/inch)
 
 # Sea Around Us fishing data uncertainty plot
 gear_landings = DataFrame(
-    read_parquet("../../../../Downloads/sau_landings_strath_gears.parq")
+    read_parquet("../data/sau_landings_strath_gears.parq")
 )
 gear_landings.uncertainty_score = string.(gear_landings.uncertainty_score)
 

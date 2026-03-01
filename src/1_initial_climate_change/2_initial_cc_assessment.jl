@@ -143,9 +143,12 @@ result_df_max = unstack(result_df, :variant, :Description, :max_quant)
 result_df_max = result_df_max[:, ["variant"; guilds[(guilds .!= "netprimprod") .& (guilds .!= "Demersal_fish_larvae")]]]
 result_df_max.type .= "max_quant"
 
+result_wide_all = vcat(result_wide_standard, result_df_min, result_df_max)
+
 median_rows = result_wide_all.type .== "median"
 
 # Compute μ and σ from median only
+rescaled_vars = guilds[(guilds .!= "netprimprod") .& (guilds .!= "Demersal_fish_larvae")]
 μ_dict = Dict()
 σ_dict = Dict()
 
@@ -158,15 +161,6 @@ for col in rescaled_vars
 
     # Apply scaling to ALL rows using median μ and σ
     result_wide_all[!, col] .= (result_wide_all[!, col] .- μ) ./ σ
-end
-
-result_wide_all = vcat(result_wide_standard, result_df_min, result_df_max)
-
-# Rescale variables
-rescaled_vars = guilds[(guilds .!= "netprimprod") .& (guilds .!= "Demersal_fish_larvae")]
-for col in rescaled_vars
-    if all(result_wide_all[:, col] .== 0.0) continue end
-    μ, σ = rescale!(result_wide_all[!, col])
 end
 
 # Perform PCA 
@@ -246,9 +240,9 @@ axis_opts = (; aspect=1)
 legend_opts = (; position=:bottom, tellheight=false, tellwidth=false, nbanks=2)
 
 line = data(pca_val_df) * mapping(:PC1, :PC2, color=:ESM, linestyle=:SSP) * visual(Lines)
-pca_bands_1 = data(pca_polygons[pca_polygons.SSP .== "ssp126", :]) * mapping(:geometry, color=:ESM) * visual(Poly; alpha = 0.2)
-pca_bands_2 = data(pca_polygons[pca_polygons.SSP .== "ssp370", :]) * mapping(:geometry, color=:ESM) * visual(Poly; alpha = 0.2)
-pca_line_fig = draw(line + pca_bands_1 + pca_bands_2, scale; figure=fig_opts, axis=axis_opts, legend=legend_opts)
+# pca_bands_1 = data(pca_polygons[pca_polygons.SSP .== "ssp126", :]) * mapping(:geometry, color=:ESM) * visual(Poly; alpha = 0.2)
+# pca_bands_2 = data(pca_polygons[pca_polygons.SSP .== "ssp370", :]) * mapping(:geometry, color=:ESM) * visual(Poly; alpha = 0.2)
+pca_line_fig = draw(line, scale; figure=fig_opts, axis=axis_opts, legend=legend_opts)
 
 fig = pca_line_fig.figure
 ax = first(filter(x -> isa(x, Axis), fig.content))
@@ -341,6 +335,55 @@ rowsize!(fig.layout, 3, Relative(0.05))
 rowgap!(fig.layout, 2, Relative(0.05))
 # linkyaxes!(ax, ax2) # I now unlink the axes because the dominance of the confidence intervals is not really relevant to the median PCA loadings
 # linkxaxes!(ax, ax2)
+
+save("../figs/initial_cc_assessment/biomass_pca.png", fig, px_per_unit=dpi)
+
+# plot mc fig PCA vals only
+fig_opts = (;
+    fontsize = fontsize,
+    size = (14centimetre, 14centimetre)
+)
+
+line = data(pca_val_df) * mapping(:PC1, :PC2, color=:ESM, linestyle=:SSP) * visual(Lines)
+pca_bands_1 = data(pca_polygons[pca_polygons.SSP .== "ssp126", :]) * mapping(:geometry, color=:ESM) * visual(Poly; alpha = 0.2)
+pca_bands_2 = data(pca_polygons[pca_polygons.SSP .== "ssp370", :]) * mapping(:geometry, color=:ESM) * visual(Poly; alpha = 0.2)
+pca_line_fig = draw(line + pca_bands_1 + pca_bands_2, scale; figure=fig_opts, axis=axis_opts)
+
+fig = pca_line_fig.figure
+ax = first(filter(x -> isa(x, Axis), fig.content))
+
+# Add arrowheads and points to the end and starts of the PCA lines to show time
+arrowhead = GB.Polygon(Point2f[
+    (0.15, 0),
+    (-0.15,  0.12),
+    (-0.15, -0.12)
+])
+
+for l in ax.scene.plots
+    if l isa Makie.Lines
+        points = l[1][]   # extract line data
+        dx = points[end][1] - points[end-1][1]
+        dy = points[end][2] - points[end-1][2]
+        r_angle = atan(dy, dx)
+
+        scatter!(
+            ax,
+            points[end],
+            marker = :rtriangle,
+            markersize = 15,
+            rotation = r_angle,
+            color = l.color[]
+        )
+        scatter!(
+            ax,
+            points[1],
+            marker = :circle,
+            markersize = 10,
+            rotation = r_angle,
+            color = l.color[]
+        )
+    end
+end
 
 save("../figs/initial_cc_assessment/biomass_pca_mc.png", fig, px_per_unit=dpi)
 

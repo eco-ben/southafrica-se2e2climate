@@ -6,10 +6,11 @@ using MultivariateStats
 using AlgebraOfGraphics
 using GLMakie
 using Colors
+using StatsBase
 
 import GeometryBasics as GB
 
-include("../analysis_common.jl")
+include("analysis_common.jl")
 
 CairoMakie.activate!()
 
@@ -43,9 +44,6 @@ for vg in variables
 end
 
 # 2. Plotting the average variance of each driving data variable across decades and ESMs analysed.
-function grouped_coefficient_of_var(values, groupings)
-    Dict(k => Float64[] for k in unique(groupings))
-end
 
 annual_variance = combine(groupby(master, [:variable, :decade, :SSP, :ESM]), :value => var)
 annual_variance = annual_variance[annual_variance.value_var .!= 0.0, :]

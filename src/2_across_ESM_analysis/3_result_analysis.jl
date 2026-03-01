@@ -39,19 +39,20 @@ all_shapley_effects = vcat([
 all_shapley_effects.SSP_decade = all_shapley_effects.SSP .* "-" .* all_shapley_effects.decade
 all_shapley_effects = all_shapley_effects[all_shapley_effects.variable .!= "constant", :]
 
-aggregated_shap = all_shapley_effects[all_shapley_effects.guild .∈ [esm_sep_guilds; "netprimprod"], :]
+aggregated_shap = all_shapley_effects[all_shapley_effects.guild .∈ [[esm_sep_guilds; "netprimprod"]], :]
 aggregated_shap = combine(
     groupby(aggregated_shap, [:guild, :ESM_param, :variable]), 
     :shapley_effect => mean,
+    :shapley_effect => median,
     :shapley_effect => minimum,
     :shapley_effect => maximum,
     :shapley_effect => (x -> quantile(x, 0.75)) => :shapley_effect_75,
     :shapley_effect => (x -> quantile(x, 0.25)) => :shapley_effect_25
 )
-aggregated_shap = sort(aggregated_shap, :shapley_effect_mean)
+aggregated_shap = sort(aggregated_shap, :shapley_effect_median)
 aggregated_shap.variable_clean_name = getindex.([variable_clean_names], aggregated_shap.variable)
 aggregated_shap.guild_clean_name = getindex.([guild_clean_names], aggregated_shap.guild)
-aggregated_shap.jitter = rand(-0.2:0.05:0.2, nrow(aggregated_shap))
+aggregated_shap.jitter = rand(-0.24:0.08:0.24, nrow(aggregated_shap))
 
 all_shapley_effects 
 
@@ -59,7 +60,7 @@ unique_variables = unique(aggregated_shap.variable_clean_name)
 aggregated_shap.x_position = Vector{Int64}(indexin(aggregated_shap.variable_clean_name, unique_variables))
 aggregated_shap.std_bar_line = [
     [[r.x_position + r.jitter, r.x_position + r.jitter],
-    [max(0, r.shapley_effect_mean - r.shapley_effect_minimum), min(1, r.shapley_effect_mean + r.shapley_effect_maximum)]]
+    [max(0, r.shapley_effect_25), min(1, r.shapley_effect_75)]]
 for r in eachrow(aggregated_shap)]
 
 esm_guilds = unique(aggregated_shap.guild)
@@ -71,11 +72,11 @@ gfdl = aggregated_shap[aggregated_shap.ESM_param .== "GFDL", :]
 fig = Figure(fontsize = fontsize, size = (18.42centimetre, 12centimetre))
 
 ax1 = Axis(fig[1,1], title = "CNRM parameterisation", ylabel = "mean Shapley effect", xticks = (eachindex(unique_variables), unique_variables), xticklabelrotation=π/4)
-scatter!(ax1, cnrm.x_position .+ cnrm.jitter, cnrm.shapley_effect_mean, color = getindex.([esm_guild_colours], cnrm.guild))
+scatter!(ax1, cnrm.x_position .+ cnrm.jitter, cnrm.shapley_effect_median, color = getindex.([esm_guild_colours], cnrm.guild))
 map(x -> lines!(ax1, cnrm.std_bar_line[x][1], cnrm.std_bar_line[x][2], color = getindex(esm_guild_colours, cnrm.guild[x])), eachindex(eachrow(cnrm)))
 
 ax2 = Axis(fig[1,2], title = "GFDL parameterisation", xticks = (eachindex(unique_variables), unique_variables), xticklabelrotation=π/4)
-scatter!(ax2, gfdl.x_position .+ gfdl.jitter, gfdl.shapley_effect_mean, color = getindex.([esm_guild_colours], gfdl.guild))
+scatter!(ax2, gfdl.x_position .+ gfdl.jitter, gfdl.shapley_effect_median, color = getindex.([esm_guild_colours], gfdl.guild))
 map(x -> lines!(ax2, gfdl.std_bar_line[x][1], gfdl.std_bar_line[x][2], color = getindex(esm_guild_colours, gfdl.guild[x])), eachindex(eachrow(gfdl)))
 
 esm_guild_elements = [[
@@ -84,4 +85,4 @@ esm_guild_elements = [[
 ] for guild in esm_guilds]
 Legend(fig[2, :], esm_guild_elements, getindex.([guild_clean_names], esm_guilds), nbanks=2, orientation=:horizontal)
 
-save("../figs/across_esm_permutations/mean_shapley_effects.png", fig, px_per_unit=dpi)
+save("../figs/across_esm_permutations/median_shapley_effects.png", fig, px_per_unit=dpi)
