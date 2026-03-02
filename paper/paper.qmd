@@ -403,7 +403,7 @@ line colours represent the two climate models, GFDL-ESM4 in blue and CNRM-CM6-1-
 yellow. Linestyles represent the two Shared Socio-Economic Pathways, SSP1-2.6 with solid
 lines and SSP3-7.0 with dashed lines. Shaded bands represent the 95% confidence intervals
 for output variables obtained from Monte Carlo
-simulations.](../figs/initial_cc_assessment/biomass_timeseries.png){#fig-biomass-timeseries
+simulations.](../figs/initial_cc_assessment/biomass_timeseries_mc.png){#fig-biomass-timeseries
 width="14.82cm"}
 
 Demersal fish, demersal fish larvae and pinnipeds are particularly sensitive to changes in
@@ -414,7 +414,7 @@ than from consumption, with recruitment sustaining net production at a positive 
 (@tbl-dfish-biology). A local sensitivity analysis on demersal fish larvae physiological
 parameters revealed that planktivorous fish, demersal fish, pinnipeds, birds and cetaceans
 are highly sensitive to demersal fish larvae maximum nitrate uptake rate and nitrogen uptake
-half-saturation coefficient values.
+half-saturation coefficient values (@sfig-dfishlar-sensitivity).
 
 ```{julia}
 #| echo: false
@@ -847,4 +847,14 @@ kelp debris, migratory fish (mfish), direct intake from outside of the model dom
 planktivorous fish larvae (pfishlar), pinnipeds (seal), water column ammonia (wcammonia),
 water column nitrate
 (wcnitrate).](../figs/initial_cc_assessment/decade_sep_guilds_nitrogen_sources.png){#sfig-decade-sep-diet
+width="14.82cm"}
+
+![Predatory guild (including Birds, Cetaceans, Demersal fish, Demersal fish larvae and
+Planktivorous fish) biomass levels across ranges of demersal fish larvae physiological
+parameter values. Both GFDL-ESM4 (blue) and CNRM-CM6-1-HR (yellow) parameterisations of
+2010-2019 StrathE2E models are used. Parameter values are sampled from -25% to +25% of their
+baseline, best-fit, values. Each response guild is represented by a column, and each
+demersal fish parameter used is represented by a row. Red triangles represent the biomass
+value from the best-fit
+model.](../figs/initial_cc_assessment/demfishlar_param_sens_unlinked.png){#sfig-dfishlar-sensitivity
 width="14.82cm"}

@@ -708,7 +708,7 @@ fig_opts = (;
     fontsize = fontsize,
     size = (18.42centimetre, 18.42centimetre)
 )
-facet_opts = (; linkxaxes=:none)
+facet_opts = (; linkxaxes=:none, linkyaxes=:none)
 legend_opts = (; position=:bottom)
 axis_opts = (; xticklabelrotation = π/4)
 
@@ -724,7 +724,7 @@ demfishlar_sens_scatter = data(param_permutations[contains.(param_permutations.p
 demfishlar_sens_means = data(base_params[contains.(base_params.param_name, ["lar"]), :]) * mapping(:param_value, :biomass, row=:param_name, col = :guild_clean_name) * visual(Scatter, alpha = 0.4, marker=:utriangle, color=:red, markersize=15)
 
 demfishlar_sens_fig = draw(demfishlar_sens_scatter + demfishlar_sens_means, lar_params_scale; facet=facet_opts, figure=fig_opts, legend=legend_opts, axis=axis_opts)
-save("../figs/initial_cc_assessment/demfishlar_param_sens.png", demfishlar_sens_fig, px_per_unit=dpi)
+save("../figs/initial_cc_assessment/demfishlar_param_sens_unlinked.png", demfishlar_sens_fig, px_per_unit=dpi)
 
 # Plots for adult parameter sensitivity analysis
 dfish_params_scale = scales(

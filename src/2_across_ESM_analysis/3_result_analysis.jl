@@ -71,11 +71,11 @@ gfdl = aggregated_shap[aggregated_shap.ESM_param .== "GFDL", :]
 
 fig = Figure(fontsize = fontsize, size = (18.42centimetre, 12centimetre))
 
-ax1 = Axis(fig[1,1], title = "CNRM parameterisation", ylabel = "mean Shapley effect", xticks = (eachindex(unique_variables), unique_variables), xticklabelrotation=π/4)
+ax1 = Axis(fig[1,1], title = "CNRM-CM6-1-HR parameterisation", ylabel = "mean Shapley effect", xticks = (eachindex(unique_variables), unique_variables), xticklabelrotation=π/4)
 scatter!(ax1, cnrm.x_position .+ cnrm.jitter, cnrm.shapley_effect_median, color = getindex.([esm_guild_colours], cnrm.guild))
 map(x -> lines!(ax1, cnrm.std_bar_line[x][1], cnrm.std_bar_line[x][2], color = getindex(esm_guild_colours, cnrm.guild[x])), eachindex(eachrow(cnrm)))
 
-ax2 = Axis(fig[1,2], title = "GFDL parameterisation", xticks = (eachindex(unique_variables), unique_variables), xticklabelrotation=π/4)
+ax2 = Axis(fig[1,2], title = "GFDL-ESM4 parameterisation", xticks = (eachindex(unique_variables), unique_variables), xticklabelrotation=π/4)
 scatter!(ax2, gfdl.x_position .+ gfdl.jitter, gfdl.shapley_effect_median, color = getindex.([esm_guild_colours], gfdl.guild))
 map(x -> lines!(ax2, gfdl.std_bar_line[x][1], gfdl.std_bar_line[x][2], color = getindex(esm_guild_colours, gfdl.guild[x])), eachindex(eachrow(gfdl)))
 
