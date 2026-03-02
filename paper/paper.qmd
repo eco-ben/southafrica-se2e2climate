@@ -83,18 +83,14 @@ editor:
 
 # Introduction
 
--   **Climate change impacts on marine ecosystems**
-
 Temperate marine ecosystems globally are facing increasing environmental change in ocean
 temperature, nutrient availability and stratification [@fox-kemper2021]. Species survival
 and ecosystem functioning in marine ecosystems are vulnerable to increasingly variable
 environmental conditions **citation**, influencing the provision of ecosystem services such
 as fisheries **citation**. Upwelling-reliant marine ecosystems face particular uncertainty
 and low-confidence around current predictions of future climate change impacts
-[@fox-kemper2021]. This investigation aims to assess the drivers of possible future
+[@fox-kemper2021]. This investigation aims to identify possible key drivers of future
 ecosystem change in the Southern Benguela Upwelling System (SBUS), South Africa.
-
--   **Southern Benguela Upwelling System**
 
 The SBUS is a large Eastern Boundary Upwelling System (EBUS) that extends around the western
 cape of South Africa, from the warm Agulhas current in the south to the northern Benguela
@@ -109,15 +105,13 @@ importance of ecosystem-scale modelling approaches for management in the region
 growth rates [@ortega-cisneros2017], and high importance of forage fish and top-predators
 for trophic control of the food web [@travers-trolet2014].
 
--   **Climate change impacts in SBUS**
-
 Ecosystem modelling using Atlantis found that the ecosystem is likely to face predatory fish
 declines due to temperature change, leading to increases in planktivorous fish
 [@ortega-cisneros2018]. This investigation uses StrathE2E, a nutrient-driven end-to-end
 ecosystem model, employing an exploratory scenario modelling approach to uncover possible
 future climate change impacts and causal drivers of change. In EBUS, such as the Southern
 Benguela, conditions under climate change are highly uncertain due to a limited
-understanding of how and by what magnitude wind-driven upwelling processes may change
+understanding of how, and by what magnitude, wind-driven upwelling processes may change
 [@fox-kemper2021] **bograd et al 2023**. High uncertainty in nutrient upwelling leads to low
 confidence in ecosystem response predictions [@fox-kemper2021]. Scenario uncertainty,
 uncertainty due to modelling under uncertain future conditions, plays a large role in
@@ -129,9 +123,11 @@ Upwelling System using a scenario modelling approach across six decades and four
 futures to account for high scenario uncertainty. Modelled guilds in the Southern Benguela
 are subject to a high level of parameter uncertainty, particularly high trophic level
 guilds. While low trophic level guilds are sensitive to divergent projections in vertical
-mixing GFDL-ESM4 and CNRM-CM6-1-HR forcings. Facing highly uncertain futures, this
-investigation highlights important areas for future data and knowledge collection to better
-understand climate change impacts.
+mixing GFDL-ESM4 and CNRM-CM6-1-HR forcings. Using an exploratory end-to-end modelling
+approach, this investigation highlights where research into biological data and
+representation methods is important for understanding future trends in predatory guilds.
+While improved understanding and modelling of future upwelling are necessary to understand
+future climate change impacts on low trophic level guilds.
 
 # Methods
 
@@ -228,36 +224,43 @@ volume boundaries and river inputs. Environmental driving data were extracted fr
 four NEMO-ERSEM biogeochemical model simulations forced by two models from the Coupled Model
 Intercomparison Project Phase 6 (CMIP6 - CNRM-CM6-1-HR and GFDL-ESM4) under two
 Shared-Socioeconomic-Pathways (SSPs: SSP1-2.6 and SSP3-7.0). The two CMIP6 models were
-chosen for their different climate sensitivity, so that for each SSP scenario a range of
-potential impacts of climate change could be explored. Environmental driving data were
-averaged across decades including 2010-2019, 2020-2029, 2030-2039, 2040-2049, 2050-2059,
-2060-2069. Additional information on environmental driving data processing can be found in
-\[**insert supplementary table ref\]**.
+chosen for their different climate sensitivity, so that for each SSP scenario different
+potential impacts of climate change could be explored. Driving data variables were averaged
+across decades including 2010-2019, 2020-2029, 2030-2039, 2040-2049, 2050-2059, 2060-2069.
+Additional information on environmental driving data processing can be found in \[**insert
+supplementary table ref\]**.
 
 ## Initial climate change analyses
 
 To assess how future change may impact the Southern Benguela ecosystem we model the
 ecosystem using driving data across the six decades, under the two forcing models and two
 SSPs. Under these scenarios we explore steady state biomass values, averaged across the
-domain area, for each modelled guild. To assess the broad climate change impacts across
-these decades and scenarios, we visualise these outputs as time series across the decades.
+domain area (aggregating inshore and offshore zones), for each modelled guild. Additionaly,
+we perform Monte Carlo simulations using uniformly sampled parameter values, with a sampling
+coefficient of variation of 0.15 for all parameters, to explore model parameterisation
+uncertainty based on the likelihood of observational target data. For each NEMO-ERSEM
+forcing model parameterisation, using 2010-2019 environmental driving data, 1000 parameter
+combinations are sampled and applied to later decades of environmental data (a total of
+24,000 model runs). To assess the broad climate change impacts across these decades and
+scenarios, we visualise steady state (50 year runtime) outputs as time series across the
+decades.
 
 To explore the drivers and trends of ecosystem state under climate change we perform
-principal component analysis (PCA) on the steady state biomass values, rotating the
-multivariate guild biomass values along two principal components (PC1 and PC2). To identify
-guilds that contribute strongly to across decade and across ESM variation in the principal
-components we calculate the average vector between the decades and average vector between
-the ESMs in PC space. We then quantify the guild's contribution as the angle between guild
-biomass PCA loadings and the variation vectors, selecting guilds that strongly correlate
-with across decade and ESM variation.
+principal component analysis (PCA) on median steady state biomass values, rotating the
+multivariate guild biomass values along two principal components (PC1 and PC2) that explain
+72.6% of data variance. To identify guilds that contribute strongly to across decade and
+across ESM variation in the principal components we calculate the average vector between the
+decades and average vector between the ESMs in PC space. We then quantify the guild's
+contribution as the angle between guild biomass PCA loadings and the variation vectors,
+selecting guilds that strongly correlate with across decade and ESM variation respectively.
 
 Following initial climate change analyses, both CNRM-CM6-1-HR and GFDL-ESM4 StrathE2E models
 for the Southern Benguela ecosystem experienced high levels of parameter uncertainty
 (@fig-biomass-timeseries). High parameter uncertainty indicates low confidence in forcasted
 model values. As a result, this investigation does not focus on specific predictions of
 guild biomasses. Instead, this investigation focusses on identifying causal drivers of
-change in the ecosystem using environmental driver experiments. This experimental rather
-than predictive approach emphasises the utility of a computationally efficient end-to-end
+change in the ecosystem using environmental driver experiments. This experimental, rather
+than predictive, approach emphasises the utility of a computationally efficient end-to-end
 ecosystem model in a data-poor context.
 
 ## Demersal fish sensitivity analysis
@@ -271,7 +274,7 @@ One-at-a-Time local sensitivity analysis was performed. Demersal fish larvae den
 dependent mortality; nitrogen uptake half-saturation coefficient; and maximum nitrogen
 uptake rate parameter values were sampled in 100 evenly spaced steps from -25% to +25% of
 the base parameter value from CNRM-CM6-1-HR and GFDL-ESM4 models respectively. A total of
-600 model runs were performed (300 for each parameterised StrathE2E model).
+600 model runs were performed (300 for each model parameterisation).
 
 ## Climate permutation analyses
 
@@ -299,10 +302,10 @@ driving variables are constant across variants of the Southern Benguela StrathE2
 
 ### Shapley effects
 
-Shapley Effects quantify the contribution of a variable to variance in a target model
-output. Variance-based Shapley Effects are an extension of Shapley Values, which are a fair
-way to calculate the contribution of each variable to a given output [@shapley1952]
-(@eq-shapleyvalue).
+Shapley Values quantify the contribution of a variable (traditionally a model parameter) to
+variance in a target model output. Variance-based Shapley Effects are an extension of
+Shapley Values, which are a fair way to calculate the contribution of each variable to a
+given output [@shapley1952] (@eq-shapleyvalue).
 
 $$
 \phi_j(val) = \sum_{S \subseteq \{1,\ldots,p\}\setminus\{j\}} 
@@ -325,24 +328,23 @@ $$ {#eq-varexplained}
 
 ### Climate modelling scenario permutation analyses
 
-To assess how our environmental drivers contribute to model outputs across the available
-Earth System Models, we perform permutations of variables across these levels, within each
-decade and SSP analysed. Within each decade, six variable groups (light, temperature, river
-outputs, vertical mixing and volume nutrient concentrations) vary across ESMs, with two
-possible sets of values per decade (CNRM-CM6-1-HR, GFDL-ESM4). To streamline communication
-of guild Shapley Effect results, we select guilds that have a PCA loading angle to the
-across ESM variation vector of less than 30° (in addition to assessment of Net Primary
-Production).
+To assess how environmental drivers contribute to model outputs across the NEMO-ERSEM
+forcing models used, we perform permutations of variables across these two forcing models,
+within each decade and SSP analysed. Within each decade, six variable groups (light,
+temperature, river outputs, vertical mixing and volume nutrient concentrations) vary across
+ESMs, with two possible sets of values per decade (CNRM-CM6-1-HR, GFDL-ESM4). We focus on
+presenting results for guilds that have a PCA loading angle to the across NEMO-ERSEM forcing
+model variation vector of less than 30° (in addition to assessment of Net Primary
+Production), highlighting guilds that have strong variation across forcing models.
 
-To assess the influence of these variable groups across ESM derived model variation, within
-each decade and SSP the full factorial cross of variable group sets are used as model
+Within each decade and SSP the full factorial cross of variable group sets are used as model
 inputs. These unique permutations of climate variables are then simulated across all
 available decades, with variable group values treated as discrete inputs. Additionally, to
 incorporate variance due to the distinct parameterisations of the StrathE2E model for
 CNRM-CM6-1-HR and GFDL-ESM4 forcing data, these permutations are completed separately with
 different base parameterisations.
 
-The total number of permutations can be calculated as:
+The total number of permutations (model runs) can be calculated as:
 $2ESMs ^{6variables} * 6decades * 2SSPs * 2parameterisations = 1,536permutations$.
 
 ### Climate change impacts permutation analyses
@@ -350,19 +352,18 @@ $2ESMs ^{6variables} * 6decades * 2SSPs * 2parameterisations = 1,536permutations
 To understand how environmental drivers contribute to future change in model outputs across
 decades, we perform variable permutations across three decades (2010-2019, 2030-2039 and
 2060-2069) within each available climate scenario. Three of the six available decades are
-used due to computational constraints. Within each climate scenario seven variable groups
+used due to computational constraints. Within each climate scenario, seven variable groups
 (light, temperature, river outputs, vertical mixing, volume nutrient concentrations and
 atmospheric nutrient flux) vary across decades, with three possible sets of values per
-climate scenario (ESM-SSP combination). To streamline communication of guild Shapley Effect
-results, we select guilds that have a PCA loading angle to the across decade variation
-vector of less than 30° (in addition to assessment of Net Primary Production).
+climate scenario (forcing model - SSP combination). We focus on guilds that have a PCA
+loading angle to the across decade variation vector of less than 30° (in addition to
+assessment of Net Primary Production).
 
-To assess the influence of these variable groups across climate change derived model
-variation, within each climate scenario all unique combinations of variable group sets are
-used as model inputs. These unique permutations of climate variables are supplied to the
-model as inputs across the four available climate scenarios separately.
+Within each climate scenario all unique combinations of variable group sets are used as
+model inputs. These unique permutations of climate variables are supplied to the model as
+inputs across the four available climate scenarios separately.
 
-The total number of permutations run can be calculated as:
+The total number of permutations (model runs) can be calculated as:
 $3decades ^{7variables} * 4scenarios = 8,248permutations$.
 
 We then use these permutations to assess the contribution of each variable group to the
@@ -372,29 +373,27 @@ while other variables remain at a 2010-2019 baseline. These permutations are the
 assess the influence of variable group interactions and the prevalence of non-linear
 interactions.
 
-## Further analyses
-
 # Results
 
 ## Future climate impacts
 
 The StrathE2E models for the Southern Benguela experience high parameter uncertainty,
 resulting in large biomass confidence intervals for all guilds (@fig-biomass-timeseries). As
-a result, this investigation does not assess predicted future biomass levels. Despite large
-timeseries confidence intervals, these confidence bands remain largely uniform under climate
-change (excluding demersal fish, demersal fish larvae and pinnipeds)
-(@fig-biomass-timeseries), highlighting the consistent effects of climate change across
-investigated parameter sets. This is most evident for Omnivorous zooplankton, and total
-nitrogen mass, experiencing diverging trajectories across ESMs despite large confidence
-intervals.
+a result, this investigation does not assess predicted future biomass levels. Biomass
+confidence bands remain largely uniform under climate change (excluding demersal fish,
+demersal fish larvae and pinnipeds) (@fig-biomass-timeseries), highlighting the consistent
+effects of climate change across investigated parameter sets. This is most evident for
+Omnivorous zooplankton, and total nitrogen mass, experiencing diverging trajectories across
+ESMs despite large confidence intervals.
 
 ![Final year, whole - domain, biomass conditions for each decade of forcing data under each
 future scenario. The y axis represents the mean final year biomass in millimoles of Nitrogen
 per gram of wet weight for each guild type. The x axis represents the modelled decades. The
 line colours represent the two climate models, GFDL-ESM4 in blue and CNRM-CM6-1-HR in
 yellow. Linestyles represent the two Shared Socio-Economic Pathways, SSP1-2.6 with solid
-lines and SSP3-7.0 with dashed
-lines.](../figs/initial_cc_assessment/biomass_timeseries.png){#fig-biomass-timeseries
+lines and SSP3-7.0 with dashed lines. Shaded bands represent the 95% confidence intervals
+for output variables obtained from Monte Carlo
+simulations.](../figs/initial_cc_assessment/biomass_timeseries.png){#fig-biomass-timeseries
 width="14.82cm"}
 
 Demersal fish, demersal fish larvae and pinnipeds are particularly sensitive to changes in
@@ -402,7 +401,7 @@ model parameters (@fig-biomass-timeseries), experiencing broader confidence inte
 lower trophic level guilds (@sfig-percent-biomass-timeseries). Guild production rates for
 demersal fish show that modelled demersal fish gain greater nitrogen mass from recruitment
 than from consumption, with recruitment sustaining net production at a positive level
-(@stbl-dfish-biology). A local sensitivity analysis on demersal fish larvae physiological
+(@tbl-dfish-biology). A local sensitivity analysis on demersal fish larvae physiological
 parameters revealed that planktivorous fish, demersal fish, pinnipeds, birds and cetaceans
 are highly sensitive to demersal fish larvae maximum nitrate uptake rate and nitrogen uptake
 half-saturation coefficient values.
@@ -429,14 +428,16 @@ $(cap)
 ```
 
 Ecosystem net primary productivity is projected to substantially increase across modelled
-decades under GFDL-ESM4 (@fig-net-primprod) and decrease under CNRM-CM6-1-HR. There is
-little difference in net primary productivity between SSP1-2.6 and SSP3-7.0.
+decades under GFDL-ESM4 NEMO-ERSEM forcing model (@fig-net-primprod) and decrease under
+CNRM-CM6-1-HR forcing model. There is little difference in net primary productivity between
+SSP1-2.6 and SSP3-7.0.
 
 ![Final year whole - domain net primary production across each decade of forcing data under
 each future scenario. The y axis represents net primary production in millimoles of Nitrogen
 per m~2~ per year. The x axis represents the modelled decades. The line colours represent
-the two climate models, GFDL-ESM4 in blue and CNRM-CM6-1-HR in yellow. Linestyles represent
-the two Shared Socio-Economic Pathways, SSP1-2.6 with solid lines and SSP3-7.0 with dashed
+the two climate models used to force NEMO-ERSEM, GFDL-ESM4 in blue and CNRM-CM6-1-HR in
+yellow. Linestyles represent the two Shared Socio-Economic Pathways, SSP1-2.6 with solid
+lines and SSP3-7.0 with dashed
 lines.](../figs/initial_cc_assessment/net_primary_production_timeseries.png){#fig-net-primprod
 width="12cm"}
 
@@ -444,12 +445,15 @@ Principal Component Analysis highlights the influence of decadal changes and Ear
 Model choice on overall modelled ecosystem biomass states. The first two principal
 components explain 72% of ecosystem biomass variance. Guild contributions to the principal
 components (loadings; @fig-biomass-pca, Panel B) indicate guilds that contribute to
-ecosystem divergence in median biomass states between ESMs over time. Benthos
+ecosystem divergence in median biomass states between forcing models over time. Benthos
 Suspension/Deposit Feeders, Omnivorous zooplankton, surface layer Phytoplankton, total
 nitrogen mass and Carnivorous zooplankton align strongly with ecosystem state changes across
-the Earth System Models (@sfig-pca-separation). Pinnipeds, Demersal fish, deep layer
+the forcing models (@sfig-pca-separation). Pinnipeds, Demersal fish, deep layer
 Phytoplankton, Birds, Benthos Carnivorous/Scavenge Feeders and Cetaceans align strongly with
-ecosystem changes across decades.
+ecosystem changes across decades. There is little variation in ecosystem state across SSPs.
+Additionally, projecting 95% confidence interval ecosystem mass values into PC space
+highlights the greater variation resulting from changes in parameter combinations
+(@sfig-biomass-pca-mc).
 
 ![Panel A: PCA results for final year biomass conditions for each decade of forcing data
 under each future scenario and Earth System Model. The line colours represent the two
@@ -467,16 +471,15 @@ For guilds strongly correlated with temporal ecosystem change, Shapley Effect en
 variable contribution values indicate that temperature, boundary flow and vertical mixing
 driving variables contribute to 100% of the variance in modelled biomass levels. Light,
 river outputs, nutrient concentrations and atmospheric nutrient flux driving variables do
-not contribute to variance in modelled biomasses (@fig-across-decade-shap). When forced by
-CNRM-CM6-1-HR, under SSP1-2.6 five of the six guilds are primarily driven by boundary flows,
-followed by temperature and vertical mixing. Under SSP3-7.0 the contribution of temperature
-to biomass variance increases. When forced by GFDL-ESM4, three of the six guilds are
-primarily driven by boundary flows and three are primarily driven by vertical mixing, with
-all guilds having low importance of temperature. Under all ESMs and SSPs deep layer
-phytoplankton have distinct Shapley Effect values to other guilds. Interactions between
-environmental variable groups account largely do not influence guild biomass outcomes, with
-most variable interactions acting in a purely additively (variable 1 effect + variable 2
-effect) (@sfig-var-interaction-hist).
+not contribute to variance in modelled biomasses (@fig-across-decade-shap). Under SSP3-7.0
+the contribution of temperature to biomass variance increases. When forced by GFDL-ESM4,
+three of the six guilds are primarily driven by boundary flows and three are primarily
+driven by vertical mixing, with all guilds having low importance of temperature. Under all
+NEMO-ERSEM forcing models and SSPs deep layer phytoplankton have distinct Shapley Effect
+values to other assessed guilds, with \>75% of guild biomass variance attributed to vertical
+mixing. Interactions between environmental variable groups largely do not influence guild
+biomass outcomes in a non-linear way, with 99% of variable interactions acting in a purely
+additively manner (variable 1 effect + variable 2 effect) (@sfig-var-interaction-hist).
 
 ![Shapley Effect contribution values for guilds identified as being strongly correlated with
 ecosystem state change over time (@sfig-pca-separation) under each ESM-SSP scenario. Bars
@@ -488,16 +491,16 @@ flux variable
 groups).](../figs/across_decade_permutations/important_guild_shapley.png){#fig-across-decade-shap
 width="14.82cm"}
 
-## Drivers of Earth System Model deviation
+## Drivers of NEMO-ERSEM forcing model deviation
 
-For guilds strongly correlated with ecosystem state separation across the Earth System
-Models, Shapley Effect contribution values indicate high contribution from vertical mixing
-(@fig-across-esm-shap). Boundary flows have the second highest contribution to across – ESM
-variance. Variable groups such as nutrient concentrations, river outputs, light and
-temperature have low contributions to across – ESM variance. Variable group contributions
-for each guild show low sensitivity to StrathE2E model parameterisation, when compared
-across the parameteristations for CNRM-CM6-1-HR baseline and GFDL-ESM4 baseline
-(@fig-across-esm-shap).
+For guilds strongly correlated with ecosystem state separation across the NEMO-ERSEM forcing
+models, Shapley Effect contribution values indicate high contribution from vertical mixing
+(@fig-across-esm-shap). Boundary flows have the second highest contribution to across –
+forcing model biomass variance for almost all guilds assessed. Variable groups such as
+nutrient concentrations, river outputs, light and temperature have low contributions to
+across – forcing model variance. Variable group contributions for each guild show low
+sensitivity to StrathE2E model parameterisation, when compared across the parameteristations
+for CNRM-CM6-1-HR baseline and GFDL-ESM4 baseline (@fig-across-esm-shap).
 
 ![Shapley Effect contribution values for guilds identified as being strongly correlated with
 differences in ecosystem state across the Earth System Models (@sfig-pca-separation), for
@@ -509,43 +512,23 @@ width="14.82cm"}
 
 # Discussion
 
--   **High level summary of results:**
-
 Modelling the Southern Bengeula ecosystem using StrathE2E models highlights a strong
 possible influence of climate change on the system, particularly for net primary
 productivity and total nitrogen mass. Despite high levels of parameter uncertainty under
-present and future conditions, future changes in temperature and water movement within and
-in/out of the system may strongly effect ecosystem functioning.
-
-```{=html}
-<!-- The results of this investigation suggest the Southern Benguela ecosystem is projected to
-change substantially from a 2010-2019 baseline. While benthos, phytoplankton and
-planktivorous fish guilds are projected to decline, declines are not projected to cause
-trophic cascades to top predators such as cetaceans, birds and demersal fish. Climate driven
-ecosystem changes are projected to be primarily influenced by changes in temperature, flows
-of nutrients into the region, and downwelling and upwelling between the deep and shallow
-layers of the ecosystem. There have been few investigations into ecosystem impacts already
-experienced due to climate change, however spatial distribution changes in West Coast Rock
-Lobster *Jasus lalandii* in the region are correlated with changes in upwelling
-[@blamey2012]. A surface level comparison of StrathE2E results suggests Carnivorous/Scavenge
-feeding benthos may decline under climate change in the modelled region.
-
-**For Kelly: Would you be able to expand on the consequences of the possible result
-trajectories for the ecosystem?** -->
-```
+present and future conditions, future changes in temperature, boundary flows within and
+in/out of the system, and vertical mixing (downwelling and upwelling) may strongly effect
+ecosystem functioning.
 
 There have been few investigations into ecosystem impacts already experienced due to climate
 change and their drivers. **Blamey et al. 2015** suggest observed species range shifts over
 the 1980-2013 period are linked to cooling and increased upwelling variability in inshore
 waters. A future cooling trends is not represented in the environmental driving data used
-(@sfig-driver-temp), suggesting that regional scale biogeochemical modelling and validation
-of model behaviour with observed trends will help to reduce uncertainty in model
-projections. Additionally, to investigate possible future drivers of range shifts for
+(@sfig-driver-temp), suggesting that finer scale biogeochemical modelling and validation of
+model behaviour with observed trends will help to reduce uncertainty in model projections
+for the region. Additionally, to investigate possible future drivers of range shifts for
 species in the region, the climate change scenario analysis presented in this investigation
 could be applied to an ecosystem model that explicitly represents the spatial distribution
 and dispersal of guild biomass.
-
-**Guilds with strong decadal trends and low ESM differences:**
 
 High trophic level guilds in the southern Benguela model show high levels of variation due
 to model parameter uncertainty. Monte Carlo simulations reveal particular uncertainty in
@@ -579,9 +562,9 @@ and downwelling (@sfig-driver-vertical-mixing). While the low influence of nutri
 concentration variables suggests that the spatial dynamics of the system may be more
 influential.
 
-Low scenario uncertainty and high parameter uncertainty suggest data collection and model
-selection are important areas of focus for demersal fish and high trophic level guilds in
-the region. Modelling for the Southern Benguela region using an Atlantis ecosystem model
+Greater parameter uncertainty than future scenario uncertainty suggest data collection and
+model selection are important areas of focus for demersal fish and high trophic level guilds
+in the region. Modelling for the Southern Benguela region using an Atlantis ecosystem model
 projected declines for almost all functional groups including top predators such as
 Cetaceans, seabirds and demersal fish such as sharks [@ortega-cisneros2018]. Additionally,
 temperature was suggested as the most influential driver of climate impacts on guilds, with
@@ -598,22 +581,21 @@ with Ecosim) projections of biomass under climate change, including for the Sout
 Benguela region. This comparison revealed high divergences in biomass projections in the
 Southern Benguela region depending on the spatial scale of modelling and the ecosystem model
 used [@eddy2025]. An in-depth comparison of modelling for the Southern Benguela ecosystem
-using an ensemble approach including Atlantis, Ecopath with Ecosim, and StrathE2E would
+using an ensemble approach including, among other models, Atlantis and StrathE2E would
 improve understanding about the possible magnitude and drivers of climate change impacts,
 enhancing informed decision making processes [@hill2007].
 
--   **High scenario uncertainty (structural uncertainty in Earth System Modelling) and
-    associated driving variables:**
-
 The choice of the two Earth System Models forcing StrathE2E strongly influences projected
-ecosystem outcomes (@fig-biomass-pca). Low trophic level model components, as well as Net
-Primary Production, display diverging trajectories under each ESM. Vertical mixing
-contributes the most (\> 60%) to variance for the majority of these guilds. Vertical mixing
-variables (downwelling and upwelling rates, and vertical diffusivity) show similar patterns
-under GFDL-ESM4 and CNRM-CM6-1-HR, with GFDL-ESM4 projecting greater extremes and variance
-in vertical mixing. The high influence of vertical mixing on these guilds despite lower
-future variance across ESMs than variable groups such as temperature highlights the
-sensitivity of the lower trophic levels in the ecosystem to vertical mixing changes.
+ecosystem outcomes (@fig-biomass-pca). The two forcing models project different future
+windfields in the region, resulting in distinct NEMO-ERSEM projections of upwelling and
+downwelling. Low trophic level model components, as well as Net Primary Production, display
+diverging median trajectories under each ESM. Vertical mixing contributes the most (\> 60%)
+to variance for the majority of these guilds. Vertical mixing variables (downwelling and
+upwelling rates, and vertical diffusivity) show similar patterns under GFDL-ESM4 and
+CNRM-CM6-1-HR, with GFDL-ESM4 projecting greater extremes and variance in vertical mixing.
+The high influence of vertical mixing on these guilds despite lower future variance across
+ESMs than variable groups such as temperature highlights the sensitivity of the lower
+trophic levels in the ecosystem to vertical mixing changes.
 
 The Southern Bengeula is known to experience high variability on multiple spatial and
 temporal scales as a result of the high influence of upwelling [@lamont2014; @shannon2020].
@@ -631,8 +613,6 @@ region **Littell 2011**.
 
 **For Yuri: Would you be able to expand on the representation of upwelling in the Earth
 System Models and NEMO-ERSEM?**
-
--   **Implications for monitoring and research under climate change:**
 
 In the face of high uncertainty and diverging possible trajectories for the ecosystem,
 climate change impact investigations would benefit from comparisons of a broad range of
@@ -658,26 +638,31 @@ such as near-term ecological forecasting may offer a pathway to iteratively inco
 advancements in ecological and climate change understanding in the region at timescales
 relevant to management decisions **Dietze 2024**.
 
--   **Highlighting why prediction is not the :**
-
 Due to high parameter uncertainty evident in modelled guild outputs, this investigation does
 not focus on specific predictions of guild biomass under climate change. Overall, modelled
 trends have large confidence intervals for the biomass levels of all guilds. High
 uncertainty arising from parameter estimates may be due to biased or inconsistent target
-data used for fitting [@hilborn1992]. While parameterised using data spanning 2010-2019
-where possible, target data for guild production rates and P:B ratios were sourced from
-ecological models of the 1970-2015 that used departmental survey data to model fisheries
-[@shannon2020]. Due to limited data availability, this investigation used reconstructed
-fisheries data for the 2010-2019 period from Sea Around Us [@zeller2017] with domestic fleet
-uncertainty scores ranging from "low" ($+/-$ 30%) to "very low" ($+/-$ 50%). Reconstructed
-catch timeseries for Sardines, Anchovies, Herring and Cape Hakes closely match those
-reported in @statuso2023. For more information on the model fitting process see **\\\[Insert
-Supplementary file link for implementation doc.\\\]**. Despite poor quality and completeness
-of fitting target data, we use StrathE2E models in an exploratory approach to identify key
-drivers of climate change impacts. In addition to exploratory scenario modelling approaches,
-it has been suggested that high uncertainty in predictions does not necessarily prevent
-decision support, but requires the use of alternative decision support methods such as
-probabilistic management strategy evaluation **Ascough 2008; Reichert and Borsuk 2005**.
+data used for fitting [@hilborn1992]. Additionally, identifying suitable parameter values
+increases in difficulty as model complexity increases **Preston et al.**. While
+parameterised using data spanning 2010-2019 where possible, target data for guild production
+rates and P:B ratios were sourced from ecological models of the 1970-2015 that used
+departmental survey data to model fisheries [@shannon2020]. Due to limited data
+availability, this investigation used reconstructed fisheries data for the 2010-2019 period
+from Sea Around Us [@zeller2017] with domestic fleet uncertainty scores ranging from "low"
+($+/-$ 30%) to "very low" ($+/-$ 50%). Reconstructed catch timeseries for Sardines,
+Anchovies, Herring and Cape Hakes closely match those reported in @statuso2023. For more
+information on the model fitting process see **\[Insert Supplementary file link for
+implementation doc.\]**. Improved completeness and quality of model calibration data may
+help to reduce parameter uncertainty.
+
+To navigate high parameter uncertainty, we use StrathE2E models in an exploratory approach
+to identify key drivers of climate change impacts. In addition to exploratory scenario
+modelling approaches, it has been suggested that high uncertainty in predictions does not
+necessarily prevent decision support, but requires the use of alternative decision support
+methods such as probabilistic management strategy evaluation **Ascough 2008; Reichert and
+Borsuk 2005**. Additionally, the validation of ecosystem models with independently sourced
+data, particularly validation of modelled responses to climate change impacts, will improve
+model certainty and decision support confidence **Lubiana botelho**.
 
 Due to computational constraints, this investigation does not include full global parameter
 sensitivity analyses for the StrathE2E models presented. This technique is recommended to
@@ -690,18 +675,31 @@ driving influences across plausible model parameterisations, rather than a singl
 parameterisation **geary 2020**.
 
 Additionally, this investigation focussed on the influence of environmental drivers in
-isolation. Observational investigations have suggested that trends in fishing effort in the
-region may interact with climate change driven environmental trends in the region, altering
-the hazards experienced by species **Jarre 2015, Ramirez 2022**. Using StrathE2E as a
-computationally efficient model to explore the interacting effects of climate and fishing
-changes may improve knowledge available for management decisions. Using a protocol such as
-Ocean System Pathways (developed by FishMIP - the Fisheries and Marine Ecosystems Model
-Intercomparison Project), which outlines a standardised approach for modelling the influence
-of future climate change and fisheries trends on ecosystems would allow StrathE2E to
-contribute to valuable model intercomparison investigations for this uncertain region
-**Maury 2025**.
+isolation from parameter combinations. Observational investigations have suggested that
+trends in fishing effort in the region may interact with climate change driven environmental
+trends in the region, altering the hazards experienced by species **Jarre 2015, Ramirez
+2022**. Using StrathE2E as a computationally efficient model to explore the interacting
+effects of climate and fishing changes may improve knowledge available for management
+decisions. Using a protocol such as Ocean System Pathways (developed by FishMIP - the
+Fisheries and Marine Ecosystems Model Intercomparison Project), which outlines a
+standardised approach for modelling the influence of future climate change and fisheries
+trends on ecosystems would allow StrathE2E to contribute to valuable model intercomparison
+investigations for this uncertain region **Maury 2025**.
 
 ## Conclusions
+
+This investigation used end-to-end StrathE2E models to explore possible consequences of
+future climate change on the Southern Benguela Upwelling ecosystem. This investigation
+highlights where improvements in representation and parameterisation of guilds such as
+demersal fish, as well as observational fitting data, would improve understanding and
+projections of climate change impacts. The results presented suggest that temperature and
+water mixing are important environmental drivers of ecosystem change in the SBUS.
+Additionally, future scenario uncertainty (as a result of uncertain projections of upwelling
+related winds) strongly influences projections for low trophic level guilds, highlighting
+the value of improved environmental climate change monitoring and modelling. This
+investigation portrays one ecosystem modelling approach for exploring climate change impact
+drivers, however inter-comparisons of regional ecosystem models under climate change will be
+valuable to increase certainty and understanding.
 
 # References
 
@@ -748,6 +746,8 @@ coastline (pixels) relative to the model domain area (red polygon). Pixels used 
 specification (distances \< 20km and depths \< 800m) are displayed in the
 map.](../figs/domain_separation_map.png){#sfig-distance-depth-map width="14.82cm"}
 
+## Supplementary results
+
 ![Change in guild final year whole domain biomass relative to 2010-2019 for each decade of
 forcing data under each future scenario. The y axis represents the change in final year
 biomass as a percentage of 2010-2019 biomass for each guild. The x axis represents the
@@ -771,7 +771,8 @@ represent the two Shared Socio-Economic Pathways, SSP1-2.6 with solid lines and 
 with dashed lines. Dot points represent 2010-2019 decade of forcing, and arrowheads
 represent the 2060-2069 decade of forcing. Polygons represent ecosystem mass 95% confidence
 intervals generated from Monte Carlo parameter simulations, projected into median PC
-space.](../figs/initial_cc_assessment/biomass_pca.png){width="14.82cm"}
+space.](../figs/initial_cc_assessment/biomass_pca_mc.png){#sfig-biomass-pca-mc
+width="14.82cm"}
 
 ![Distribution of residual interaction effects between environmental variables based on
 biomass change from the 2010-2019 to 2060-2069 decades. Variable interaction effect values
@@ -799,40 +800,7 @@ layer offshore compartment, so_si_inflow - horizontal flow of water from the off
 inshore shallow layer.). Values indicate levels of each driving variable across 12 months of
 the year. Line colours represent the decade of driving data and line styles represent the
 four Earth System Model and Shared Socio-Economic Pathway
-combinations.](../figs/env_drivers/boundary_flows_driver_timeseries.png){#sfig-driver-boundary-flows
-width="14.82cm"}
-
-![Monthly timeseries (decadal averages) of environmental driving data for variables in the
-boundary flows variable group (d_inflow - inflow of water from external sources into the
-deep layer, si_inflow - inflow of water from external sources into the shallow layer inshore
-compartment, si_outflow - outflow of water from the shallow layer inshore compartment to
-external water masses, so_inflow - inflow of water from external sources into the shallow
-layer offshore compartment, so_si_inflow - horizontal flow of water from the offshore to
-inshore shallow layer.). Values indicate levels of each driving variable across 12 months of
-the year. Line colours represent the decade of driving data and line styles represent the
-four Earth System Model and Shared Socio-Economic Pathway
 combinations.](../figs/env_drivers/boundary_flows_driver_timeseries.png){width="14.82cm"}
-
-![Monthly timeseries (decadal averages) of environmental driving data for variables in the
-vertical mixing variable group (d_so_upwelling - upwelling of water from the deep layer to
-the shallow offshore compartment, logkvert - Log10 vertical diffusion coefficient at the
-interface between the deep and shallow offshore layers, so_d_downwelling - downwelling of
-water from the shallow offshore compartment to the deep layer). Values indicate levels of
-each driving variable across 12 months of the year. Line colours represent the decade of
-driving data and line styles represent the four Earth System Model and Shared Socio-Economic
-Pathway
-combinations.](../figs/env_drivers/vertical_mixing_driver_timeseries.png){#sfig-driver-vertical-mixing
-width="14.82cm"}
-
-![Monthly timeseries (decadal averages) of environmental driving data for variables in the
-vertical mixing variable group (d_so_upwelling - upwelling of water from the deep layer to
-the shallow offshore compartment, logkvert - Log10 vertical diffusion coefficient at the
-interface between the deep and shallow offshore layers, so_d_downwelling - downwelling of
-water from the shallow offshore compartment to the deep layer). Values indicate levels of
-each driving variable across 12 months of the year. Line colours represent the decade of
-driving data and line styles represent the four Earth System Model and Shared Socio-Economic
-Pathway
-combinations.](../figs/env_drivers/vertical_mixing_driver_timeseries.png){width="14.82cm"}
 
 ![Monthly timeseries (decadal averages) of environmental driving data for variables in the
 vertical mixing variable group (d_so_upwelling - upwelling of water from the deep layer to
@@ -853,15 +821,6 @@ analyses. Variables in the "atmospheric nutrient flux" group do not vary across 
 removed from across ESM permutation
 analyses.](../figs/env_drivers/driving_variable_variation.png){#sfig-driving-variable-variation
 width="14.82cm"}
-
-![Coefficient of variation values for each driving variable across decades (left) and across
-Earth System Models (right). Coefficients of variation are calculated based on monthly
-values using the annual variance averaged across the remaining analysis levels (averaged
-across SSPs and ESMs for across decade values, and averaged across decades and SSPs for
-across ESM values). Bars are coloured by the variable groupings used for permutation
-analyses. Variables in the "atmospheric nutrient flux" group do not vary across ESMs so were
-removed from across ESM permutation
-analyses.](../figs/initial_cc_assessment/driving_variable_variation.png){width="14.82cm"}
 
 ![Proportional sources of nitrogen influx to guilds whose PCA loadings correlate strongly
 (within 30°) with ecosystem decadal trends. Diet proportions are displayed for each model
