@@ -274,7 +274,7 @@ ecosystem model in a data-poor context.
 Initial results from the StrathE2E models identified high parameter uncertainty for closely
 linked predatory guilds such as planktivorous fish, demersal fish, pinnipeds, birds and
 cetaceans, likely due to high reliance of demersal fish on recruitment for biomass
-maintainence @tbl-fish-biol. To investigate the influence of demersal fish larvae
+maintainence @tbl-dfish-biology. To investigate the influence of demersal fish larvae
 parameterisation on predatory guilds a One-at-a-Time local sensitivity analysis was
 performed. Demersal fish larvae density dependent mortality; nitrogen uptake half-saturation
 coefficient; and maximum nitrogen uptake rate parameter values were sampled in 100 evenly
@@ -332,29 +332,7 @@ $$
 Var[E[Y|X_S]]
 $$ {#eq-varexplained}
 
-### Climate modelling scenario permutation analyses
-
-To assess how environmental drivers contribute to model outputs across the NEMO-ERSEM
-forcing models used, we perform permutations of variables across these two forcing models,
-within each decade and SSP analysed. Within each decade, six variable groups (light,
-temperature, river outputs, vertical mixing and volume nutrient concentrations) vary across
-NEMO-ERSEM forcing models, with two possible sets of values per decade (CNRM-CM6-1-HR,
-GFDL-ESM4). We focus on presenting results for guilds that have a PCA loading angle to the
-across NEMO-ERSEM forcing model variation vector of less than 30° (in addition to assessment
-of Net Primary Production), highlighting guilds that have strong variation across forcing
-models.
-
-Within each decade and SSP the full factorial cross of variable group sets are used as model
-inputs. These unique permutations of climate variables are then simulated across all
-available decades, with variable group values treated as discrete inputs. Additionally, to
-incorporate variance due to the distinct parameterisations of the StrathE2E model for
-CNRM-CM6-1-HR and GFDL-ESM4 forcing data, these permutations are completed separately with
-different base parameterisations.
-
-The total number of permutations (model runs) can be calculated as:
-$2NEMO-ERSEM forcing models ^{6variables} * 6decades * 2SSPs * 2parameterisations = 1,536permutations$.
-
-### Climate change impacts permutation analyses
+### Investigating drivers of change across decades
 
 To understand how environmental drivers contribute to future change in model outputs across
 decades, we perform variable permutations across three decades (2010-2019, 2030-2039 and
@@ -379,6 +357,28 @@ identify model runs where variable combinations of variable groups are changed t
 while other variables remain at a 2010-2019 baseline. These permutations are then used to
 assess the influence of variable group interactions and the prevalence of non-linear
 interactions.
+
+### Investigating drivers of change across NEMO-ERSEM forcing models
+
+To assess how environmental drivers contribute to model outputs across the NEMO-ERSEM
+forcing models used, we perform permutations of variables across these two forcing models,
+within each decade and SSP analysed. Within each decade, six variable groups (light,
+temperature, river outputs, vertical mixing and volume nutrient concentrations) vary across
+NEMO-ERSEM forcing models, with two possible sets of values per decade (CNRM-CM6-1-HR,
+GFDL-ESM4). We focus on presenting results for guilds that have a PCA loading angle to the
+across NEMO-ERSEM forcing model variation vector of less than 30° (in addition to assessment
+of Net Primary Production), highlighting guilds that have strong variation across forcing
+models.
+
+Within each decade and SSP the full factorial cross of variable group sets are used as model
+inputs. These unique permutations of climate variables are then simulated across all
+available decades, with variable group values treated as discrete inputs. Additionally, to
+incorporate variance due to the distinct parameterisations of the StrathE2E model for
+CNRM-CM6-1-HR and GFDL-ESM4 forcing data, these permutations are completed separately with
+different base parameterisations.
+
+The total number of permutations (model runs) can be calculated as:
+$2NEMO-ERSEM forcing models ^{6variables} * 6decades * 2SSPs * 2parameterisations = 1,536permutations$.
 
 # Results
 
@@ -420,7 +420,7 @@ half-saturation coefficient values.
 #| output: asis
 
 cap = """
-Biological values and rates for demersal fish and demersal fish larvae guilds when modelled for 2010-2019 using GFDL-ESM4 and CNRM-CM6-1-HR StrathE2E models under SSP3-7.0. Values represent the outputs from the final model year after running to steady state. `T_uptake` represents the total uptake of nitrogen by the guild. `T_defec_excr` represents the total nitrogen output by the guild as a result of metabolism and excretion. `Recruitment` represents the total nitrogen gained through recruitment of larvae to adults. `Spawning` represents the total nitrogen gained through spawning. `Net_Prod_feeding` represents conversion rate of nitrogen ingested to biomass, less nitrogen lost through excretion (T_uptake - T_defec_excr). `Net_Prod` represents the total rate of nitrogen gained including recruitment and spawning processes (Recruitment + Spawning + Net_Prod_feeding). Recruitment reliance can be seen where `Recruitment` contributes greater mass to the guild than `T_uptake`.
+Biological values and rates for demersal fish and demersal fish larvae guilds when modelled for 2010-2019 (and 2060-2069 for larvae) using GFDL-ESM4 and CNRM-CM6-1-HR StrathE2E models under SSP3-7.0. Values represent the outputs from the final model year after running to steady state. `T_uptake` represents the total uptake of nitrogen by the guild. `T_defec_excr` represents the total nitrogen output by the guild as a result of metabolism and excretion. `Recruitment` represents the total nitrogen gained through recruitment of larvae to adults. `Spawning` represents the total nitrogen gained through spawning. `Net_Prod_feeding` represents conversion rate of nitrogen ingested to biomass, less nitrogen lost through excretion (T_uptake - T_defec_excr). `Net_Prod` represents the total rate of nitrogen gained including recruitment and spawning processes (Recruitment + Spawning + Net_Prod_feeding). Recruitment reliance can be seen where `Recruitment` contributes greater mass to the guild than `T_uptake`.
 """
 using Markdown, Tables, MarkdownTables, CSV, DataFrames
 cd("../src")
@@ -499,7 +499,7 @@ nutrient flux variable
 groups).](../figs/across_decade_permutations/important_guild_shapley.png){#fig-across-decade-shap
 width="14.82cm"}
 
-## Drivers of NEMO-ERSEM forcing model deviation
+## Drivers of variance across NEMO-ERSEM forcing models
 
 For guilds strongly correlated with ecosystem state separation across the NEMO-ERSEM forcing
 models, Shapley Effect contribution values indicate high contribution from vertical mixing
@@ -555,20 +555,22 @@ change are highly uncertain due to their sensitivity to demersal fish larval par
 
 Under climate change, median likelihood trajectories for predatory guilds show high
 consistency across the CMIP6 forcing models, suggesting uncertainty across future scenarios
-(forcing models) is less influential than uncertainty across parameterisations.
-Environmental forcing data modelled using CNRM-CM6-1-HR shows substantially greater change
-in temperature over future decades compared to GFDL-ESM4 (@sfig-driver-temp), aligning with
-the increased sensitivity of CNRM-CM6-1-HR to increases in CO~2~ compared to GFDL-ESM4
-[@dunne2020; @jones2023]. In StrathE2E temperature directly influences the metabolism and
-prey uptake rates for predatory guilds. Additionally, CNRM driving data shows substantially
-different seasonal trends in boundary flows compared to GFDL-ESM4 with distinct patterns of
-nutrient inflows and outflows in the inshore region (@sfig-driver-boundary-flows). In the
-models, boundary flows influence the distribution of prey items across the domain boxes,
-affecting predator distributions and nutrient uptake rates. GFDL-ESM4 forcing data shows
-greater a greater degree of seasonal variability levels of vertical diffusivity and offshore
-upwelling and downwelling (@sfig-driver-vertical-mixing). While the low influence of
-nutrient concentration variables suggests that the spatial dynamics of the system may be
-more influential.
+(forcing models) is less influential than uncertainty across parameterisations. Median
+timeseries project increases in high trophic level guilds due to increased demersal fish
+larvae biomass assimilation as a result of increased temperatures (@tbl-dfish-biology),
+however projections are highly sensitive to demersal fish larvae physiological parameters.
+Under each forcing model, environmental driving variables contribute differently to guild
+biomass (@fig-fig-across-decade-shap), however differing contributions across the ecosystem
+result in similar median timeseries for these high trophic level guilds. In StrathE2E
+temperature directly influences the metabolism and prey uptake rates for predatory guilds.
+Additionally, CNRM driving data shows substantially different seasonal trends in boundary
+flows compared to GFDL-ESM4 with distinct patterns of nutrient inflows and outflows in the
+inshore region (@sfig-driver-boundary-flows). In the models, boundary flows influence the
+distribution of prey items across the domain boxes, affecting predator distributions and
+nutrient uptake rates. GFDL-ESM4 forcing data shows greater a greater degree of seasonal
+variability levels of vertical diffusivity and offshore upwelling and downwelling
+(@sfig-driver-vertical-mixing). While the low influence of nutrient concentration variables
+suggests that the spatial dynamics of the system may be more influential.
 
 Greater parameter uncertainty than future scenario uncertainty suggest data collection and
 model selection are important areas of focus for demersal fish and high trophic level guilds
@@ -615,13 +617,12 @@ projections using 13 ESMs @cioffi2025 found that differences in projected change
 upwelling-favourable winds resulted in substantial model uncertainty in NPP. These
 conclusions are supported by the results of this investigation, which suggest a high level
 of uncertainty in ecosystem state projections is due to differences in vertical mixing
-projections across NEMO-ERSEM forcing models. Expanding the ensemble of NEMO-ERSEM forcing
-models used to force StrathE2E would improve incorporation of scenario uncertainty into
-predictions, particularly using models that have been assessed for reproduction of upwelling
-in the region [@littell2011].
-
-**For Yuri: Would you be able to expand on the representation of upwelling in the Earth
-System Models and NEMO-ERSEM?**
+projections across NEMO-ERSEM forcing models. A formal model assessment/validation of
+NEMO-ERSEM's projection of upwelling, along with validation of wind projections obtained
+from climate models would improve confidence in subsequent ecosystem models in EBUS regions.
+Expanding the ensemble of NEMO-ERSEM forcing models used to force StrathE2E would improve
+incorporation of scenario uncertainty into predictions, particularly using models that have
+been assessed for reproduction of upwelling in the region [@littell2011].
 
 In the face of high uncertainty and diverging possible trajectories for the ecosystem,
 climate change impact investigations would benefit from comparisons of a broad range of
@@ -647,11 +648,13 @@ such as near-term ecological forecasting may offer a pathway to iteratively inco
 advancements in ecological and climate change understanding in the region at timescales
 relevant to management decisions [@dietze2024].
 
+## Limitations
+
 Due to high parameter uncertainty evident in modelled guild outputs, this investigation does
 not focus on specific predictions of guild biomass under climate change. Overall, modelled
 trends have large confidence intervals for the biomass levels of all guilds. High
 uncertainty arising from parameter estimates may be due to biased or inconsistent target
-data used for fitting [@hilborn1992]. Additionally, identifying suitable parameter values
+data used for fitting [@hilborn1992]. Additionally, identifying best-fit parameter values
 increases in difficulty as model complexity increases [@preston2025]. While parameterised
 using data spanning 2010-2019 where possible, target data for guild production rates and P:B
 ratios were sourced from ecological models of the 1970-2015 that used departmental survey
