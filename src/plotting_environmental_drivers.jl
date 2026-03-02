@@ -31,13 +31,14 @@ for vg in variables
         X = (; label = "Month"), 
         Y = (; label = "Monthly Value"),
         Color = (; label = "Decade"),
-        LineStyle = (; label = "Earth System Model - Socio-Economic Pathway", categories = ["CNRM-ssp126" => "CNRM-CM6-1-HR\nSSP1-2.6", "CNRM-ssp370" => "CNRM-CM6-1-HR\nSSP3-7.0", "GFDL-ssp126" => "GFDL-ESM4\nSSP1-2.6", "GFDL-ssp370" => "GFDL-ESM4\nSSP3-7.0"])
+        LineStyle = (; label = "NEMO-ERSEM forcing model", categories = ESM_categories),
+        Row = (; categories = SSP_categories)
     )
     facet_opts = (; linkyaxes=:none)
     legend_opts = (; position=:bottom, nbanks=3)
     axis_opts = (; xticklabelrotation = π/4)
 
-    line = data(sub_drivers) * mapping(:month, :value, color=:decade, linestyle=:ESM_SSP, layout=:variable) * visual(Lines)
+    line = data(sub_drivers) * mapping(:month, :value, color=:decade, linestyle=:ESM, col=:variable, row=:SSP) * visual(Lines)
     fig = draw(line, scale; figure=fig_opts, axis=axis_opts, legend=legend_opts, facet=facet_opts)
 
     save("../figs/env_drivers/$(vg)_driver_timeseries.png", fig, px_per_unit=dpi)
