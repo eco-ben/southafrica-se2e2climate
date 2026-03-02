@@ -252,10 +252,11 @@ To explore the drivers and trends of ecosystem state under climate change we per
 principal component analysis (PCA) on median steady state biomass values, rotating the
 multivariate guild biomass values along two principal components (PC1 and PC2) that explain
 72.6% of data variance. To identify guilds that contribute strongly to across decade and
-across ESM variation in the principal components we calculate the average vector between the
-decades and average vector between the ESMs in PC space. We then quantify the guild's
-contribution as the angle between guild biomass PCA loadings and the variation vectors,
-selecting guilds that strongly correlate with across decade and ESM variation respectively.
+across- NEMO-ERSEM forcing model variation in the principal components we calculate the
+average vector between the decades and average vector between the forcing models in PC
+space. We then quantify the guild's contribution as the angle between guild biomass PCA
+loadings and the variation vectors, selecting guilds that strongly correlate with across
+decade and forcing model variation respectively.
 
 Following initial climate change analyses, both CNRM-CM6-1-HR and GFDL-ESM4 StrathE2E models
 for the Southern Benguela ecosystem experienced high levels of parameter uncertainty
@@ -335,10 +336,11 @@ To assess how environmental drivers contribute to model outputs across the NEMO-
 forcing models used, we perform permutations of variables across these two forcing models,
 within each decade and SSP analysed. Within each decade, six variable groups (light,
 temperature, river outputs, vertical mixing and volume nutrient concentrations) vary across
-ESMs, with two possible sets of values per decade (CNRM-CM6-1-HR, GFDL-ESM4). We focus on
-presenting results for guilds that have a PCA loading angle to the across NEMO-ERSEM forcing
-model variation vector of less than 30° (in addition to assessment of Net Primary
-Production), highlighting guilds that have strong variation across forcing models.
+NEMO-ERSEM forcing models, with two possible sets of values per decade (CNRM-CM6-1-HR,
+GFDL-ESM4). We focus on presenting results for guilds that have a PCA loading angle to the
+across NEMO-ERSEM forcing model variation vector of less than 30° (in addition to assessment
+of Net Primary Production), highlighting guilds that have strong variation across forcing
+models.
 
 Within each decade and SSP the full factorial cross of variable group sets are used as model
 inputs. These unique permutations of climate variables are then simulated across all
@@ -348,7 +350,7 @@ CNRM-CM6-1-HR and GFDL-ESM4 forcing data, these permutations are completed separ
 different base parameterisations.
 
 The total number of permutations (model runs) can be calculated as:
-$2ESMs ^{6variables} * 6decades * 2SSPs * 2parameterisations = 1,536permutations$.
+$2NEMO-ERSEM forcing models ^{6variables} * 6decades * 2SSPs * 2parameterisations = 1,536permutations$.
 
 ### Climate change impacts permutation analyses
 
@@ -387,7 +389,7 @@ confidence bands remain largely uniform under climate change (excluding demersal
 demersal fish larvae and pinnipeds) (@fig-biomass-timeseries), highlighting the consistent
 effects of climate change across investigated parameter sets. This is most evident for
 Omnivorous zooplankton, and total nitrogen mass, experiencing diverging trajectories across
-ESMs despite large confidence intervals.
+NEMO-ERSEM forcing models despite large confidence intervals.
 
 ![Final year, whole - domain, biomass conditions for each decade of forcing data under each
 future scenario. The y axis represents the mean final year biomass in millimoles of Nitrogen
@@ -459,13 +461,14 @@ highlights the greater variation resulting from changes in parameter combination
 (@sfig-biomass-pca-mc).
 
 ![Panel A: PCA results for final year biomass conditions for each decade of forcing data
-under each future scenario and Earth System Model. The line colours represent the two
+under each future scenario and NEMO-ERSEM forcing model. The line colours represent the two
 climate models, GFDL-ESM4 in blue and CNRM-CM6-1-HR in yellow. Linestyles represent the two
 Shared Socio-Economic Pathways, SSP1-2.6 with solid lines and SSP3-7.0 with dashed lines.
 Dot points represent 2010-2019 decade of forcing, and arrowheads represent the 2060-2069
 decade of forcing. Panel B: PCA axis loadings for each of the guild biomass state variables.
-Red and blue dashed lines represent the average direction of change in PC values across ESMs
-and decades respectively.](../figs/initial_cc_assessment/biomass_pca.png){#fig-biomass-pca
+Red and blue dashed lines represent the average direction of change in PC values across
+NEMO-ERSEM forcing models and decades
+respectively.](../figs/initial_cc_assessment/biomass_pca.png){#fig-biomass-pca
 width="14.82cm"}
 
 ## Drivers of temporal ecosystem change
@@ -485,12 +488,12 @@ biomass outcomes in a non-linear way, with 99% of variable interactions acting i
 additively manner (variable 1 effect + variable 2 effect) (@sfig-var-interaction-hist).
 
 ![Shapley Effect contribution values for guilds identified as being strongly correlated with
-ecosystem state change over time (@sfig-pca-separation) under each ESM-SSP scenario. Bars
-represent the contribution of each variable group to guild biomass variance, with a value of
-1 representing explanation of 100% of guild variance. Variables are represented by different
-colours, with a lack of colour indicating no contribution of output variance (no
-contribution from light, river outputs, nutrient concentrations and atmospheric nutrient
-flux variable
+ecosystem state change over time (@sfig-pca-separation) under each forcing model - SSP
+scenario. Bars represent the contribution of each variable group to guild biomass variance,
+with a value of 1 representing explanation of 100% of guild variance. Variables are
+represented by different colours, with a lack of colour indicating no contribution of output
+variance (no contribution from light, river outputs, nutrient concentrations and atmospheric
+nutrient flux variable
 groups).](../figs/across_decade_permutations/important_guild_shapley.png){#fig-across-decade-shap
 width="14.82cm"}
 
@@ -506,10 +509,10 @@ sensitivity to StrathE2E model parameterisation, when compared across the parame
 for CNRM-CM6-1-HR baseline and GFDL-ESM4 baseline (@fig-across-esm-shap).
 
 ![Shapley Effect contribution values for guilds identified as being strongly correlated with
-differences in ecosystem state across the Earth System Models (@sfig-pca-separation), for
-each StrathE2E parameterisation. Points represent the median Shapley Effect value for each
-guild and variable group across the combinations of two SSPs and six decades. Error bars
-represent the interquartile range of Shapley Effect values for each guild and variable
+differences in ecosystem state across the NEMO-ERSEM forcing models (@sfig-pca-separation),
+for each StrathE2E parameterisation. Points represent the median Shapley Effect value for
+each guild and variable group across the combinations of two SSPs and six decades. Error
+bars represent the interquartile range of Shapley Effect values for each guild and variable
 group.](../figs/across_esm_permutations/median_shapley_effects.png){#fig-across-esm-shap
 width="14.82cm"}
 
@@ -588,17 +591,18 @@ using an ensemble approach including, among other models, Atlantis and StrathE2E
 improve understanding about the possible magnitude and drivers of climate change impacts,
 enhancing informed decision making processes [@hill2007].
 
-The choice of the two Earth System Models forcing StrathE2E strongly influences projected
-ecosystem outcomes (@fig-biomass-pca). The two forcing models project different future
-windfields in the region, resulting in distinct NEMO-ERSEM projections of upwelling and
-downwelling. Low trophic level model components, as well as Net Primary Production, display
-diverging median trajectories under each ESM. Vertical mixing contributes the most (\> 60%)
-to variance for the majority of these guilds. Vertical mixing variables (downwelling and
-upwelling rates, and vertical diffusivity) show similar patterns under GFDL-ESM4 and
-CNRM-CM6-1-HR, with GFDL-ESM4 projecting greater extremes and variance in vertical mixing.
-The high influence of vertical mixing on these guilds despite lower future variance across
-ESMs than variable groups such as temperature highlights the sensitivity of the lower
-trophic levels in the ecosystem to vertical mixing changes.
+The choice of the two NEMO-ERSEM forcing models forcing StrathE2E strongly influences
+projected ecosystem outcomes (@fig-biomass-pca). The two forcing models project different
+future windfields in the region, resulting in distinct NEMO-ERSEM projections of upwelling
+and downwelling. Low trophic level model components, as well as Net Primary Production,
+display diverging median trajectories under each NEMO-ERSEM forcing model. Vertical mixing
+contributes the most (\> 60%) to variance for the majority of these guilds. Vertical mixing
+variables (downwelling and upwelling rates, and vertical diffusivity) show similar patterns
+under GFDL-ESM4 and CNRM-CM6-1-HR, with GFDL-ESM4 projecting greater extremes and variance
+in vertical mixing. The high influence of vertical mixing on these guilds despite lower
+future variance across NEMO-ERSEM forcing models than variable groups such as temperature
+highlights the sensitivity of the lower trophic levels in the ecosystem to vertical mixing
+changes.
 
 The Southern Bengeula is known to experience high variability on multiple spatial and
 temporal scales as a result of the high influence of upwelling [@lamont2014; @shannon2020].
@@ -609,10 +613,10 @@ projections using 13 ESMs @cioffi2025 found that differences in projected change
 upwelling-favourable winds resulted in substantial model uncertainty in NPP. These
 conclusions are supported by the results of this investigation, which suggest a high level
 of uncertainty in ecosystem state projections is due to differences in vertical mixing
-projections across Earth System Models. Expanding the ensemble of Earth System Models used
-to force StrathE2E would improve incorporation of scenario uncertainty into predictions,
-particularly using models that have been assessed for reproduction of upwelling in the
-region **Littell 2011**.
+projections across NEMO-ERSEM forcing models. Expanding the ensemble of NEMO-ERSEM forcing
+models used to force StrathE2E would improve incorporation of scenario uncertainty into
+predictions, particularly using models that have been assessed for reproduction of upwelling
+in the region **Littell 2011**.
 
 **For Yuri: Would you be able to expand on the representation of upwelling in the Earth
 System Models and NEMO-ERSEM?**
@@ -760,18 +764,19 @@ SSP1-2.6 with solid lines and SSP3-7.0 with dashed
 lines.](../figs/initial_cc_assessment/percent_biomass_timeseries.png){#sfig-percent-biomass-timeseries
 width="14.82cm"}
 
-![Guild contributions to ecosystem separation across Earth System Models (left) and decades
-(right). Contribution values are calculated as the absolute angle between guild loadings and
-the respective separation vector (ESM separation vector and decade separation vector
-displayed in @fig-biomass-pca; Panel B). Red lines indicate the 30° angle cutoff for further
+![Guild contributions to ecosystem separation across NEMO-ERSEM forcing models (left) and
+decades (right). Contribution values are calculated as the absolute angle between guild
+loadings and the respective separation vector (NEMO-ERSEM forcing model separation vector
+and decade separation vector displayed in @fig-biomass-pca; Panel B). Red lines indicate the
+30° angle cutoff for further
 assessments.](../figs/initial_cc_assessment/decade_esm_separation_quantified.png){#sfig-pca-separation
 width="14.82cm"}
 
 ![PCA results (as displayed in @fig-biomass-pca) for final year biomass conditions for each
-decade of forcing data under each future scenario and Earth System Model. The line colours
-represent the two climate models, GFDL-ESM4 in blue and CNRM-CM6-1-HR in yellow. Linestyles
-represent the two Shared Socio-Economic Pathways, SSP1-2.6 with solid lines and SSP3-7.0
-with dashed lines. Dot points represent 2010-2019 decade of forcing, and arrowheads
+decade of forcing data under each future scenario and NEMO-ERSEM forcing model. The line
+colours represent the two climate models, GFDL-ESM4 in blue and CNRM-CM6-1-HR in yellow.
+Linestyles represent the two Shared Socio-Economic Pathways, SSP1-2.6 with solid lines and
+SSP3-7.0 with dashed lines. Dot points represent 2010-2019 decade of forcing, and arrowheads
 represent the 2060-2069 decade of forcing. Polygons represent ecosystem mass 95% confidence
 intervals generated from Monte Carlo parameter simulations, projected into median PC
 space.](../figs/initial_cc_assessment/biomass_pca_mc.png){#sfig-biomass-pca-mc
@@ -781,8 +786,8 @@ width="14.82cm"}
 biomass change from the 2010-2019 to 2060-2069 decades. Variable interaction effect values
 mean that the interaction between variable $x$ and $y$ does not contribute any additional
 effect to the output beyond the individual effects of $x + y$. Values are collated across
-guilds and Earth System Model - Shared Socio-Economic Pathway scenarios. Blue lines indicate
-the 1st and 99th percentile interaction effect
+guilds and NEMO-ERSEM forcing model - Shared Socio-Economic Pathway scenarios. Blue lines
+indicate the 1st and 99th percentile interaction effect
 values.](../figs/across_decade_permutations/variable_interaction_histogram.png){#sfig-var-interaction-hist
 width="10cm"}
 
@@ -790,7 +795,8 @@ width="10cm"}
 temperature variable group (d_temp - deep layer temperature, si_temp - shallow layer inshore
 temperature, so_temp - shallow layer offshore temperature). Values indicate levels of each
 driving variable across 12 months of the year. Line colours represent the decade of driving
-data and line styles represent the four Earth System Model and Shared Socio-Economic Pathway
+data and line styles represent the four NEMO-ERSEM forcing model and Shared Socio-Economic
+Pathway
 combinations.](../figs/env_drivers/temperature_driver_timeseries.png){#sfig-driver-temp
 width="14.82cm"}
 
@@ -802,7 +808,7 @@ external water masses, so_inflow - inflow of water from external sources into th
 layer offshore compartment, so_si_inflow - horizontal flow of water from the offshore to
 inshore shallow layer.). Values indicate levels of each driving variable across 12 months of
 the year. Line colours represent the decade of driving data and line styles represent the
-four Earth System Model and Shared Socio-Economic Pathway
+four NEMO-ERSEM forcing model and Shared Socio-Economic Pathway
 combinations.](../figs/env_drivers/boundary_flows_driver_timeseries.png){width="14.82cm"}
 
 ![Monthly timeseries (decadal averages) of environmental driving data for variables in the
@@ -811,29 +817,31 @@ the shallow offshore compartment, logkvert - Log10 vertical diffusion coefficien
 interface between the deep and shallow offshore layers, so_d_downwelling - downwelling of
 water from the shallow offshore compartment to the deep layer). Values indicate levels of
 each driving variable across 12 months of the year. Line colours represent the decade of
-driving data and line styles represent the four Earth System Model and Shared Socio-Economic
-Pathway
+driving data and line styles represent the four NEMO-ERSEM forcing model and Shared
+Socio-Economic Pathway
 combinations.](../figs/env_drivers/vertical_mixing_driver_timeseries.png){width="14.82cm"}
 
 ![Coefficient of variation values for each driving variable across decades (left) and across
-Earth System Models (right). Coefficients of variation are calculated based on monthly
+NEMO-ERSEM forcing models (right). Coefficients of variation are calculated based on monthly
 values using the annual variance averaged across the remaining analysis levels (averaged
-across SSPs and ESMs for across decade values, and averaged across decades and SSPs for
-across ESM values). Bars are coloured by the variable groupings used for permutation
-analyses. Variables in the "atmospheric nutrient flux" group do not vary across ESMs so were
-removed from across ESM permutation
+across SSPs and NEMO-ERSEM forcing models for across decade values, and averaged across
+decades and SSPs for across NEMO-ERSEM forcing model values). Bars are coloured by the
+variable groupings used for permutation analyses. Variables in the "atmospheric nutrient
+flux" group do not vary across NEMO-ERSEM forcing models so were removed from across
+NEMO-ERSEM forcing model permutation
 analyses.](../figs/env_drivers/driving_variable_variation.png){#sfig-driving-variable-variation
 width="14.82cm"}
 
 ![Proportional sources of nitrogen influx to guilds whose PCA loadings correlate strongly
 (within 30°) with ecosystem decadal trends. Diet proportions are displayed for each model
-variant (six decades, two ESMs and two SSPs). Rows display different decades and columns
-display different ESM - SSP combinations. Nitrogen sources are represented by different
-colours, including benthos carnivorous/scavenge feeders (benthc), benthos suspension/deposit
-feeders (benths), carnivorous zooplankton (carnzoo), corpses, demersal fish (dfish),
-demersal fish larvae (dfishlar), fisheries discards, kelp, kelp debris, migratory fish
-(mfish), direct intake from outside of the model domain (ocean_horizontal), omnivorous
-zooplankton (omnivzoo), planktivorous fish (pfsih), planktivorous fish larvae (pfishlar),
-pinnipeds (seal), water column ammonia (wcammonia), water column nitrate
+variant (six decades, two NEMO-ERSEM forcing models and two SSPs). Rows display different
+decades and columns display different NEMO-ERSEM forcing model - SSP combinations. Nitrogen
+sources are represented by different colours, including benthos carnivorous/scavenge feeders
+(benthc), benthos suspension/deposit feeders (benths), carnivorous zooplankton (carnzoo),
+corpses, demersal fish (dfish), demersal fish larvae (dfishlar), fisheries discards, kelp,
+kelp debris, migratory fish (mfish), direct intake from outside of the model domain
+(ocean_horizontal), omnivorous zooplankton (omnivzoo), planktivorous fish (pfsih),
+planktivorous fish larvae (pfishlar), pinnipeds (seal), water column ammonia (wcammonia),
+water column nitrate
 (wcnitrate).](../figs/initial_cc_assessment/decade_sep_guilds_nitrogen_sources.png){#sfig-decade-sep-diet
 width="14.82cm"}
