@@ -53,11 +53,10 @@ author:
           address: Glasgow
           country: United Kingdom 
 abstract: |
-    Climate change is projected to alter marine ecosystem structure and function globally. Modelling these changes is challenging, partly because projections of the future physical environment are uncertain, especially in the highly productive, and variable, ocean upwelling areas such as the Southern Benguela Upwelling System (SBUS) off southern Africa. Here, we describe application of the StrathE2E functional guild-based end-to-end ecosystem model to the SBSU, forced by a four-member ensemble of NEMO-ERSEM physical-biogeochemistry model outputs. The ensemble covered two different NEMO-ERSEM forcing models (CNRM-CM6-1-HR & GFDL-ESM4) which provided driving data sets (2010 – 2070) for NEMO (GFDL-ESM4 and CNRM-CM6-1-HR), each under two different Shared Socioeconomic Pathway (SSP) and Relative Concentration Pathway (RCP) emissions scenarios (1-2.6: Sustainability – Taking the Green Road, and 3-7.0: Regional Rivalry – A Rocky Road).
+    Climate change is projected to alter marine ecosystem structure and function globally. Modelling these changes is challenging, partly because projections of the future physical environment are uncertain, especially in the highly productive, and variable, ocean upwelling areas such as the Southern Benguela Upwelling System (SBUS) off southern Africa. Here, we describe application of the StrathE2E functional guild-based end-to-end ecosystem model to the SBUS, forced by a four-member ensemble of NEMO-ERSEM physical-biogeochemistry model outputs. The ensemble covered two different NEMO-ERSEM forcing models (CNRM-CM6-1-HR & GFDL-ESM4) which provided driving data sets (2010 – 2070) for NEMO (GFDL-ESM4 and CNRM-CM6-1-HR), each under two different Shared Socioeconomic Pathway (SSP) and Relative Concentration Pathway (RCP) emissions scenarios (1-2.6: Sustainability – Taking the Green Road, and 3-7.0: Regional Rivalry – A Rocky Road).
     The StrathE2E models are subject to high levels of parameter uncertainty due to limitations in model calibration data. In particular, high trophic level guilds such as
-    birds, pinnipeds and cetaceans are highly senstive to the parameterisation of demersal fish.
-    This suggests that improvements in regional biological data and representation of demersal fish are important for understanding and modelling the impacts of climate change on high trophic level guilds.
-    Net primary production and low trophic level guilds, such as zooplankton, exhibited diverging trajectories across the two NEMO-ERSEM forcing models, implying major differences in the emergent trophic efficiency of the system. Environmental driver sensitivity analyses suggest high contribution of vertical mixing to variation in low trophic level guilds across these forcing models. These findings highlight the sensitivity of the SBUS ecosystem to variation in wind-driven upwelling and downwelling, and especially the need for advancements in monitoring and modelling of upwelling changes for the region.
+    birds, pinnipeds and cetaceans are highly senstive to the parameterisation of demersal fish, suggesting improvements in regional biological data, representation of demersal fish and calibration data quality are important for understanding and modelling the impacts of climate change on high trophic level guilds.
+    Net primary production and low trophic level guilds, such as zooplankton guilds, exhibit diverging trajectories across the two NEMO-ERSEM forcing models, implying major differences in the emergent trophic efficiency of the system. Environmental driver sensitivity analyses suggest high contribution of vertical mixing to variation in low trophic level guilds across these forcing models. These findings highlight the sensitivity of the SBUS ecosystem to variation in wind-driven upwelling and downwelling, and especially the need for advancements in monitoring and modelling of upwelling changes for the region.
 
 keywords:
     - StrathE2E2
@@ -89,11 +88,11 @@ editor:
 Temperate marine ecosystems globally are facing increasing environmental change in ocean
 temperature, nutrient availability and stratification [@fox-kemper2021]. Species survival
 and ecosystem functioning in marine ecosystems are vulnerable to increasingly variable
-environmental conditions **citation**, influencing the provision of ecosystem services such
-as fisheries **citation**. Upwelling-reliant marine ecosystems face particular uncertainty
-and low-confidence around current predictions of future climate change impacts
-[@fox-kemper2021]. This investigation aims to identify possible key drivers of future
-ecosystem change in the Southern Benguela Upwelling System (SBUS), South Africa.
+environmental conditions beyond those historically experienced, influencing the provision of
+ecosystem services such as fisheries [@cooley2023]. Upwelling-reliant marine ecosystems face
+particular uncertainty and low-confidence around current predictions of future climate
+change impacts [@fox-kemper2021]. This investigation aims to identify possible key drivers
+of future ecosystem change in the Southern Benguela Upwelling System (SBUS), South Africa.
 
 The SBUS is a large Eastern Boundary Upwelling System (EBUS) that extends around the western
 cape of South Africa, from the warm Agulhas current in the south to the northern Benguela
@@ -115,7 +114,7 @@ ecosystem model, employing an exploratory scenario modelling approach to uncover
 future climate change impacts and causal drivers of change. In EBUS, such as the Southern
 Benguela, conditions under climate change are highly uncertain due to a limited
 understanding of how, and by what magnitude, wind-driven upwelling processes may change
-[@fox-kemper2021] **bograd et al 2023**. High uncertainty in nutrient upwelling leads to low
+[@bograd2023; @fox-kemper2021]. High uncertainty in nutrient upwelling leads to low
 confidence in ecosystem response predictions [@fox-kemper2021]. Scenario uncertainty,
 uncertainty due to modelling under uncertain future conditions, plays a large role in
 projecting ecosystem models under climate change [@payne2016].
@@ -143,9 +142,9 @@ The Agulhas Current terminates at the Agulhas Bank, where the Southern Benguela 
 begins, transporting upwelled cold water northwards along the western coast. This creates a
 distinct divide in environmental conditions in the currents to the east and west of the
 Agulhas Bank [@lutjeharms2006], while injection of warm water into the start of the Benguela
-Current enhances mixing **Veitch and Penven 2017**. To define the continental shelf region
-included in this investigation, we exclude any areas that are situated at more than 800m
-depth (@sfig-distance-depth-map). Cumulative fishing effort data [@globalfishingwatch2025]
+Current enhances mixing [@veitch2017]. To define the continental shelf region included in
+this investigation, we exclude any areas that are situated at more than 800m depth
+(@sfig-distance-depth-map). Cumulative fishing effort data [@globalfishingwatch2025]
 suggests that this domain definition captures a key fishing region, with different spatial
 patterns of fishing occurring in deeper waters and in the waters of the Agulhas current
 (@sfig-fishing-map).
@@ -212,10 +211,10 @@ data availability, demersal and planktivorous fish guilds were parameterised usi
 Cape Hakes (*Merluccius capensis* and *Merluccius paradoxus*) and; sardine (*Sardinops
 sagax*), anchovy (*Engraulis encrasicolus*) and West Coast redeye round herring (*Etrumeus
 whiteheadi*) respectively. Parameterisation of the fishing model for exploitable guilds used
-reconstructed catch data from Sea Around Us **White and Derrick, 2020**. Additionally,
-environmental driving data for the model implementation region was extracted from NEMO-ERSEM
-output **Gurvan 2019; Butenshon 2016; Artioli 2025** (see environmental driving data section
-below). **Insert link to GitHub/implementation document.**
+reconstructed catch data from Sea Around Us [@white2020]. Additionally, environmental
+driving data for the model implementation region was extracted from NEMO-ERSEM output
+[@artioli2023; @butenschön2016; @gurvan2019] (see environmental driving data section below).
+**Insert link to GitHub/implementation document.**
 
 ### Environmental driving data
 
@@ -228,10 +227,13 @@ four NEMO-ERSEM biogeochemical model simulations forced by two models from the C
 Intercomparison Project Phase 6 (CMIP6 - CNRM-CM6-1-HR and GFDL-ESM4) under two
 Shared-Socioeconomic-Pathways (SSPs: SSP1-2.6 and SSP3-7.0). The two CMIP6 models were
 chosen for their different climate sensitivity, so that for each SSP scenario different
-potential impacts of climate change could be explored. Driving data variables were averaged
-across decades including 2010-2019, 2020-2029, 2030-2039, 2040-2049, 2050-2059, 2060-2069.
-Additional information on environmental driving data processing can be found in \[**insert
-supplementary table ref\]**.
+potential impacts of climate change could be explored. GFDL-ESM4 has an equilibrium climate
+sensitivity (ECS) value of 3.05°C [@dunne2020; average of provided range], while
+CNRM-CM6-1-HR has an ECS of 4.34°C [@jones2023], meaning CNRM-CM6-1-HR represents a greater
+level of atmospheric warming for the same amount of CO~2~ increase compared to GFDL-ESM4.
+Driving data variables were averaged across decades including 2010-2019, 2020-2029,
+2030-2039, 2040-2049, 2050-2059, 2060-2069. Additional information on environmental driving
+data processing can be found in \[**insert supplementary table ref\]**.
 
 ## Initial climate change analyses
 
@@ -272,13 +274,13 @@ ecosystem model in a data-poor context.
 Initial results from the StrathE2E models identified high parameter uncertainty for closely
 linked predatory guilds such as planktivorous fish, demersal fish, pinnipeds, birds and
 cetaceans, likely due to high reliance of demersal fish on recruitment for biomass
-maintainence **\[Need to include supplementary table showing dfish biomass rates.\]**. To
-investigate the influence of demersal fish larvae parameterisation on predatory guilds a
-One-at-a-Time local sensitivity analysis was performed. Demersal fish larvae density
-dependent mortality; nitrogen uptake half-saturation coefficient; and maximum nitrogen
-uptake rate parameter values were sampled in 100 evenly spaced steps from -25% to +25% of
-the base parameter value from CNRM-CM6-1-HR and GFDL-ESM4 models respectively. A total of
-600 model runs were performed (300 for each model parameterisation).
+maintainence @tbl-fish-biol. To investigate the influence of demersal fish larvae
+parameterisation on predatory guilds a One-at-a-Time local sensitivity analysis was
+performed. Demersal fish larvae density dependent mortality; nitrogen uptake half-saturation
+coefficient; and maximum nitrogen uptake rate parameter values were sampled in 100 evenly
+spaced steps from -25% to +25% of the base parameter value from CNRM-CM6-1-HR and GFDL-ESM4
+models respectively. A total of 600 model runs were performed (300 for each model
+parameterisation).
 
 ## Climate permutation analyses
 
@@ -418,7 +420,7 @@ half-saturation coefficient values.
 #| output: asis
 
 cap = """
-Biological values and rates for demersal fish and demersal fish larvae guilds when modelled for 2010-2019 using GFDL-ESM4 and CNRM-CM6-1-HR StrathE2E models under SSP3-7.0. Values represent the outputs from the final model year after running to steady state. `T_uptake` represents the total uptake of nitrogen by the guild. `T_defec_excr` represents the total nitrogen output by the guild as a result of metabolism and excretion. `Recruitment` represents the total nitrogen gained through recruitment of larvae to adults. `Spawning` represents the total nitrogen gained through spawning. `Net_Prod_feeding` represents conversion rate of nitrogen ingested to biomass, less nitrogen lost through excretion (T_uptake - T_defec_excr). `Net_Prod` represents the total rate of nitrogen gained including recruitment and spawning processes (Recruitment + Spawning + Net_Prod_feeding).
+Biological values and rates for demersal fish and demersal fish larvae guilds when modelled for 2010-2019 using GFDL-ESM4 and CNRM-CM6-1-HR StrathE2E models under SSP3-7.0. Values represent the outputs from the final model year after running to steady state. `T_uptake` represents the total uptake of nitrogen by the guild. `T_defec_excr` represents the total nitrogen output by the guild as a result of metabolism and excretion. `Recruitment` represents the total nitrogen gained through recruitment of larvae to adults. `Spawning` represents the total nitrogen gained through spawning. `Net_Prod_feeding` represents conversion rate of nitrogen ingested to biomass, less nitrogen lost through excretion (T_uptake - T_defec_excr). `Net_Prod` represents the total rate of nitrogen gained including recruitment and spawning processes (Recruitment + Spawning + Net_Prod_feeding). Recruitment reliance can be seen where `Recruitment` contributes greater mass to the guild than `T_uptake`.
 """
 using Markdown, Tables, MarkdownTables, CSV, DataFrames
 cd("../src")
@@ -526,8 +528,8 @@ in/out of the system, and vertical mixing (downwelling and upwelling) may strong
 ecosystem functioning.
 
 There have been few investigations into ecosystem impacts already experienced due to climate
-change and their drivers. **Blamey et al. 2015** suggest observed species range shifts over
-the 1980-2013 period are linked to cooling and increased upwelling variability in inshore
+change and their drivers. @blamey2015 suggest observed species range shifts over the
+1980-2013 period are linked to cooling and increased upwelling variability in inshore
 waters. A future cooling trends is not represented in the environmental driving data used
 (@sfig-driver-temp), suggesting that finer scale biogeochemical modelling and validation of
 model behaviour with observed trends will help to reduce uncertainty in model projections
@@ -557,16 +559,16 @@ consistency across the CMIP6 forcing models, suggesting uncertainty across futur
 Environmental forcing data modelled using CNRM-CM6-1-HR shows substantially greater change
 in temperature over future decades compared to GFDL-ESM4 (@sfig-driver-temp), aligning with
 the increased sensitivity of CNRM-CM6-1-HR to increases in CO~2~ compared to GFDL-ESM4
-**citation**. In StrathE2E temperature directly influences the metabolism and prey uptake
-rates for predatory guilds. Additionally, CNRM driving data shows substantially different
-seasonal trends in boundary flows compared to GFDL-ESM4 with distinct patterns of nutrient
-inflows and outflows in the inshore region (@sfig-driver-boundary-flows). In the models,
-boundary flows influence the distribution of prey items across the domain boxes, affecting
-predator distributions and nutrient uptake rates. GFDL-ESM4 forcing data shows greater a
-greater degree of seasonal variability levels of vertical diffusivity and offshore upwelling
-and downwelling (@sfig-driver-vertical-mixing). While the low influence of nutrient
-concentration variables suggests that the spatial dynamics of the system may be more
-influential.
+[@dunne2020; @jones2023]. In StrathE2E temperature directly influences the metabolism and
+prey uptake rates for predatory guilds. Additionally, CNRM driving data shows substantially
+different seasonal trends in boundary flows compared to GFDL-ESM4 with distinct patterns of
+nutrient inflows and outflows in the inshore region (@sfig-driver-boundary-flows). In the
+models, boundary flows influence the distribution of prey items across the domain boxes,
+affecting predator distributions and nutrient uptake rates. GFDL-ESM4 forcing data shows
+greater a greater degree of seasonal variability levels of vertical diffusivity and offshore
+upwelling and downwelling (@sfig-driver-vertical-mixing). While the low influence of
+nutrient concentration variables suggests that the spatial dynamics of the system may be
+more influential.
 
 Greater parameter uncertainty than future scenario uncertainty suggest data collection and
 model selection are important areas of focus for demersal fish and high trophic level guilds
@@ -616,7 +618,7 @@ of uncertainty in ecosystem state projections is due to differences in vertical 
 projections across NEMO-ERSEM forcing models. Expanding the ensemble of NEMO-ERSEM forcing
 models used to force StrathE2E would improve incorporation of scenario uncertainty into
 predictions, particularly using models that have been assessed for reproduction of upwelling
-in the region **Littell 2011**.
+in the region [@littell2011].
 
 **For Yuri: Would you be able to expand on the representation of upwelling in the Earth
 System Models and NEMO-ERSEM?**
@@ -643,55 +645,54 @@ understanding and projection of wind-driven upwelling trends under climate chang
 important for projecting ecosystem state, particularly for low trophic level guilds. Fields
 such as near-term ecological forecasting may offer a pathway to iteratively incorporate such
 advancements in ecological and climate change understanding in the region at timescales
-relevant to management decisions **Dietze 2024**.
+relevant to management decisions [@dietze2024].
 
 Due to high parameter uncertainty evident in modelled guild outputs, this investigation does
 not focus on specific predictions of guild biomass under climate change. Overall, modelled
 trends have large confidence intervals for the biomass levels of all guilds. High
 uncertainty arising from parameter estimates may be due to biased or inconsistent target
 data used for fitting [@hilborn1992]. Additionally, identifying suitable parameter values
-increases in difficulty as model complexity increases **Preston et al.**. While
-parameterised using data spanning 2010-2019 where possible, target data for guild production
-rates and P:B ratios were sourced from ecological models of the 1970-2015 that used
-departmental survey data to model fisheries [@shannon2020]. Due to limited data
-availability, this investigation used reconstructed fisheries data for the 2010-2019 period
-from Sea Around Us [@zeller2017] with domestic fleet uncertainty scores ranging from "low"
-($+/-$ 30%) to "very low" ($+/-$ 50%). Reconstructed catch timeseries for Sardines,
-Anchovies, Herring and Cape Hakes closely match those reported in @statuso2023. For more
-information on the model fitting process see **\[Insert Supplementary file link for
-implementation doc.\]**. Improved completeness and quality of model calibration data may
-help to reduce parameter uncertainty.
+increases in difficulty as model complexity increases [@preston2025]. While parameterised
+using data spanning 2010-2019 where possible, target data for guild production rates and P:B
+ratios were sourced from ecological models of the 1970-2015 that used departmental survey
+data to model fisheries [@shannon2020]. Due to limited data availability, this investigation
+used reconstructed fisheries data for the 2010-2019 period from Sea Around Us [@zeller2017]
+with domestic fleet uncertainty scores ranging from "low" ($+/-$ 30%) to "very low" ($+/-$
+50%). Reconstructed catch timeseries for Sardines, Anchovies, Herring and Cape Hakes closely
+match those reported in @statuso2023. For more information on the model fitting process see
+**\[Insert Supplementary file link for implementation doc.\]**. Improved completeness and
+quality of model calibration data may help to reduce parameter uncertainty.
 
 To navigate high parameter uncertainty, we use StrathE2E models in an exploratory approach
 to identify key drivers of climate change impacts. In addition to exploratory scenario
 modelling approaches, it has been suggested that high uncertainty in predictions does not
 necessarily prevent decision support, but requires the use of alternative decision support
-methods such as probabilistic management strategy evaluation **Ascough 2008; Reichert and
-Borsuk 2005**. Additionally, the validation of ecosystem models with independently sourced
-data, particularly validation of modelled responses to climate change impacts, will improve
-model certainty and decision support confidence **Lubiana botelho**.
+methods such as probabilistic management strategy evaluation [@ascough2008; @reichert2005].
+Additionally, the validation of ecosystem models with independently sourced data,
+particularly validation of modelled responses to climate change impacts, will improve model
+certainty and decision support confidence [@lubianabotelho2025].
 
 Due to computational constraints, this investigation does not include full global parameter
 sensitivity analyses for the StrathE2E models presented. This technique is recommended to
-understand the consequences of parameter uncertainty in an ecosystem model **Geary 2020**.
+understand the consequences of parameter uncertainty in an ecosystem model [@geary2020].
 While this investigation primarily utilises median timeseries for climate change analyses
 following on from Monte Carlo simulations, the scenario analysis approach used highlights
 the influence of environmental drivers in the model, rather than parameters. Future
 investigations using parameter ensemble approaches could investigate changing environmental
 driving influences across plausible model parameterisations, rather than a single "best fit"
-parameterisation **geary 2020**.
+parameterisation [@geary2020].
 
 Additionally, this investigation focussed on the influence of environmental drivers in
 isolation from parameter combinations. Observational investigations have suggested that
 trends in fishing effort in the region may interact with climate change driven environmental
-trends in the region, altering the hazards experienced by species **Jarre 2015, Ramirez
-2022**. Using StrathE2E as a computationally efficient model to explore the interacting
-effects of climate and fishing changes may improve knowledge available for management
-decisions. Using a protocol such as Ocean System Pathways (developed by FishMIP - the
-Fisheries and Marine Ecosystems Model Intercomparison Project), which outlines a
+trends in the region, altering the hazards experienced by species [@jarre2015;
+@ramírez2022]. Using StrathE2E as a computationally efficient model to explore the
+interacting effects of climate and fishing changes may improve knowledge available for
+management decisions. Using a protocol such as Ocean System Pathways (developed by FishMIP -
+the Fisheries and Marine Ecosystems Model Intercomparison Project), which outlines a
 standardised approach for modelling the influence of future climate change and fisheries
 trends on ecosystems would allow StrathE2E to contribute to valuable model intercomparison
-investigations for this uncertain region **Maury 2025**.
+investigations for this uncertain region [@maury2025].
 
 ## Conclusions
 
@@ -718,16 +719,15 @@ valuable to increase certainty and understanding.
 ## Model parameterisation and calibration
 
 Model input data such as biological event timing and fisheries data were sourced from
-regional and published sources **link to source table**. StrathE2E biological parameters
-were calibrated using regional target observation data **link to target data source table**.
-Calibration was performed using an iterative simulated annealing process where ecological
-parameters **link to calibrated parameters table** are varied to increase the likelihood of
-the ecological target data from simulated model results, then fishing harvest ratio
-parameters are varied to calibrate the fishing model component. Once a suitable model fit is
-reached the ecological and fishing parameters are calibrated together to the ecological and
-fisheries landing target data. This fitting process was performed for a 2010-2015 CNRM
-SSP3-7.0 baseline model. Additional information on model fitting can be found in **link to
-implementation doc**.
+regional and published sources (\@stbl-data-sources). StrathE2E biological parameters were
+calibrated using regional target observation data. Calibration was performed using an
+iterative simulated annealing process where ecological parameters are varied to increase the
+likelihood of the ecological target data from simulated model results, then fishing harvest
+ratio parameters are varied to calibrate the fishing model component. Once a suitable model
+fit is reached the ecological and fishing parameters are calibrated together to the
+ecological and fisheries landing target data. This fitting process was performed for a
+2010-2015 CNRM SSP3-7.0 baseline model. Additional information on model fitting can be found
+in **link to implementation doc**.
 
 | Source | Model Inputs | Time Period |
 |------------------------------------|------------------------|---------------------------------|
@@ -809,7 +809,8 @@ layer offshore compartment, so_si_inflow - horizontal flow of water from the off
 inshore shallow layer.). Values indicate levels of each driving variable across 12 months of
 the year. Line colours represent the decade of driving data and line styles represent the
 four NEMO-ERSEM forcing model and Shared Socio-Economic Pathway
-combinations.](../figs/env_drivers/boundary_flows_driver_timeseries.png){width="14.82cm"}
+combinations.](../figs/env_drivers/boundary_flows_driver_timeseries.png){#sfig-driver-boundary-flows
+width="14.82cm"}
 
 ![Monthly timeseries (decadal averages) of environmental driving data for variables in the
 vertical mixing variable group (d_so_upwelling - upwelling of water from the deep layer to
@@ -819,7 +820,8 @@ water from the shallow offshore compartment to the deep layer). Values indicate 
 each driving variable across 12 months of the year. Line colours represent the decade of
 driving data and line styles represent the four NEMO-ERSEM forcing model and Shared
 Socio-Economic Pathway
-combinations.](../figs/env_drivers/vertical_mixing_driver_timeseries.png){width="14.82cm"}
+combinations.](../figs/env_drivers/vertical_mixing_driver_timeseries.png){#sfig-driver-vertical-mixing
+width="14.82cm"}
 
 ![Coefficient of variation values for each driving variable across decades (left) and across
 NEMO-ERSEM forcing models (right). Coefficients of variation are calculated based on monthly
