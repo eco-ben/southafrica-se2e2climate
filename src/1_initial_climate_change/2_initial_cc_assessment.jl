@@ -651,8 +651,10 @@ CSV.write("../outputs/initial_runs/demersal_fish_rates_variants.csv", wide_troph
 
 desired_col_labels = ["Demersal fish 2010-2019-CNRM-ssp370",
     "Demersal fish larvae 2010-2019-CNRM-ssp370",
+    "Demersal fish larvae 2060-2069-CNRM-ssp370",
     "Demersal fish 2010-2019-GFDL-ssp370",
-    "Demersal fish larvae 2010-2019-GFDL-ssp370"
+    "Demersal fish larvae 2010-2019-GFDL-ssp370",
+    "Demersal fish larvae 2060-2069-GFDL-ssp370"
 ]
 sub_wide_dfish = wide_trophic_prod[:, ["Rate"; desired_col_labels]]
 for col in desired_col_labels
