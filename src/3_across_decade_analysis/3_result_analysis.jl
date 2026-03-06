@@ -367,19 +367,40 @@ rename!(all_shap_effect, ["output" => "guild", "variable_group" => "variable"])
 all_shap_effect.variable = ifelse.(all_shap_effect.variable .== "water_flows", "boundary_flows", all_shap_effect.variable)
 all_shap_effect = all_shap_effect[all_shap_effect.variable .!= "constant", :]
 
-decade_sep_shap = all_shap_effect[all_shap_effect.guild .∈ [[decade_sep_guilds; "netprimprod"]], :]
+decade_sep_shap = all_shap_effect[all_shap_effect.guild .∈ [["netprimprod"; decade_sep_guilds]], :]
 decade_sep_shap = sort(decade_sep_shap, :variable, rev=true)
+
+guild_order = Dict(
+    "netprimprod" => 1,
+    "Deep_layer_phytoplankton" => 2,
+    "Benthos_carn/scav_feeders" => 3,
+    "Demersal_fish" => 4,
+    "Pinnipeds" => 5,
+    "Birds" => 6,
+    "Cetaceans" => 7
+)
+decade_sep_shap = sort(decade_sep_shap, :guild, by = x -> guild_order[x])
 
 decade_sep_shap.variable_clean_name = getindex.([variable_clean_names], decade_sep_shap.variable)
 decade_sep_shap.guild_clean_name = getindex.([guild_clean_names], decade_sep_shap.guild)
 decade_sep_shap.ESM = first.(split.(decade_sep_shap.ESM_SSP, ["-"]))
 decade_sep_shap.SSP = last.(split.(decade_sep_shap.ESM_SSP, ["-"]))
 
+variable_colours = [
+    "vertical mixing" => Makie.wong_colors()[4],
+    "temperature" => Makie.wong_colors()[6],
+    "river outputs" => :grey,
+    "nutrient concentrations" => :grey,
+    "light" => :grey,
+    "boundary flows" => Makie.wong_colors()[1],
+    "atmospheric nutrient flux" => :grey
+]
+
 fig_opts = (; fontsize=fontsize, size=(18.42centimetre, 18.42centimetre))
 scale = scales(
     X = (; label = " "), 
     Y = (; label = "Shapley Effect"),
-    Color = (; label = "Variable group"),
+    Color = (; label = "Variable group", palette = variable_colours),
     Row = (; categories = ESM_categories),
     Col = (; categories = SSP_categories)
 )
