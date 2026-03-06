@@ -295,19 +295,31 @@ ax2 = Axis(
     xlabel = "PC1",
     aspect=1
 )
-# Draw arrows for variables
-for (i, output) in enumerate(guilds[(guilds .!= "netprimprod") .& (guilds .!= "Demersal_fish_larvae")])
-    arrows2d!(ax2, [mean(y_pca[1, :])], [mean(y_pca[2, :])], [corr_circle[i,1]], [corr_circle[i,2]], 
-            shaftwidth=2, color=guild_individual_colours[output], alpha=0.6)
-end
 
 lines!(ax2, [first(esm_separation), -first(esm_separation)], [last(esm_separation), -last(esm_separation)], linestyle=:dash, color=:red)
 lines!(ax2, [first(decade_separation), -first(decade_separation)], [last(decade_separation), -last(decade_separation)], linestyle=:dash, color=:blue)
 
+# Draw arrows for variables
+for (i, output) in enumerate(guilds[(guilds .!= "netprimprod") .& (guilds .!= "Demersal_fish_larvae")])
+    arrows2d!(ax2, [mean(y_pca[1, :])], [mean(y_pca[2, :])], [corr_circle[i,1]], [corr_circle[i,2]], 
+            shaftwidth=2, alpha=0.25)
+    
+    
+    dx = corr_circle[i, 1] - mean(y_pca[1, :])
+    dy = corr_circle[i, 2] - mean(y_pca[2, :])
+    dist = sqrt(dx^2 + dy^2)
+    ux, uy = dx/dist, dy/dist  # Unit vector
+        
+    # 2. Define the point just past the arrowhead
+    label_pos = (corr_circle[i, 1] + ux * 0.3, corr_circle[i, 2] + uy * 0.3)
+    label = string('A' + (i - 1))
+    text!(ax2, label_pos, text = label, align = (:center, :center))
+end
+
 Label(fig.layout[1,1, TopLeft()], "A", font=:bold)
 Label(fig.layout[1,2, TopLeft()], "B", font=:bold)
 
-legend_entries = [PolyElement(color=guild_individual_colours[guild]) for guild in guilds[(guilds .!= "netprimprod") .& (guilds .!= "Demersal_fish_larvae")]]
+legend_entries = [MarkerElement(color=:black, marker='A' + (i - 1)) for i in eachindex(guilds[(guilds .!= "netprimprod") .& (guilds .!= "Demersal_fish_larvae")])]
 Legend(
     fig[2,2],
     legend_entries,
@@ -324,7 +336,7 @@ Legend(
         LineElement(color=:red, linestyle=:dash), 
         LineElement(color=:blue, linestyle=:dash)
     ],
-    ["across ESM signal", "across decade signal"],
+    ["NEMO-ERSEM \n forcing model signal", "decade signal"],
     tellheight=false,
     tellwidth=false,
     orientation=:horizontal
@@ -333,8 +345,8 @@ rowsize!(fig.layout, 2, Relative(0.2))
 rowgap!(fig.layout, 1, Relative(0.01))
 rowsize!(fig.layout, 3, Relative(0.05))
 rowgap!(fig.layout, 2, Relative(0.05))
-# linkyaxes!(ax, ax2) # I now unlink the axes because the dominance of the confidence intervals is not really relevant to the median PCA loadings
-# linkxaxes!(ax, ax2)
+linkyaxes!(ax, ax2)
+linkxaxes!(ax, ax2)
 
 save("../figs/initial_cc_assessment/biomass_pca.png", fig, px_per_unit=dpi)
 
@@ -646,6 +658,8 @@ wide_trophic_prod = wide_trophic_prod[wide_trophic_prod.Rate .∈ [[
         "Net_Prod"
     ]],
 :]
+
+for col in names(wide_trophic_prod)[names(wide_trophic_prod) != "Rate"]
 
 CSV.write("../outputs/initial_runs/demersal_fish_rates_variants.csv", wide_trophic_prod)
 
