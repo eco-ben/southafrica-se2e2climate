@@ -434,20 +434,21 @@ uncertainty indicates low confidence in forcasted model values. As a result, thi
 investigation does not focus on specific predictions of guild masses. Instead, this
 investigation focusses on identifying causal drivers of change in the ecosystem using
 environmental driver experiments. This experimental, rather than predictive, approach, and
-quantification of global parameter uncertainty, emphasises the utility of a computationally
+quantification of global parameter uncertainty, emphasise the utility of a computationally
 efficient end-to-end ecosystem model in a data-poor context [@simmonds2024].
 
-The StrathE2E models for the Southern Benguela experience high parameter uncertainty,
-resulting in large biomass confidence intervals for all guilds (@fig-biomass-timeseries). As
-a result, this investigation does not assess predicted future biomass levels. Biomass
+Guild nitrogen mass
 confidence bands remain largely uniform under climate change (excluding demersal fish,
 demersal fish larvae and pinnipeds) (@fig-biomass-timeseries), highlighting the consistent
 effects of climate change across investigated parameter sets. This is most evident for
 Omnivorous zooplankton, and total nitrogen mass, experiencing diverging trajectories across
-NEMO-ERSEM forcing models despite large confidence intervals.
+NEMO-ERSEM forcing models despite large confidence intervals. For all modelled guilds
+(excluding total nitrogen mass), uncertainty across different parameterisations is
+more influential than uncertainty across NEMO-ERSEM forcing models and SSPs, particularly for high trophic 
+level guilds.
 
-![Final year, whole - domain, biomass conditions for each decade of forcing data under each
-future scenario. The y axis represents the mean final year biomass in millimoles of Nitrogen
+![Final year, whole - domain, nitrogen mass conditions for each decade of forcing data under each
+future scenario. The y axis represents the mean final year nitrogen mass in millimoles of Nitrogen
 per gram of wet weight for each guild type. The x axis represents the modelled decades. The
 line colours represent the two climate models, GFDL-ESM4 in blue and CNRM-CM6-1-HR in
 yellow. Linestyles represent the two Shared Socio-Economic Pathways, SSP1-2.6 with solid
