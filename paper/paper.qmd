@@ -598,16 +598,16 @@ width="14.82cm"}
 # Discussion
 
 Modelling the Southern Bengeula ecosystem using StrathE2E suggests a strong influence of
-climate change on the system, particularly for net primary productivity and total nitrogen
-mass. Despite high levels of parameter uncertainty under present and future conditions,
-future changes in temperature, boundary flows within and in/out of the system, and vertical
-mixing (downwelling and upwelling) may strongly effect ecosystem functioning. There have
-been few investigations into ecosystem impacts already experienced due to climate change and
-their drivers. @blamey2015 suggest observed species range shifts over the 1980-2013 period
-are linked to cooling and increased upwelling variability in inshore waters. A future
-cooling trend is not represented in our study (@sfig-driver-temp), suggesting that finer
-scale biogeochemical modelling and validation of model behaviour with observed trends may
-help to reduce uncertainty in model projections for the region.
+climate change on the system (@fig-biomass-pca). Despite high levels of parameter
+uncertainty under present and future conditions, future changes in temperature, boundary
+flows within and in/out of the system, and vertical mixing (downwelling and upwelling) may
+strongly effect ecosystem functioning. There have been few investigations into ecosystem
+impacts already experienced due to climate change and their drivers. @blamey2015 suggest
+observed species range shifts over the 1980-2013 period are linked to cooling and increased
+upwelling variability in inshore waters. A future cooling trend is not represented in our
+study (@sfig-driver-temp), suggesting that finer scale biogeochemical modelling and
+validation of model behaviour with observed trends may help to reduce uncertainty in model
+projections for the region.
 
 This investigation identified temperature, vertical mixing and boundary flows as key
 variable groups influencing change in high trophic level guilds across decades for best-fit

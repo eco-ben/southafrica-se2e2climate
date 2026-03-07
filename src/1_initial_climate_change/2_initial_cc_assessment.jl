@@ -463,6 +463,14 @@ net_primprod.decade = [first(match(r"(\d{4}-\d{4})", var).captures) for var in n
 net_primprod.ESM = [first(match(r"([[:upper:]]{4})", var).captures) for var in net_primprod.variant]
 net_primprod.SSP = [first(match(r"([[:lower:]]{3}\d{3})", var).captures) for var in net_primprod.variant]
 
+percent_change = combine(groupby(net_primprod, [:ESM, :SSP])) do sdf
+    baseline_median = sdf[sdf.decade .== "2010-2019", :netprimprod]
+    (
+        percent_change_median = ((sdf.netprimprod .- baseline_median) ./ baseline_median ).* 100,
+        decade = sdf.decade
+    )
+end
+
 fig_opts = (;
     fontsize = fontsize,
     size = (12centimetre, 10centimetre)
@@ -658,8 +666,6 @@ wide_trophic_prod = wide_trophic_prod[wide_trophic_prod.Rate .∈ [[
         "Net_Prod"
     ]],
 :]
-
-for col in names(wide_trophic_prod)[names(wide_trophic_prod) != "Rate"]
 
 CSV.write("../outputs/initial_runs/demersal_fish_rates_variants.csv", wide_trophic_prod)
 

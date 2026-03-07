@@ -70,7 +70,7 @@ scale = scales(
     X = (; label = "Individual variables"), 
     Y = (; label = "Coefficient of Variation across levels"),
     Color = (; label = "Variable groups"),
-    Layout = (; categories = ["across decade" => "Across decades", "across esm" => "Across ESMs"])
+    Layout = (; categories = ["across decade" => "Across decades", "across esm" => "Across NEMO-ERSEM forcing models"])
 )
 axis_opts = (; xticklabelrotation = π/2)
 legend_opts = (; position=:bottom, orientation = :horizontal, nbanks=2)
