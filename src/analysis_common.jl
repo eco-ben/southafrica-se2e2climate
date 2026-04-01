@@ -24,7 +24,7 @@ guilds = [
     "Demersal_fish_larvae"
 ]
 guild_clean_names = Dict(zip(guilds, replace.(guilds, "_" => " ")))
-guild_clean_names["netprimprod"] = "Net Primary Production"
+guild_clean_names["netprimprod"] = "Net primary production"
 guild_individual_colours = Dict(zip(guilds, distinguishable_colors(length(guilds))))
 
 flux_guilds = Dict(
@@ -136,7 +136,7 @@ se2e_mc_guilds = Dict(
     "Birds" => "bird_bd",
     "Pinnipeds" => "seal_bd",
     "Cetaceans" => "ceta_bd",
-    "netprimprod" => missing,
+    "netprimprod" => "netprimprod",
     "Demersal_fish_larvae" => "demfish_larvae_bd"
 )
 

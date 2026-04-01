@@ -2,15 +2,15 @@ library(StrathE2E2)
 library(tidyverse)
 library(furrr)
 
-n_workers <- 20
-plan(multisession, workers = n_workers)
+# n_workers <- 20
+# plan(multisession, workers = n_workers)
 
-model_path <- "../../StrathE2E_workspace/Models/"
-variants <- list.dirs(str_glue("{model_path}South_Africa_MA/"), recursive = FALSE)
+model_path <- "../../southafrica_paper/"
+variants <- list.dirs(str_glue("{model_path}S_Benguela_MA/"), recursive = FALSE)
 variants <- variants[!str_detect(variants, "2010-2015")] # Remove 2010-2015 variants
 variants <- variants[str_detect(variants, "ssp")] # Include only variant folders with ESM/SSP info (remove 2010-2019 base variant)
 
-variants <- str_split_i(variants, str_glue("{model_path}South_Africa_MA/"), 2)
+variants <- str_split_i(variants, str_glue("{model_path}S_Benguela_MA/"), 2)
 results_path_base <- "./outputs/initial_runs/"
 sapply(variants, function(x) dir.create(file.path(results_path_base, x)))
 
@@ -26,10 +26,15 @@ load_and_run_variants <- function(
     flux_mat_file_base = "flux_matrix_exclspawn_",
     opt_res_file_base = "opt_results_",
     ann_flux_stats_file_base = "annual_flux_stats_",
-    trophic_prod_file_base = "trophic_prod_") {
+    trophic_prod_file_base = "trophic_prod_"
+) {
     print(str_glue("Running model for South Africa MA {model_variant}"))
 
-    model <- e2e_read(model.name = model_name, model.variant = model_variant, models.path = model_path)
+    model <- e2e_read(
+        model.name = model_name,
+        model.variant = model_variant,
+        models.path = model_path
+    )
     results <- e2e_run(model, nyears = nyears, csv.output = FALSE)
 
     final_year <- StrathE2E2:::elt(results, "final.year.outputs")
@@ -39,23 +44,38 @@ load_and_run_variants <- function(
     network_results <- StrathE2E2:::elt(final_year, "ecosystem_indices")
     write.csv(network_results, paste0(indices_file_base, model_variant, ".csv"))
 
-    flux_matrix <- StrathE2E2:::elt(final_year, "flow_matrix_excl_spawn_recruit")
+    flux_matrix <- StrathE2E2:::elt(
+        final_year,
+        "flow_matrix_excl_spawn_recruit"
+    )
     write.csv(flux_matrix, paste0(flux_mat_file_base, model_variant, ".csv"))
 
     opt_results <- StrathE2E2:::elt(final_year, "opt_results")
     write.csv(opt_results, paste0(opt_res_file_base, model_variant, ".csv"))
 
-    annual_flux_stats <- StrathE2E2:::elt(final_year, "annual_flux_results_wholedomain")
-    write.csv(annual_flux_stats, paste0(ann_flux_stats_file_base, model_variant, ".csv"))
+    annual_flux_stats <- StrathE2E2:::elt(
+        final_year,
+        "annual_flux_results_wholedomain"
+    )
+    write.csv(
+        annual_flux_stats,
+        paste0(ann_flux_stats_file_base, model_variant, ".csv")
+    )
 
     trophic_prod <- StrathE2E2:::elt(final_year, "HANPP_results")
     trophic_prod <- StrathE2E2:::elt(trophic_prod, "trophic_data")
-    write.csv(trophic_prod, paste0(trophic_prod_file_base, model_variant, ".csv"))
+    write.csv(
+        trophic_prod,
+        paste0(trophic_prod_file_base, model_variant, ".csv")
+    )
 
     initial_results <- e2e_extract_start(model, results, csv.output = FALSE)
     initial_results$variable <- rownames(initial_results)
     names(initial_results) <- c("value", "variable")
-    write.csv(initial_results, paste0(initial_cond_file_base, model_variant, ".csv"))
+    write.csv(
+        initial_results,
+        paste0(initial_cond_file_base, model_variant, ".csv")
+    )
 
     return()
 }
@@ -68,23 +88,53 @@ future_map(
             "South_Africa_MA",
             model_path,
             nyears = 1,
-            output_file_base = file.path(results_path_base, x, "final_biomass_"),
-            initial_cond_file_base = file.path(results_path_base, x, "initial_conditions_"),
-            indices_file_base = file.path(results_path_base, x, "ecosystem_indices_"),
-            flux_mat_file_base = file.path(results_path_base, x, "flux_matrix_exclspawn_"),
+            output_file_base = file.path(
+                results_path_base,
+                x,
+                "final_biomass_"
+            ),
+            initial_cond_file_base = file.path(
+                results_path_base,
+                x,
+                "initial_conditions_"
+            ),
+            indices_file_base = file.path(
+                results_path_base,
+                x,
+                "ecosystem_indices_"
+            ),
+            flux_mat_file_base = file.path(
+                results_path_base,
+                x,
+                "flux_matrix_exclspawn_"
+            ),
             opt_res_file_base = file.path(results_path_base, x, "opt_results_"),
-            ann_flux_stats_file_base = file.path(results_path_base, x, "ann_flux_stats_"),
-            trophic_prod_file_base = file.path(results_path_base, x, "trophic_prod_")
+            ann_flux_stats_file_base = file.path(
+                results_path_base,
+                x,
+                "ann_flux_stats_"
+            ),
+            trophic_prod_file_base = file.path(
+                results_path_base,
+                x,
+                "trophic_prod_"
+            )
         )
     },
     .progress = TRUE
 )
 
-baseline_variants <- c("CNRM" = "2010-2019-CNRM-ssp126", "GFDL" = "2010-2019-GFDL-ssp126")
+baseline_variants <- c(
+    "CNRM" = "2010-2019-CNRM-ssp126",
+    "GFDL" = "2010-2019-GFDL-ssp126"
+)
 n_iter = 1000
 base_result_directory <- "./outputs/initial_runs/monte_carlo_results/"
 
-for (variant in c(variants[variants %in% baseline_variants], variants[!variants %in% baseline_variants])) {
+for (variant in c(
+    variants[variants %in% baseline_variants],
+    variants[!variants %in% baseline_variants]
+)) {
     esm <- str_extract(variant, "[:upper:]{4}")
     base_parms_ident <- paste0(baseline_variants[esm], "-MC")
 
@@ -93,22 +143,30 @@ for (variant in c(variants[variants %in% baseline_variants], variants[!variants 
         baseline_mode <- TRUE
     }
 
-    variant_result_dir <- file.path(base_result_directory, "South_Africa_MA", variant, "CredInt")
-    
-    if (!dir.exists(variant_result_dir)) {
-        dir.create(variant_result_dir, recursive=TRUE)
-    }
-    
-    if (!baseline_mode) {
-      baseline_param_files <- list.files(file.path(
-        base_result_directory, 
-        "South_Africa_MA", 
-        baseline_variants[esm], 
+    variant_result_dir <- file.path(
+        base_result_directory,
+        "South_Africa_MA",
+        variant,
         "CredInt"
-      ), pattern = "parameters", full.names = TRUE)
-      file.copy(baseline_param_files, variant_result_dir)
+    )
+
+    if (!dir.exists(variant_result_dir)) {
+        dir.create(variant_result_dir, recursive = TRUE)
     }
-    
+
+    if (!baseline_mode) {
+        baseline_param_files <- list.files(
+            file.path(
+                base_result_directory,
+                "South_Africa_MA",
+                baseline_variants[esm],
+                "CredInt"
+            ),
+            pattern = "parameters",
+            full.names = TRUE
+        )
+        file.copy(baseline_param_files, variant_result_dir)
+    }
 
     model_setup <- data.frame(
         region_name = "South_Africa_MA",
@@ -116,7 +174,10 @@ for (variant in c(variants[variants %in% baseline_variants], variants[!variants 
         model_path = model_path,
         result_path = base_result_directory
     )
-    batch_setup <- do.call("rbind", replicate(n_workers, model_setup, simplify = FALSE))
+    batch_setup <- do.call(
+        "rbind",
+        replicate(n_workers, model_setup, simplify = FALSE)
+    )
     batch_setup$batch_id <- seq_len(n_workers)
 
     if (baseline_mode) {
@@ -124,19 +185,30 @@ for (variant in c(variants[variants %in% baseline_variants], variants[!variants 
     } else {
         model_ident_label <- "scenario"
     }
-    batch_setup$batch_model_ident <- paste(batch_setup$model_variant, "batch", batch_setup$batch_id, sep = "-")
+    batch_setup$batch_model_ident <- paste(
+        batch_setup$model_variant,
+        "batch",
+        batch_setup$batch_id,
+        sep = "-"
+    )
 
     batch_setup$n_iter <- n_iter / n_workers
     batch_setup$begin_sample <- NA
 
     if (baseline_mode) {
-        batch_setup$n_iter <- ifelse(batch_setup$batch_id == 1, batch_setup$n_iter, batch_setup$n_iter + 1)
+        batch_setup$n_iter <- ifelse(
+            batch_setup$batch_id == 1,
+            batch_setup$n_iter,
+            batch_setup$n_iter + 1
+        )
     } else {
         for (r in seq_len(n_workers)) {
             if (r == 1) {
                 batch_setup[r, ]$begin_sample <- 1
             } else {
-                batch_setup[r, ]$begin_sample <- (batch_setup[r, ]$n_iter * batch_setup[r - 1, ]$batch_id + 1)
+                batch_setup[r, ]$begin_sample <- (batch_setup[r, ]$n_iter *
+                    batch_setup[r - 1, ]$batch_id +
+                    1)
             }
         }
     }
@@ -145,13 +217,13 @@ for (variant in c(variants[variants %in% baseline_variants], variants[!variants 
     batch_setup$base_parms_ident <- base_parms_ident
 
     batch_list <- split(batch_setup, batch_setup$batch_id)
-    
+
     print(paste0("Running Monte Carlo simulations for ", variant))
-    
+
     future_map(
         batch_list,
         function(x) {
-          baseline_mode <- x$baseline_mode
+            baseline_mode <- x$baseline_mode
             model <- e2e_read(
                 x$region_name,
                 x$model_variant,
@@ -207,7 +279,94 @@ for (variant in c(variants[variants %in% baseline_variants], variants[!variants 
         selection = "MC",
         csv.output = TRUE
     )
-    
-    batch_files <- list.files(variant_result_dir, full.names = TRUE, pattern = "batch")
+
+    batch_files <- list.files(
+        variant_result_dir,
+        full.names = TRUE,
+        pattern = "batch"
+    )
     file.remove(batch_files)
+}
+
+dir.create(file.path(
+    results_path_base,
+    "monte_carlo_results/S_Benguela_MA/mass_files/"
+))
+walk(variants, function(variant) {
+    source_dir <- file.path(
+        results_path_base,
+        "monte_carlo_results/S_Benguela_MA",
+        variant,
+        "CredInt"
+    )
+    source_files <- list.files(
+        source_dir,
+        pattern = "aamass-",
+        full.names = TRUE
+    )
+    dest_files <- gsub(
+        x = source_files,
+        pattern = str_glue("{variant}/CredInt/"),
+        replacement = "mass_files/"
+    )
+
+    file.copy(source_files, dest_files)
+})
+
+esm_ssps <- unique(str_extract(variants, "[:alpha:]{4}(-)[:alpha:]{3}(\\d){3}"))
+mass_folder <- file.path(
+    results_path_base,
+    "monte_carlo_results/S_Benguela_MA/mass_files/"
+)
+domains <- c("inshore", "offshore", "whole")
+
+for (esm_ssp in esm_ssps) {
+    scen_variants <- variants[str_detect(variants, esm_ssp)]
+    baseline <- scen_variants[str_detect(scen_variants, "2010-2019")]
+    scen_variants <- scen_variants[scen_variants != baseline]
+
+    walk(scen_variants, function(scen_var) {
+        StrathE2E2:::CredInt_make_aamass_change_results(
+            mass_folder,
+            baseline,
+            scen_var,
+            creds = c(0.025, 0.25, 0.5, 0.75, 0.975)
+        )
+
+        for (typ in domains) {
+            result_file <- list.files(
+                mass_folder,
+                pattern = str_glue("{typ}_change"),
+                full.names = TRUE
+            )
+            result_file <- result_file[str_detect(result_file, scen_var)]
+            results <- read.csv(result_file)
+            results$ident_baseline <- baseline
+            results$ident_changed <- scen_var
+            results$esm_ssp <- esm_ssp
+
+            names(results)[1] <- "cred_int"
+
+            write.csv(results, result_file, row.names = FALSE)
+        }
+    })
+
+    for (typ in domains) {
+        variant_files <- list.files(
+            mass_folder,
+            pattern = str_glue("{typ}_change"),
+            full.names = TRUE
+        )
+
+        var_results <- lapply(variant_files, read.csv)
+        var_results <- data.table::rbindlist(var_results)
+        write.csv(
+            var_results,
+            file.path(
+                mass_folder,
+                str_glue("CredInt_{typ}_processed_change_{esm_ssp}.csv")
+            ),
+            row.names = FALSE
+        )
+    }
 }

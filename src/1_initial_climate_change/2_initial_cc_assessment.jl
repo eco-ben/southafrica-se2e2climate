@@ -43,9 +43,25 @@ for (r, result_df) in enumerate(result_dfs)
     result_df[!, :variant] .= variants[r]
 end
 result_df = vcat(result_dfs...)
+result_df = result_df[:, Not(:Column1)]
+
+indices_files = readdir("../outputs/initial_runs/", join=true)
+indices_files = indices_files[isdir.(indices_files)]
+indices_files = vcat(readdir.(indices_files; join=true)...)
+indices_files = indices_files[contains.(indices_files, ["ecosystem_indices"])]
+indices_files = indices_files[contains.(indices_files, "csv")]
+net_primprod = [CSV.read(indices_files[contains.(indices_files, variant)], DataFrame) for variant in variants]
+net_primprod = [parse(Float64, first(df[df.Description .== "netprimprod", :].Value)) for df in net_primprod]
+
+net_primprod = DataFrame(hcat(variants, hcat(net_primprod...)'), ["variant", "netprimprod"])
+net_primprod.Model_annual_mean = net_primprod.netprimprod
+net_primprod.Units .= ""
+net_primprod.Description .= "netprimprod"
+
+result_df = vcat(result_df, net_primprod[:, [:Model_annual_mean, :Units, :Description, :variant]])
 
 #### Collate biomass data
-result_df_lines = result_df[result_df.Description .∈ [guilds[guilds .!= "netprimprod"]], :]
+result_df_lines = result_df[result_df.Description .∈ [guilds], :]
 result_df_lines.decade = [first(match(r"(\d{4}-\d{4})", var).captures) for var in result_df_lines.variant]
 result_df_lines.ESM = [first(match(r"([[:upper:]]{4})", var).captures) for var in result_df_lines.variant]
 result_df_lines.SSP = [first(match(r"([[:lower:]]{3}\d{3})", var).captures) for var in result_df_lines.variant]
@@ -62,16 +78,23 @@ for variant in variants
     mc_dir = joinpath(monte_carlo_dir, variant, "CredInt")
     aam_files = readdir(mc_dir; join=true)
     aam_file = first(aam_files[contains.(aam_files, ["AAMresults_whole-$(variant)-MC"])])
-
     aam_mc = CSV.read(aam_file, DataFrame)
+    rename!(aam_mc, "Column1" => "cred_int")
+    
+    npp_files = readdir(joinpath(monte_carlo_dir, "mass_files"); join = true)
+    npp_file = first(npp_files[contains.(npp_files, ["whole_npp_$(variant).csv"])])
+    npp_mc = CSV.read(npp_file, DataFrame)
+
+    aam_mc = leftjoin(aam_mc, npp_mc, on = :cred_int)
+
     for guild in guilds
         if ismissing(se2e_mc_guilds[guild]) continue end
         
-        guild_low_quant = first(aam_mc[aam_mc.Column1 .== "lowlimit", se2e_mc_guilds[guild]])
+        guild_low_quant = first(aam_mc[aam_mc.cred_int .== "lowlimit", se2e_mc_guilds[guild]])
         result_df_lines[(result_df_lines.variant .== variant) .& (result_df_lines.Description .== guild), :min_quant] .= guild_low_quant
         result_df[(result_df.variant .== variant) .& (result_df.Description .== guild), :min_quant] .= guild_low_quant
 
-        guild_upp_quant = first(aam_mc[aam_mc.Column1 .== "upplimit", se2e_mc_guilds[guild]])
+        guild_upp_quant = first(aam_mc[aam_mc.cred_int .== "upplimit", se2e_mc_guilds[guild]])
         result_df_lines[(result_df_lines.variant .== variant) .& (result_df_lines.Description .== guild), :max_quant] .= guild_upp_quant
         result_df[(result_df.variant .== variant) .& (result_df.Description .== guild), :max_quant] .= guild_upp_quant
     end
@@ -85,7 +108,8 @@ scale = scales(
     X = (; label = "Decade"), 
     Y = (; label = "Annual average biomass\n[mMN ⋅ gWW⁻¹]"),
     Color = (; label = "NEMO-ERSEM forcing model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
-    LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
+    LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"]),
+    Layout = (; categories = [sort(getindex.([guild_clean_names], guilds[guilds .∉ [["Total_nitrogen_mass", "netprimprod"]]])); "Total nitrogen mass"; "Net primary production"])
 )
 facet_opts = (; linkyaxes=:none)
 legend_opts = (; position=:bottom)
@@ -101,27 +125,59 @@ biomass_ts_fig = draw(biomass_timeseries + biomass_bands_1 + biomass_bands_2, sc
 save("../figs/initial_cc_assessment/biomass_timeseries_mc.png", biomass_ts_fig, px_per_unit=dpi)
 
 # Additionally calculate percentage change data
-percent_change = combine(groupby(result_df_lines, [:Description, :ESM_SSP, :ESM, :SSP, :guild_clean])) do sdf
-    baseline_median = sdf[sdf.decade .== "2010-2019", :Model_annual_mean]
-    baseline_min = sdf[sdf.decade .== "2010-2019", :min_quant]
-    baseline_max = sdf[sdf.decade .== "2010-2019", :max_quant]
-    (
-        percent_change_median = ((sdf.Model_annual_mean .- baseline_median) ./ baseline_median ).* 100,
-        percent_change_min = ((sdf.min_quant .- baseline_median) ./ baseline_median) .* 100,
-        percent_change_max = ((sdf.max_quant .- baseline_median) ./ baseline_median) .* 100,
-        decade = sdf.decade
-    )
-end
+percent_change_files = readdir(joinpath(monte_carlo_dir, "mass_files"), join = true)
+percent_change_files = percent_change_files[contains.(percent_change_files, ["CredInt_whole_processed_change_"])]
+percent_change = vcat(CSV.read.(percent_change_files, DataFrame)...)
+percent_change = unique(percent_change)
 
+npp_change = readdir(joinpath(monte_carlo_dir, "mass_files"), join = true)
+npp_change = npp_change[contains.(npp_change, ["whole_npp_change_"])]
+npp_change = vcat(CSV.read.(npp_change, DataFrame)...)
+
+percent_change = leftjoin(percent_change, npp_change, on = ["cred_int", "esm_ssp", "ident_baseline", "ident_changed"])
+
+guild_renaming = Pair.(getindex.([se2e_mc_guilds], guilds), guilds)
+map(x -> rename!(percent_change, x), guild_renaming)
+percent_change = stack(
+    percent_change, 
+    guilds, 
+    [:ident_changed, :esm_ssp, :cred_int]
+)
+percent_change.decade = [first(match(r"(\d{4}-\d{4})", var).captures) for var in percent_change.ident_changed]
+percent_change = percent_change[:, Not(:ident_changed)]
+
+# produce dummy 2010-2019 data (zeros)
+baseline = percent_change[percent_change.decade .== first(percent_change.decade), :]
+baseline.decade .= "2010-2019"
+baseline.value .= 0.0
+
+percent_change = vcat(baseline, percent_change)
+percent_change.ESM = [first(match(r"([[:upper:]]{4})", var).captures) for var in percent_change.esm_ssp]
+percent_change.SSP = [first(match(r"([[:lower:]]{3}\d{3})", var).captures) for var in percent_change.esm_ssp]
+
+
+percent_change.value = percent_change.value .* 100
+percent_change = unstack(percent_change, [:ESM, :SSP, :decade, :variable], :cred_int, :value, combine=first)
+percent_change.guild_clean = getindex.([guild_clean_names], percent_change.variable)
+
+fig_opts = (;
+    fontsize = fontsize,
+    size = (18.42centimetre, 18.42centimetre)
+)
 scale = scales(
     X = (; label = "Decade"), 
     Y = (; label = "Change in biomass from \n2010-2019 [%]"),
     Color = (; label = "NEMO-ERSEM forcing model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
-    LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
+    LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"]),
+    Layout = (; categories = [sort(getindex.([guild_clean_names], guilds[guilds .∉ [["Total_nitrogen_mass", "netprimprod"]]])); "Total nitrogen mass"; "Net primary production"])
 )
-percent_timeseries = data(percent_change) * mapping(:decade, :percent_change_median, color=:ESM, linestyle=:SSP, layout=:guild_clean) * visual(Lines)
-percent_bands_1 = data(percent_change[percent_change.SSP .== "ssp126", :]) * mapping(:decade, :percent_change_min, :percent_change_max, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
-percent_bands_2 = data(percent_change[percent_change.SSP .== "ssp370", :]) * mapping(:decade, :percent_change_min, :percent_change_max, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
+facet_opts = (; linkyaxes=:none)
+legend_opts = (; position=:bottom)
+axis_opts = (; xticklabelrotation = π/4)
+
+percent_timeseries = data(percent_change) * mapping(:decade, :maxlik, color=:ESM, linestyle=:SSP, layout=:guild_clean) * visual(Lines)
+percent_bands_1 = data(percent_change[percent_change.SSP .== "ssp126", :]) * mapping(:decade, :lowlimit, :upplimit, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
+percent_bands_2 = data(percent_change[percent_change.SSP .== "ssp370", :]) * mapping(:decade, :lowlimit, :upplimit, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
 
 percent_ts_fig = draw(percent_timeseries + percent_bands_1 + percent_bands_2, scale; facet=(; linkyaxes=false), figure=fig_opts, legend=legend_opts, axis=axis_opts)
 
@@ -454,39 +510,39 @@ save("../figs/initial_cc_assessment/overall_trophiclevel_timeseries.png", fig, p
 
 
 # 4. Plotting net primary production timeseries 
-net_primprod = [CSV.read(indices_files[contains.(indices_files, variant)], DataFrame) for variant in variants]
-net_primprod = [parse(Float64, first(df[df.Description .== "netprimprod", :].Value)) for df in net_primprod]
+# net_primprod = [CSV.read(indices_files[contains.(indices_files, variant)], DataFrame) for variant in variants]
+# net_primprod = [parse(Float64, first(df[df.Description .== "netprimprod", :].Value)) for df in net_primprod]
 
-net_primprod = DataFrame(hcat(variants, hcat(net_primprod...)'), ["variant", "netprimprod"])
+# net_primprod = DataFrame(hcat(variants, hcat(net_primprod...)'), ["variant", "netprimprod"])
 
-net_primprod.decade = [first(match(r"(\d{4}-\d{4})", var).captures) for var in net_primprod.variant]
-net_primprod.ESM = [first(match(r"([[:upper:]]{4})", var).captures) for var in net_primprod.variant]
-net_primprod.SSP = [first(match(r"([[:lower:]]{3}\d{3})", var).captures) for var in net_primprod.variant]
+# net_primprod.decade = [first(match(r"(\d{4}-\d{4})", var).captures) for var in net_primprod.variant]
+# net_primprod.ESM = [first(match(r"([[:upper:]]{4})", var).captures) for var in net_primprod.variant]
+# net_primprod.SSP = [first(match(r"([[:lower:]]{3}\d{3})", var).captures) for var in net_primprod.variant]
 
-percent_change = combine(groupby(net_primprod, [:ESM, :SSP])) do sdf
-    baseline_median = sdf[sdf.decade .== "2010-2019", :netprimprod]
-    (
-        percent_change_median = ((sdf.netprimprod .- baseline_median) ./ baseline_median ).* 100,
-        decade = sdf.decade
-    )
-end
+# percent_change = combine(groupby(net_primprod, [:ESM, :SSP])) do sdf
+#     baseline_median = sdf[sdf.decade .== "2010-2019", :netprimprod]
+#     (
+#         percent_change_median = ((sdf.netprimprod .- baseline_median) ./ baseline_median ).* 100,
+#         decade = sdf.decade
+#     )
+# end
 
-fig_opts = (;
-    fontsize = fontsize,
-    size = (12centimetre, 10centimetre)
-)
-scale = scales(
-    X = (; label = "Decade"), 
-    Y = (; label = "Net Primary Production [mMN ⋅ m² ⋅ y]"),
-    Color = (; label = "NEMO-ERSEM forcing model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
-    LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
-)
-legend_opts = (; position=:bottom, orientation = :horizontal)
+# fig_opts = (;
+#     fontsize = fontsize,
+#     size = (12centimetre, 10centimetre)
+# )
+# scale = scales(
+#     X = (; label = "Decade"), 
+#     Y = (; label = "Net Primary Production [mMN ⋅ m² ⋅ y]"),
+#     Color = (; label = "NEMO-ERSEM forcing model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
+#     LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
+# )
+# legend_opts = (; position=:bottom, orientation = :horizontal)
 
-line = data(net_primprod) * mapping(:decade, :netprimprod, color=:ESM, linestyle=:SSP) * visual(Lines)
-fig = draw(line, scale; figure=fig_opts, legend=legend_opts, facet=facet_opts)
+# line = data(net_primprod) * mapping(:decade, :netprimprod, color=:ESM, linestyle=:SSP) * visual(Lines)
+# fig = draw(line, scale; figure=fig_opts, legend=legend_opts, facet=facet_opts)
 
-save("../figs/initial_cc_assessment/net_primary_production_timeseries.png", fig, px_per_unit=dpi)
+# save("../figs/initial_cc_assessment/net_primary_production_timeseries.png", fig, px_per_unit=dpi)
 
 
 # 5. Plotting nitrogen flux data
