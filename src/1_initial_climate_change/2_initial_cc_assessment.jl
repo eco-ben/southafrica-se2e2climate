@@ -509,42 +509,6 @@ fig = draw(line, scale; figure=fig_opts, axis=axis_opts, legend=legend_opts, fac
 save("../figs/initial_cc_assessment/overall_trophiclevel_timeseries.png", fig, px_per_unit=dpi)
 
 
-# 4. Plotting net primary production timeseries 
-# net_primprod = [CSV.read(indices_files[contains.(indices_files, variant)], DataFrame) for variant in variants]
-# net_primprod = [parse(Float64, first(df[df.Description .== "netprimprod", :].Value)) for df in net_primprod]
-
-# net_primprod = DataFrame(hcat(variants, hcat(net_primprod...)'), ["variant", "netprimprod"])
-
-# net_primprod.decade = [first(match(r"(\d{4}-\d{4})", var).captures) for var in net_primprod.variant]
-# net_primprod.ESM = [first(match(r"([[:upper:]]{4})", var).captures) for var in net_primprod.variant]
-# net_primprod.SSP = [first(match(r"([[:lower:]]{3}\d{3})", var).captures) for var in net_primprod.variant]
-
-# percent_change = combine(groupby(net_primprod, [:ESM, :SSP])) do sdf
-#     baseline_median = sdf[sdf.decade .== "2010-2019", :netprimprod]
-#     (
-#         percent_change_median = ((sdf.netprimprod .- baseline_median) ./ baseline_median ).* 100,
-#         decade = sdf.decade
-#     )
-# end
-
-# fig_opts = (;
-#     fontsize = fontsize,
-#     size = (12centimetre, 10centimetre)
-# )
-# scale = scales(
-#     X = (; label = "Decade"), 
-#     Y = (; label = "Net Primary Production [mMN ⋅ m² ⋅ y]"),
-#     Color = (; label = "NEMO-ERSEM forcing model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
-#     LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
-# )
-# legend_opts = (; position=:bottom, orientation = :horizontal)
-
-# line = data(net_primprod) * mapping(:decade, :netprimprod, color=:ESM, linestyle=:SSP) * visual(Lines)
-# fig = draw(line, scale; figure=fig_opts, legend=legend_opts, facet=facet_opts)
-
-# save("../figs/initial_cc_assessment/net_primary_production_timeseries.png", fig, px_per_unit=dpi)
-
-
 # 5. Plotting nitrogen flux data
 flux_files = readdir("../outputs/initial_runs/", join=true)
 flux_files = flux_files[.!contains.(flux_files, [".csv"])]
@@ -616,87 +580,6 @@ bars = data(diet_comp) * mapping(:guild_clean, :influx, row = :decade, col = :ES
 fig = draw(bars, scale; axis=ax_opts, figure=fig_opts)
 
 save("../figs/initial_cc_assessment/decade_sep_guilds_nitrogen_sources.png", fig, px_per_unit=dpi)
-
-
-# Plotting demersal fish and demersal fish larval influxes and outfluxes
-# dfish_variant_biomass = result_df_lines[result_df_lines.Description .== "Demersal_fish_lar", [:variant, :Model_annual_mean]]
-# rename!(dfish_variant_biomass, "Model_annual_mean" => "fy_biomass")
-
-# dem_fish_influx = [df[:, ["source", "dfishlar"]] for df in flux_matrices]
-# for (v, df) in enumerate(dem_fish_influx) df.variant .= variants[v] end
-# dem_fish_influx = vcat(dem_fish_influx...)
-# dem_fish_influx = leftjoin(dem_fish_influx, dfish_variant_biomass, on=:variant)
-# dem_fish_influx.proportional_influx = dem_fish_influx.dfish ./ dem_fish_influx.fy_biomass
-
-# dem_fish_outflux = [stack(df[df.source .== "dfish", :], Not(:source), variable_name=:sink, value_name=:outflux)[:, Not(:source)] for df in flux_matrices]
-# for (v, df) in enumerate(dem_fish_outflux) df.variant .= variants[v] end
-# dem_fish_outflux = vcat(dem_fish_outflux...)
-# dem_fish_outflux = leftjoin(dem_fish_outflux, dfish_variant_biomass, on=:variant)
-# dem_fish_outflux.proportional_outflux = dem_fish_outflux.outflux ./ dem_fish_outflux.fy_biomass
-
-
-# plot_dfish_influx = dem_fish_influx[dem_fish_influx.dfishlar .> 0.0, :]
-# plot_dfish_influx.decade = [first(match(r"(\d{4}-\d{4})", var).captures) for var in plot_dfish_influx.variant]
-# plot_dfish_influx.ESM = [first(match(r"([[:upper:]]{4})", var).captures) for var in plot_dfish_influx.variant]
-# plot_dfish_influx.SSP = [first(match(r"([[:lower:]]{3}\d{3})", var).captures) for var in plot_dfish_influx.variant]
-# fig_opts = (;
-#     fontsize = fontsize,
-#     size = (18.42centimetre, 14centimetre)
-# )
-# scale = scales(
-#     Y = (; label = "Influx to Demersal fish from sources (proportional to dfish biomass)"),
-#     Color = (; label = "Earth System Model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
-#     LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
-# )
-# axis_opts = (; xticklabelrotation = π/4)
-# legend_opts = (; position=:bottom, tellheight=false, tellwidth=false, nbanks=2)
-# facet_opts = (; linkyaxes=false)
-
-# # scat = data(pca_val_df) * mapping(:PC1, :PC2, marker=:decade, color=:ESM_SSP) * visual(Scatter, markersize=20)
-# line = data(plot_dfish_influx) * mapping(:decade, :dfishlar, color=:ESM, linestyle=:SSP, layout=:source) * visual(Lines)
-# fig = draw(line, scale; figure=fig_opts, axis=axis_opts, legend=legend_opts, facet=facet_opts)
-
-
-
-# plot_dfish_outflux = dem_fish_outflux[dem_fish_outflux.outflux .> 0.0, :]
-# plot_dfish_outflux.decade = [first(match(r"(\d{4}-\d{4})", var).captures) for var in plot_dfish_outflux.variant]
-# plot_dfish_outflux.ESM = [first(match(r"([[:upper:]]{4})", var).captures) for var in plot_dfish_outflux.variant]
-# plot_dfish_outflux.SSP = [first(match(r"([[:lower:]]{3}\d{3})", var).captures) for var in plot_dfish_outflux.variant]
-# fig_opts = (;
-#     fontsize = fontsize,
-#     size = (18.42centimetre, 14centimetre)
-# )
-# scale = scales(
-#     Y = (; label = "Fluxes out of demersal fish to sinks (proportional to dfish biomass)"),
-#     Color = (; label = "Earth System Model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
-#     LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
-# )
-# axis_opts = (; xticklabelrotation = π/4)
-# legend_opts = (; position=:bottom, tellheight=false, tellwidth=false, nbanks=2)
-# facet_opts = (; linkyaxes=false)
-
-# # scat = data(pca_val_df) * mapping(:PC1, :PC2, marker=:decade, color=:ESM_SSP) * visual(Scatter, markersize=20)
-# line = data(plot_dfish_outflux) * mapping(:decade, :proportional_outflux, color=:ESM, linestyle=:SSP, layout=:sink) * visual(Lines)
-# fig = draw(line, scale; figure=fig_opts, axis=axis_opts, legend=legend_opts, facet=facet_opts)
-
-
-
-# fig_opts = (;
-#     fontsize = fontsize,
-#     size = (18.42centimetre, 14centimetre)
-# )
-# scale = scales(
-#     Y = (; label = "Total nitrogen uptake relative to guild biomass"),
-#     Color = (; label = "Earth System Model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
-#     LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
-# )
-# axis_opts = (; xticklabelrotation = π/4)
-# legend_opts = (; position=:bottom, tellheight=false, tellwidth=false, nbanks=2)
-# facet_opts = (; linkyaxes=false)
-
-# # scat = data(pca_val_df) * mapping(:PC1, :PC2, marker=:decade, color=:ESM_SSP) * visual(Scatter, markersize=20)
-# line = data(total_flux) * mapping(:decade, :proportional_uptake, color=:ESM, linestyle=:SSP, layout=:guild) * visual(Lines)
-# fig = draw(line, scale; figure=fig_opts, axis=axis_opts, legend=legend_opts, facet=facet_opts)
 
 
 # 6. Collate the trophic production data (biological rates) for the demersal fish and demersal fish larvae guilds
