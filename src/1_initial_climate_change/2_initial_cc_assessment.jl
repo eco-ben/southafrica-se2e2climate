@@ -352,8 +352,8 @@ ax2 = Axis(
     aspect=1
 )
 
-lines!(ax2, [first(esm_separation), -first(esm_separation)], [last(esm_separation), -last(esm_separation)], linestyle=:dash, color=:red)
-lines!(ax2, [first(decade_separation), -first(decade_separation)], [last(decade_separation), -last(decade_separation)], linestyle=:dash, color=:blue)
+lines!(ax2, [first(esm_separation), -first(esm_separation)], [last(esm_separation), -last(esm_separation)], linestyle=:dash, color=:red, linewidth=3)
+lines!(ax2, [first(decade_separation), -first(decade_separation)], [last(decade_separation), -last(decade_separation)], linestyle=:dash, color=Makie.wong_colors()[1], linewidth=3)
 
 # Draw arrows for variables
 for (i, output) in enumerate(guilds[(guilds .!= "netprimprod") .& (guilds .!= "Demersal_fish_larvae")])
@@ -389,8 +389,8 @@ Legend(
 Legend(
     fig[3,2], 
     [
-        LineElement(color=:red, linestyle=:dash), 
-        LineElement(color=:blue, linestyle=:dash)
+        LineElement(color=:red, linestyle=:dash, linewidth=3), 
+        LineElement(color=Makie.wong_colors()[1], linestyle=:dash, linewidth=3)
     ],
     ["NEMO-ERSEM \n forcing model signal", "decade signal"],
     tellheight=false,

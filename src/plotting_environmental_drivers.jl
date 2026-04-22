@@ -3,7 +3,7 @@ using Parquet
 using DataFrames
 using Statistics
 using MultivariateStats
-using AlgebraOfGraphics
+using AlgebraOfigraphics
 using GLMakie
 using Colors
 using StatsBase
@@ -23,6 +23,10 @@ master_month_average = combine(groupby(master, [:variable, :decade, :SSP, :ESM])
 
 for vg in variables
     sub_drivers = master[master.variable .∈ [variable_groups[vg]], :]
+    sub_drivers = sub_drivers[sub_drivers.decade .!= "2010-2015", :]
+    sub_drivers.variable_label = getindex.([variable_units], sub_drivers.variable)
+    sub_drivers.variable_label = sub_drivers.variable .* " [" .* sub_drivers.variable_label .* "]"
+
     fig_opts = (;
         fontsize = fontsize,
         size = (18.42centimetre, 18.42centimetre)
@@ -30,16 +34,28 @@ for vg in variables
     scale = scales(
         X = (; label = "Month"), 
         Y = (; label = "Monthly Value"),
-        Color = (; label = "Decade"),
-        LineStyle = (; label = "NEMO-ERSEM forcing model", categories = ESM_categories),
-        Row = (; categories = SSP_categories)
+        LineStyle = (; label = "SSP", categories = SSP_categories, palette=SSP_linestyles),
+        Color = (; label = "NEMO-ERSEM forcing model", categories = ESM_categories)
     )
-    facet_opts = (; linkyaxes=:none)
+    facet_opts = (; linkyaxes=:minimal)
     legend_opts = (; position=:bottom, nbanks=3)
-    axis_opts = (; xticklabelrotation = π/4)
 
-    line = data(sub_drivers) * mapping(:month, :value, color=:decade, linestyle=:ESM, col=:variable, row=:SSP) * visual(Lines)
+    axis_opts = (; xticks=([1, 6, 12], ["Jan", "Jun", "Dec"]), yticks=LinearTicks(3))
+
+    line = data(sub_drivers) * mapping(:month, :value, color=:ESM, linestyle=:SSP, col=:decade, row=:variable_label) * visual(Lines)
     fig = draw(line, scale; figure=fig_opts, axis=axis_opts, legend=legend_opts, facet=facet_opts)
+
+    if vg ∈ ["nutrient_concentrations", "atmospheric_nutrient_flux"]
+        right_col = size(fig.figure.layout)[2]
+
+        for gc in fig.figure.layout.content
+            # Check it's a Label and that it lives in the rightmost column (row labels)
+            if (gc.content isa Makie.Label) && (gc.span.cols == right_col:right_col) && (gc.content.rotation[] ≈ -π/2)
+                gc.content.rotation[] = 0   # 45 degrees counter-clockwise
+            end
+        end
+    end
+    
 
     save("../figs/env_drivers/$(vg)_driver_timeseries.png", fig, px_per_unit=dpi)
 end

@@ -147,4 +147,40 @@ param_categories = [
     "h_fishdlar" => "Nitrogen uptake half-saturation\n coefficient - Demersal fish larvae",
     "u_fishd" => "Maximum nitrogen uptake\n rate - Demersal fish",
     "u_fishdlar" => "Maximum nitrogen uptake\n rate - Demersal fish larvae" 
-] 
+]
+
+variable_units = Dict(
+    "sslight" => "E⋅m⁻²⋅d⁻¹",
+    "rivervol" => "d⁻¹",
+    "rivnitrate" => "mMN⋅m⁻³",
+    "rivammonia" => "mMN⋅m⁻³",
+    "so_nitrate" => "mMN⋅m⁻³",
+    "so_ammonia" => "mMN⋅m⁻³",
+    "so_phyt" => "mMN⋅m⁻³",
+    "so_detritus" => "mMN⋅m⁻³",
+    "d_nitrate" => "mMN⋅m⁻³",
+    "d_ammonia" => "mMN⋅m⁻³",
+    "d_phyt" => "mMN⋅m⁻³",
+    "d_detritus" => "mMN⋅m⁻³",
+    "si_nitrate" => "mMN⋅m⁻³",
+    "si_ammonia" => "mMN⋅m⁻³",
+    "si_phyt" => "mMN⋅m⁻³",
+    "si_detritus" => "mMN⋅m⁻³",
+    "so_atmnitrate" => "mMN⋅m⁻²⋅d⁻¹",
+    "so_atmammonia" => "mMN⋅m⁻²⋅d⁻¹",
+    "si_atmnitrate" => "mMN⋅m⁻²⋅d⁻¹",
+    "si_atmammonia" => "mMN⋅m⁻²⋅d⁻¹",
+    "so_temp" => "°C",
+    "d_temp" => "°C",
+    "si_temp" => "°C",
+    "logkvert" => "m⁻²⋅s⁻¹",
+    "d_so_upwelling" => "d⁻¹",
+    "so_d_downwelling" => "d⁻¹",
+    "so_inflow" => "d⁻¹",
+    "d_inflow" => "d⁻¹",
+    "si_inflow" => "d⁻¹",
+    "si_outflow" => "d⁻¹",
+    "so_si_flow" => "d⁻¹"
+)
+
+
