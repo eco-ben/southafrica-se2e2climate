@@ -453,36 +453,31 @@ $2NEMO-ERSEM forcing models ^{6variables} * 6decades * 2SSPs * 2parameterisation
 ## Future climate impacts
 
 Both CNRM-CM6-1-HR and GFDL-ESM4 StrathE2E models for the Southern Benguela ecosystem
-experienced high levels of parameter uncertainty (@fig-biomass-timeseries). High parameter
-uncertainty indicates low confidence in forcasted model values. As a result, this
-investigation does not focus on specific predictions of guild masses. Instead, this
-investigation focusses on identifying causal drivers of change in the ecosystem using
-environmental driver experiments. This experimental, rather than predictive, approach, and
+experienced high levels of parameter uncertainty for mass value predictions (@sfig-biomass-timeseries). 
+Despite low confidence in absolute predictions of guild mass, guilds experience higher
+confidence for modelled directions and magnitudes of mass change under increasing
+climate pressures (@fig-percent-biomass-timeseries). This suggests that the mechanisms
+driving climate-related changes, particularly for plankton and benthos guilds, are
+not sensitive to parameter changes. An experimental, rather than predictive, approach, and
 quantification of global parameter uncertainty, emphasise the utility of a computationally
-efficient end-to-end ecosystem model in a data-poor context [@simmonds2024].
+efficient end-to-end ecosystem model in a data-poor context [@simmonds2024]. This
+modelling approach allows the completion of tens of thousands of model runs, helping
+identify mechansisms of change in the ecosystem across a range of possible model
+parameterisations and climate data combinations.
 
-Guild nitrogen mass confidence bands remain largely uniform under climate change (excluding
-demersal fish, demersal fish larvae and pinnipeds) (@fig-biomass-timeseries), highlighting
-the consistent effects of climate change across investigated parameter sets. This is most
-evident for Omnivorous zooplankton, and total nitrogen mass, experiencing diverging
-trajectories across NEMO-ERSEM forcing models despite large confidence intervals. For all
-modelled guilds (excluding total nitrogen mass), uncertainty across different
-parameterisations is more influential than uncertainty across NEMO-ERSEM forcing models and
-SSPs, particularly for high trophic level guilds.
-
-![Final year, whole - domain, nitrogen mass conditions for each decade of forcing data under
-each future scenario. The y axis represents the mean final year nitrogen mass in millimoles
-of Nitrogen per gram of wet weight for each guild type. The x axis represents the modelled
+![Final year, whole-domain percentage change in mass for each decade of
+forcing data under each future scenario, relative to 2010-2019 levels. The y axis represents the change in final year mass
+as a percentage of 2010-2019 mass for each guild. The x axis represents the modelled
 decades. The line colours represent the two climate models, GFDL-ESM4 in blue and
 CNRM-CM6-1-HR in yellow. Linestyles represent the two Shared Socio-Economic Pathways,
-SSP1-2.6 with solid lines and SSP3-7.0 with dashed lines. Shaded bands represent the 95%
-confidence intervals for output variables obtained from Monte Carlo
-simulations.](../figs/initial_cc_assessment/biomass_timeseries_mc.png){#fig-biomass-timeseries
+SSP1-2.6 with solid lines and SSP3-7.0 with dashed lines. Bold lines represent the best-fit 
+parameterisation outputs. Transparent bands represent the
+95% credible intervals for percentage change values obtained from Monte Carlo simulations. Percentage change in total nitrogen mass is not sensitive to the represented changes in parameter values.](../figs/initial_cc_assessment/percent_biomass_timeseries_mc.png){#fig-percent-biomass-timeseries
 width="14.82cm"}
 
-Demersal fish, demersal fish larvae and pinnipeds are particularly sensitive to changes in
-model parameters (@fig-biomass-timeseries), experiencing broader confidence intervals than
-lower trophic level guilds (@sfig-percent-biomass-timeseries). Guild production rates for
+Demersal fish, demersal fish larvae, pinnipeds and cetaceans are particularly sensitive to changes in
+model parameters (@fig-percent-biomass-timeseries), experiencing broader credible intervals than
+lower trophic level guilds. Guild production rates for
 demersal fish show that modelled demersal fish gain greater nitrogen mass from recruitment
 than from consumption, with recruitment sustaining net production at a positive level
 (@tbl-dfish-biology). A local sensitivity analysis on demersal fish larvae physiological
@@ -512,18 +507,9 @@ $(cap)
 ```
 
 Ecosystem net primary productivity is projected to substantially increase across modelled
-decades under GFDL-ESM4 NEMO-ERSEM forcing model (@fig-net-primprod) and decrease under
+decades under GFDL-ESM4 NEMO-ERSEM forcing model (@fig-percent-biomass-timeseries) and decrease under
 CNRM-CM6-1-HR forcing model. There is little difference in net primary productivity between
 SSP1-2.6 and SSP3-7.0.
-
-![Final year whole - domain net primary production across each decade of forcing data under
-each future scenario. The y axis represents net primary production in millimoles of Nitrogen
-per m~2~ per year. The x axis represents the modelled decades. The line colours represent
-the two climate models used to force NEMO-ERSEM, GFDL-ESM4 in blue and CNRM-CM6-1-HR in
-yellow. Linestyles represent the two Shared Socio-Economic Pathways, SSP1-2.6 with solid
-lines and SSP3-7.0 with dashed
-lines.](../figs/initial_cc_assessment/net_primary_production_timeseries.png){#fig-net-primprod
-width="12cm"}
 
 Principal Component Analysis highlights the influence of decadal changes and NEMO-ERSEM
 forcing model choice on overall modelled ecosystem masses. The first two principal
@@ -535,7 +521,7 @@ nitrogen mass and Carnivorous zooplankton align strongly with ecosystem state ch
 the forcing models (@sfig-pca-separation). Pinnipeds, Demersal fish, deep layer
 Phytoplankton, Birds, Benthos Carnivorous/Scavenge Feeders and Cetaceans align strongly with
 ecosystem changes across decades. There is little variation in ecosystem state across SSPs.
-Additionally, projecting 95% confidence interval ecosystem mass values into PC space
+Additionally, projecting 95% credible interval ecosystem mass values into PC space
 highlights high variation resulting from changes in parameter combinations
 (@sfig-biomass-pca-mc).
 
@@ -547,8 +533,8 @@ Dot points represent 2010-2019 decade of forcing, and arrowheads represent the 2
 decade of forcing. Panel B: PCA axis loadings for each of the guild mass state variables,
 labelled with letters. Red and blue dashed lines represent the average direction of change
 in PC values across NEMO-ERSEM forcing models and decades respectively. Guilds that align
-strongly with a dashed line in panel B can be considered to constribute strongly to
-directioal variance in panel
+strongly with a dashed line in panel B can be considered to contribute strongly to
+directional variance in panel
 A.](../figs/initial_cc_assessment/biomass_pca.png){#fig-biomass-pca width="14.82cm"}
 
 ## Drivers of temporal ecosystem change
@@ -557,10 +543,10 @@ For guilds strongly correlated with temporal ecosystem change, Shapley Effect en
 variable contribution values indicate that temperature, boundary flow and vertical mixing
 driving variables contribute to 100% of the variance in modelled mass levels. Light, river
 outputs, nutrient concentrations and atmospheric nutrient flux driving variables do not
-contribute to variance in modelled guild masses (@fig-across-decade-shap). Under SSP3-7.0
-the contribution of temperature to mass variance increases. When forced by GFDL-ESM4, three
+contribute to variance in modelled guild masses (@fig-across-decade-shap). When forced by CNRM-CM6-1-HR, under SSP3-7.0
+the contribution of temperature to mass variance increases from SSP1-2.6. Under CNRM-CM6-1-HR, temperature is a substantially stronger driver of variation for pinnipeds, birds and cetaceans compared to deep layer phytoplankton, carnivorous/scavenge feeding benthos and demersal fish guilds. When forced by GFDL-ESM4, three
 of the six guilds are primarily driven by boundary flows and three are primarily driven by
-vertical mixing, with all guilds having low importance of temperature. Under all NEMO-ERSEM
+vertical mixing, with all guilds having low importance of temperature. Under both NEMO-ERSEM
 forcing models and SSPs deep layer phytoplankton has distinct Shapley Effect values to other
 assessed guilds, with \>75% of guild mass variance attributed to vertical mixing.
 Interactions between environmental variable groups largely do not influence guild mass
@@ -572,11 +558,11 @@ trends compared to GFDL-ESM4, with distinct patterns of nutrient inflows and out
 inshore region (@sfig-driver-boundary-flows). GFDL-ESM4 forcing data show a greater degree
 of seasonal variability in vertical diffusivity, and offshore upwelling and downwelling
 compared to CNRM-CM6-1-HR (@sfig-driver-vertical-mixing). In StrathE2E temperature
-influences the metabolism and prey uptake rates for predatory guilds, while boundary flows
-and vertical mixing influence distributions of prey items across domain boxes, affecting
+influences the metabolism and prey uptake rates for consumer guilds, while boundary flows
+and vertical mixing influence distributions of plankton guilds across domain boxes, affecting
 predator distributions and nutrient uptake. While the low influence of nutrient
-concentration variables suggests that the spatial dynamics of the system are more
-influential (@fig-across-decade-shap).
+concentration variables suggests that the spatial dynamics are more
+influential in this model of the system (@fig-across-decade-shap).
 
 ![Shapley Effect contribution values for guilds identified as being strongly correlated with
 ecosystem state change over time (@sfig-pca-separation) under each forcing model - SSP
@@ -595,21 +581,18 @@ models, Shapley Effect contribution values indicate high contribution from verti
 (@fig-across-esm-shap). Boundary flows have the second highest contribution to across –
 forcing model mass variance for almost all guilds assessed. Variable groups such as nutrient
 concentrations, river outputs, light and temperature have low contributions to across –
-forcing model variance. Variable group contributions across the best-fit CNRM-CM6-1-HR and
-GFDL-ESM4 parameterisations (@fig-across-esm-shap).
+forcing model variance. Variable group contributions are similar across the best-fit CNRM-CM6-1-HR and
+GFDL-ESM4 parameterisations, highlighting consistent mechanisms of change (@fig-across-esm-shap).
 
 The choice of NEMO-ERSEM CMIP6 model forcing StrathE2E strongly influences projected
 ecosystem outcomes (@fig-biomass-pca). The two forcing models project different future
 windfields in the region, resulting in distinct NEMO-ERSEM projections of upwelling and
-downwelling. Low trophic level guilds, as well as net primary production, display diverging
+downwelling (@sfig-driver-vertical-mixing; @sfig-ssp3-winds-cmip). Low trophic level guilds, as well as net primary production, display diverging
 best-fit model trajectories under each forcing model. Vertical mixing contributes the most
 (\>60%) to variance for the majority of these guilds. While vertical mixing variables
 (downwelling, upwelling and vertical diffusivity) show qualitatively similar patterns under
 the two models, GFDL-ESM4 projects greater extremes and variance in vertical mixing
-(@sfig-driver-vertical-mixing). The high influence of vertical mixing on these guilds
-despite lower future variance across NEMO-ERSEM models than variable groups such as
-temperature highlights high ecosystem sensitivity to vertical mixing
-(@sfig-driving-variable-variation).
+(@sfig-driver-vertical-mixing).
 
 ![Shapley Effect contribution values for guilds identified as being strongly correlated with
 differences in ecosystem state across the NEMO-ERSEM forcing models (@sfig-pca-separation),
@@ -826,15 +809,14 @@ map.](../figs/domain_separation_map.png){#sfig-distance-depth-map width="14.82cm
 
 ## Supplementary results
 
-![Change in guild final year whole domain mass relative to 2010-2019 for each decade of
-forcing data under each future scenario. The y axis represents the change in final year mass
-as a percentage of 2010-2019 mass for each guild. The x axis represents the modelled
+![Guild final year, whole - domain, nitrogen mass conditions for each decade of forcing data under
+each future scenario. The y axis represents the mean final year nitrogen mass in millimoles
+of Nitrogen per gram of wet weight for each guild type. The x axis represents the modelled
 decades. The line colours represent the two climate models, GFDL-ESM4 in blue and
 CNRM-CM6-1-HR in yellow. Linestyles represent the two Shared Socio-Economic Pathways,
-SSP1-2.6 with solid lines and SSP3-7.0 with dashed lines. Transparent bands represent the
-95% confidence interval model results. Percentage change for upper and lower confidence
-intervals has been calculated based on upper and lower limit 2010-2019 mass values
-respectively.](../figs/initial_cc_assessment/percent_biomass_timeseries_mc.png){#sfig-percent-biomass-timeseries
+SSP1-2.6 with solid lines and SSP3-7.0 with dashed lines. Shaded bands represent the 95%
+credible intervals for output variables obtained from Monte Carlo
+simulations.](../figs/initial_cc_assessment/biomass_timeseries_mc.png){#sfig-biomass-timeseries
 width="14.82cm"}
 
 ![Guild contributions to ecosystem separation across NEMO-ERSEM forcing models (left) and
@@ -929,4 +911,15 @@ baseline, best-fit, values. Each response guild is represented by a column, and 
 demersal fish parameter used is represented by a row. Red triangles represent the mass value
 from the best-fit
 model.](../figs/initial_cc_assessment/demfishlar_param_sens_unlinked.png){#sfig-dfishlar-sensitivity
+width="14.82cm"}
+
+![Decadal climatologies of daily mean wind speed (radius, $m s^{-1}$) and direction (angle)
+from the two CMIP6 NEMO-ERSEM forcing models CNRM-CM6-1-HR (top row) and GFDL-ESM4 (bottom row).
+The left column shows the StrathE2E baseline period (2010-2019), the middle column 
+shows the mid-century period (2060-2069), and the right column shows the difference
+in wind bearing (0 $+/-$ 180&deg;) between these two periods. The colour represents
+the day of the climatological year from January to December. Warm colours represent
+austral summer and cool colours represent austral winter. A North West wind angle
+represents "South Easterly" wind fields that are favourable for upwelling in the
+Southern Benguela system. Projections from SSP3-7.0 are displayed here.](../figs/ssp370_daily_masked_smoothed_twilight_shifted_r_difference_multi.png){#sfig-ssp3-winds-cmip
 width="14.82cm"}
