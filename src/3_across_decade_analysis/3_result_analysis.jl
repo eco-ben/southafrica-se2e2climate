@@ -107,8 +107,10 @@ function collate_variable_interactions(permutation_plan, perm_plan_outputs, base
 
     for guild in guilds
         variable_comparison_levels[!, guild] = perm_plan_outputs[variable_comparison_levels.perm_id, guild]
-        variable_comparison_levels[!, "$(guild)_percent_change"] = 100 .- (variable_comparison_levels[variable_comparison_levels.variable_changed .== "baseline", guild] ./ 
-            variable_comparison_levels[:, guild] .* 100)
+        # variable_comparison_levels[!, "$(guild)_percent_change"] = 100 .- (variable_comparison_levels[variable_comparison_levels.variable_changed .== "baseline", guild] ./ 
+        #     variable_comparison_levels[:, guild] .* 100)
+        variable_comparison_levels[!, "$(guild)_percent_change"] = (variable_comparison_levels[:, guild] .- variable_comparison_levels[variable_comparison_levels.variable_changed .== "baseline", guild]) ./ 
+            variable_comparison_levels[variable_comparison_levels.variable_changed .== "baseline", guild] .* 100
     end
 
     variable_comparison_levels.labels = ifelse.(
@@ -331,9 +333,17 @@ end
 var_main_effects = vcat(first.(get_esmssp_interactions.(ESM_SSPs, output_path))...) 
 var_interaction_data = vcat(last.(get_esmssp_interactions.(ESM_SSPs, output_path))...)
 
+normalize_label(s) = join(sort(split(s, ":")), ":")
+filtered = combine(groupby(var_interaction_data, [:ESM_SSP, :guild])) do sdf
+    df = DataFrames.transform(sub, :labels => ByRow(normalize_label) => :label_normalized)
+    df = unique(df[:, [:guild, :ESM_SSP, :label_normalized, :pure_interaction]])
+
+    (label = df.label_normalized, interaction = df.pure_interaction)
+end
+
 # Plotting the distrubution of variable interaction effects for all guilds
 fig = Figure(size = (10centimetre, 10centimetre), fontsize=fontsize)
-ax = Axis(fig[1,1], xlabel = "Environmental variable interaction effect \n[% change in biomass from 2010-2019 baseline]", ylabel="number of samples")
-hist!(ax, var_interaction_data.pure_interaction, bins = 20, color = :red, strokewidth = 1, strokecolor = :black)
-vlines!(ax, quantile.([var_interaction_data.pure_interaction], [0.01, 0.99]), color=:blue)
+ax = Axis(fig[1,1], xlabel = "Environmental variable group interaction effect \n[% change in biomass from 2010-2019 baseline]", ylabel="number of samples")
+hist!(ax, filtered.interaction, bins=50, color = :red, strokewidth = 1, strokecolor = :black)
+vlines!(ax, quantile.([filtered.interaction], [0.1, 0.9]), color=:blue)
 save("../figs/across_decade_permutations/variable_interaction_histogram.png", fig, px_per_unit=dpi)

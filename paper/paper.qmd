@@ -360,7 +360,7 @@ variable for each target guild [@song2016].
 | rivervol, rivnitrate, rivammonia, rivdetritus | River outputs | River output volume and nutrient outflow concentrations into surface inshore habitat. | Decade, CMIP6 forcing model, SSP |
 | logkvert, d_so_upwelling, so_d_downwelling | Vertical mixing | Upwelling, downwelling and vertical diffusivity between surface and deep offshore water volumes. | Decade, CMIP6 forcing model, SSP |
 | domain inflow variables, so_si_flow | Boundary flows | External inflow rates of water into si, so and d water volumes. Movement of water from surface offshore to inshore volumes. | Decade, CMIP6 forcing model, SSP |
-| \*\_nitrate, \*\_ammonia, \*\_phyt, \*\_detritus | Volume nutrient concentrations | Nutrient concentrations for each water volume (so, si and d). | Decade, CMIP6 forcing model, SSP |
+| \*\_nitrate, \*\_ammonia, \*\_phyt, \*\_detritus | Volume boundary nutrient concentrations | Ocean boundary nutrient concentrations for each water volume (so, si and d). | Decade, CMIP6 forcing model, SSP |
 | so_atmnitrate, so_atmammonia, si_atmnitrate, si_atmammonia | Atmospheric nutrient flux | Deposition rates of nitrate and ammonia into surface water volumes. | Decade, SSP |
 
 : Environmental driving variables that are altered in climate permutation analyses, the
@@ -855,13 +855,30 @@ space.](../figs/initial_cc_assessment/biomass_pca_mc.png){#sfig-biomass-pca-mc
 width="14.82cm"}
 
 ![Distribution of residual interaction effects between environmental variables based on mass
-change from the 2010-2019 to 2060-2069 decades. Variable interaction effect values mean that
+percentage change from the 2010-2019 to 2060-2069 decades. Variable interaction effect values around 0 mean that
 the interaction between variable $x$ and $y$ does not contribute any additional effect to
-the output beyond the individual effects of $x + y$. Values are collated across guilds and
-NEMO-ERSEM forcing model - Shared Socio-Economic Pathway scenarios. Blue lines indicate the
-1st and 99th percentile interaction effect
+the output beyond the individual effects of $x + y$. The 1260 interaction values are collated across 15 'guilds' (including Net Primary Production) and
+2 NEMO-ERSEM forcing models, 2 Shared Socio-Economic Pathways and 7 environmental variable groups. Blue lines indicate the
+10th and 90th percentile interaction effect
 values.](../figs/across_decade_permutations/variable_interaction_histogram.png){#sfig-var-interaction-hist
 width="10cm"}
+
+![Monthly timeseries (decadal averages) of environmental driving data for variables in the
+light variable group (sslight - daily integrated sea surface irradiance). Values indicate
+levels of each irradiance across 12 months of the year. Line colours represent the decade of
+driving data and line styles represent the four NEMO-ERSEM forcing model and Shared
+Socio-Economic Pathway
+combinations.](../figs/env_drivers/light_driver_timeseries.png){#sfig-driver-light
+width="14.82cm"}
+
+![Monthly timeseries (decadal averages) of environmental driving data for variables in the
+river outputs variable group (rivammonia - flow weighted ammonia concentration of river
+outputs, rivnitrate - flow weighted nitrate concentration of river outputs, rivervol - daily
+river outflow into the inshore zone). Values indicate levels of each driving variable across
+12 months of the year. Line colours represent the decade of driving data and line styles
+represent the four NEMO-ERSEM forcing model and Shared Socio-Economic Pathway
+combinations.](../figs/env_drivers/river_outputs_driver_timeseries.png){#sfig-driver-river
+width="14.82cm"}
 
 ![Monthly timeseries (decadal averages) of environmental driving data for variables in the
 temperature variable group (d_temp - deep layer temperature, si_temp - shallow layer inshore
@@ -870,6 +887,17 @@ driving variable across 12 months of the year. Line colours represent the decade
 data and line styles represent the four NEMO-ERSEM forcing model and Shared Socio-Economic
 Pathway
 combinations.](../figs/env_drivers/temperature_driver_timeseries.png){#sfig-driver-temp
+width="14.82cm"}
+
+![Monthly timeseries (decadal averages) of environmental driving data for variables in the
+vertical mixing variable group (d_so_upwelling - upwelling of water from the deep layer to
+the shallow offshore compartment, logkvert - Log10 vertical diffusion coefficient at the
+interface between the deep and shallow offshore layers, so_d_downwelling - downwelling of
+water from the shallow offshore compartment to the deep layer). Values indicate levels of
+each driving variable across 12 months of the year. Line colours represent the decade of
+driving data and line styles represent the four NEMO-ERSEM forcing model and Shared
+Socio-Economic Pathway
+combinations.](../figs/env_drivers/vertical_mixing_driver_timeseries.png){#sfig-driver-vertical-mixing
 width="14.82cm"}
 
 ![Monthly timeseries (decadal averages) of environmental driving data for variables in the
@@ -885,14 +913,22 @@ combinations.](../figs/env_drivers/boundary_flows_driver_timeseries.png){#sfig-d
 width="14.82cm"}
 
 ![Monthly timeseries (decadal averages) of environmental driving data for variables in the
-vertical mixing variable group (d_so_upwelling - upwelling of water from the deep layer to
-the shallow offshore compartment, logkvert - Log10 vertical diffusion coefficient at the
-interface between the deep and shallow offshore layers, so_d_downwelling - downwelling of
-water from the shallow offshore compartment to the deep layer). Values indicate levels of
-each driving variable across 12 months of the year. Line colours represent the decade of
-driving data and line styles represent the four NEMO-ERSEM forcing model and Shared
-Socio-Economic Pathway
-combinations.](../figs/env_drivers/vertical_mixing_driver_timeseries.png){#sfig-driver-vertical-mixing
+nutrient concentrations variable group (si - shallow inshore water volume, so - shallow
+offshore volume, d - deep volume). Nutrient concentrations represent flow weighted
+concentrations at the ocean boundaries of the respective model water volumes. Values
+indicate levels of each driving variable across 12 months of the year. Line colours
+represent the decade of driving data and line styles represent the four NEMO-ERSEM forcing
+model and Shared Socio-Economic Pathway
+combinations.](../figs/env_drivers/nutrient_concentrations_driver_timeseries.png){#sfig-driver-nutrient
+width="14.82cm"}
+
+![Monthly timeseries (decadal averages) of environmental driving data for variables in the
+atmospheric nutrient flux variable group (si - shallow inshore water volume, so - shallow
+offshore water volume). Flux values represent the atmospheric deposition rate of nitrate and
+ammonia into the inshore and offshore zones. Values indicate levels of each driving variable
+across 12 months of the year. Line colours represent the decade of driving data and line
+styles represent the four NEMO-ERSEM forcing model and Shared Socio-Economic Pathway
+combinations.](../figs/env_drivers/atmospheric_nutrient_flux_driver_timeseries.png){#sfig-driver-atmospheric_nutrient
 width="14.82cm"}
 
 ![Coefficient of variation values for each driving variable across decades (left) and across
