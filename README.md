@@ -3,8 +3,9 @@ Analysis code for StrathE2E2 climate change paper using the Southern Benguela - 
 
 # Setup
 
-Full recreation of this project requires that users have Julia v1.11.6 and Quarto installed.
-Set up the project in the usual Julian way by instantiating the project.
+Full recreation of this project requires that users have R v4.5.2, Julia v1.11.6
+and Quarto installed. Set up the Julia project in the usual Julian way by 
+instantiating the project.
 
 Start Julia from the project root (the main project directory, where the README file sits).
 
