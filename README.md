@@ -1,5 +1,9 @@
 # southafrica-se2e2climate
-Analysis code for StrathE2E2 climate change paper using the Southern Benguela - South Africa MA implementation.
+
+[![DOI](https://zenodo.org/badge/1021318483.svg)](https://doi.org/10.5281/zenodo.19751528)
+
+Analysis code for StrathE2E2 climate change paper using the Southern Benguela
+Mission Atlantic implementation.
 
 # Setup
 

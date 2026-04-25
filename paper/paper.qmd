@@ -820,7 +820,7 @@ The authors declare no conflicts of interest.
 # Data Availability Statement
 
 The full reproducible investigation and links to required data sources can be found at
-**repository link**.
+@grier2026 (<https://doi.org/10.5281/zenodo.19751529>).
 
 # Funding Statement
 
@@ -865,8 +865,7 @@ in Supplementary File 2.
 
 : Data sources used for parameterisation of the 2010-2019 Southern Benguela StrathE2E model
 and the model inputs that each data source contributed to. Full information for the
-implementation process and processing and use of each data source can be found at **insert
-implementation doc link**.
+implementation process and processing and use of each data source can be found at Supplementary File 2.
 :::
 
 ![Barplot showing the proportion of guild landings for each guild that are allocated to Sea
