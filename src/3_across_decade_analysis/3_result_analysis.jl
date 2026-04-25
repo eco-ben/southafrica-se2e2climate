@@ -205,7 +205,7 @@ variable_colours = [
     "atmospheric nutrient flux" => :grey
 ]
 
-fig_opts = (; fontsize=fontsize, size=(18.42centimetre, 18.42centimetre))
+fig_opts = (; fontsize=fontsize, size=(14.82centimetre, 14.82centimetre))
 scale = scales(
     X = (; label = " "), 
     Y = (; label = "Shapley Effect"),
@@ -290,7 +290,7 @@ function get_esmssp_interactions(esm_ssp, output_path; baseline_decade="2010-201
         occursin.(":", var_permutation_outputs.labels) .& occursin.("percent_change", var_permutation_outputs.guild), 
     :]
     
-    variable_interaction_labels = combine(groupby(interaction_rows, [:labels, :analysis_variable, :guild])) do sdf
+    variable_interaction_labels = DataFrames.combine(groupby(interaction_rows, [:labels, :analysis_variable, :guild])) do sdf
         dfrow = sdf[1, :]
 
         base_variable = first(split(dfrow.labels, ":"))
@@ -334,8 +334,8 @@ var_main_effects = vcat(first.(get_esmssp_interactions.(ESM_SSPs, output_path)).
 var_interaction_data = vcat(last.(get_esmssp_interactions.(ESM_SSPs, output_path))...)
 
 normalize_label(s) = join(sort(split(s, ":")), ":")
-filtered = combine(groupby(var_interaction_data, [:ESM_SSP, :guild])) do sdf
-    df = DataFrames.transform(sub, :labels => ByRow(normalize_label) => :label_normalized)
+filtered = DataFrames.combine(groupby(var_interaction_data, [:ESM_SSP, :guild])) do sdf
+    df = DataFrames.transform(sdf, :labels => ByRow(normalize_label) => :label_normalized)
     df = unique(df[:, [:guild, :ESM_SSP, :label_normalized, :pure_interaction]])
 
     (label = df.label_normalized, interaction = df.pure_interaction)
@@ -345,5 +345,5 @@ end
 fig = Figure(size = (10centimetre, 10centimetre), fontsize=fontsize)
 ax = Axis(fig[1,1], xlabel = "Environmental variable group interaction effect \n[% change in biomass from 2010-2019 baseline]", ylabel="number of samples")
 hist!(ax, filtered.interaction, bins=50, color = :red, strokewidth = 1, strokecolor = :black)
-vlines!(ax, quantile.([filtered.interaction], [0.1, 0.9]), color=:blue)
+vlines!(ax, quantile.([filtered.interaction], [0.025, 0.975]), color=:blue)
 save("../figs/across_decade_permutations/variable_interaction_histogram.png", fig, px_per_unit=dpi)

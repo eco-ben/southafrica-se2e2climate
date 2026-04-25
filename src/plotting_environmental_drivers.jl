@@ -3,7 +3,7 @@ using Parquet
 using DataFrames
 using Statistics
 using MultivariateStats
-using AlgebraOfigraphics
+using AlgebraOfGraphics
 using GLMakie
 using Colors
 using StatsBase
@@ -19,7 +19,7 @@ CairoMakie.activate!()
 master = CSV.read("../outputs/master_forcings_South_Africa_MA.csv", DataFrame)
 
 master.ESM_SSP = master.ESM .* "-" .* master.SSP
-master_month_average = combine(groupby(master, [:variable, :decade, :SSP, :ESM]), :value => mean)
+master_month_average = DataFrames.combine(groupby(master, [:variable, :decade, :SSP, :ESM]), :value => mean)
 
 for vg in variables
     sub_drivers = master[master.variable .∈ [variable_groups[vg]], :]
@@ -29,7 +29,7 @@ for vg in variables
 
     fig_opts = (;
         fontsize = fontsize,
-        size = (18.42centimetre, 18.42centimetre)
+        size = (14.82centimetre, 14.82centimetre)
     )
     scale = scales(
         X = (; label = "Month"), 
@@ -62,15 +62,15 @@ end
 
 # 2. Plotting the average variance of each driving data variable across decades and ESMs analysed.
 
-annual_variance = combine(groupby(master, [:variable, :decade, :SSP, :ESM]), :value => var)
+annual_variance = DataFrames.combine(groupby(master, [:variable, :decade, :SSP, :ESM]), :value => var)
 annual_variance = annual_variance[annual_variance.value_var .!= 0.0, :]
 
-across_decade = combine(groupby(annual_variance, [:variable, :decade]), :value_var => mean)
-across_decade_cv = combine(groupby(across_decade, :variable), :value_var_mean => variation)
+across_decade = DataFrames.combine(groupby(annual_variance, [:variable, :decade]), :value_var => mean)
+across_decade_cv = DataFrames.combine(groupby(across_decade, :variable), :value_var_mean => variation)
 across_decade_cv[!, "analysis_level"] .= "across decade"
 
-across_esm = combine(groupby(annual_variance, [:variable, :ESM]), :value_var => mean)
-across_esm_cv = combine(groupby(across_esm, :variable), :value_var_mean => variation)
+across_esm = DataFrames.combine(groupby(annual_variance, [:variable, :ESM]), :value_var => mean)
+across_esm_cv = DataFrames.combine(groupby(across_esm, :variable), :value_var_mean => variation)
 across_esm_cv[!, "analysis_level"] .= "across esm"
 
 coef_variation_data = vcat(across_decade_cv, across_esm_cv)

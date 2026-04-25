@@ -102,7 +102,7 @@ end
 
 fig_opts = (;
     fontsize = fontsize,
-    size = (18.42centimetre, 18.42centimetre)
+    size = (14.82centimetre, 14.82centimetre)
 )
 scale = scales(
     X = (; label = "Decade"), 
@@ -116,8 +116,8 @@ legend_opts = (; position=:bottom)
 axis_opts = (; xticklabelrotation = π/4)
 
 biomass_timeseries = data(result_df_lines) * mapping(:decade, :Model_annual_mean, color=:ESM, linestyle=:SSP, layout=:guild_clean) * visual(Lines)
-biomass_bands_1 = data(result_df_lines[result_df_lines.SSP .== "ssp126", :]) * mapping(:decade, :min_quant, :max_quant, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
-biomass_bands_2 = data(result_df_lines[result_df_lines.SSP .== "ssp370", :]) * mapping(:decade, :min_quant, :max_quant, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
+biomass_bands_1 = data(result_df_lines[result_df_lines.SSP .== "ssp126", :]) * mapping(:decade, :min_quant, :max_quant, color=:ESM, layout=:guild_clean) * visual(Makie.Band; alpha = 0.2)
+biomass_bands_2 = data(result_df_lines[result_df_lines.SSP .== "ssp370", :]) * mapping(:decade, :min_quant, :max_quant, color=:ESM, layout=:guild_clean) * visual(Makie.Band; alpha = 0.2)
 
 biomass_ts_fig = draw(biomass_timeseries + biomass_bands_1 + biomass_bands_2, scale; facet=facet_opts, figure=fig_opts, legend=legend_opts, axis=axis_opts)
 # biomass_ts_fig = draw(biomass_timeseries, scale; facet=facet_opts, figure=fig_opts, legend=legend_opts, axis=axis_opts)
@@ -162,7 +162,7 @@ percent_change.guild_clean = getindex.([guild_clean_names], percent_change.varia
 
 fig_opts = (;
     fontsize = fontsize,
-    size = (18.42centimetre, 18.42centimetre)
+    size = (14.82centimetre, 14.82centimetre)
 )
 scale = scales(
     X = (; label = "Decade"), 
@@ -176,8 +176,8 @@ legend_opts = (; position=:bottom)
 axis_opts = (; xticklabelrotation = π/4)
 
 percent_timeseries = data(percent_change) * mapping(:decade, :maxlik, color=:ESM, linestyle=:SSP, layout=:guild_clean) * visual(Lines)
-percent_bands_1 = data(percent_change[percent_change.SSP .== "ssp126", :]) * mapping(:decade, :lowlimit, :upplimit, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
-percent_bands_2 = data(percent_change[percent_change.SSP .== "ssp370", :]) * mapping(:decade, :lowlimit, :upplimit, color=:ESM, layout=:guild_clean) * visual(Band; alpha = 0.2)
+percent_bands_1 = data(percent_change[percent_change.SSP .== "ssp126", :]) * mapping(:decade, :lowlimit, :upplimit, color=:ESM, layout=:guild_clean) * visual(Makie.Band; alpha = 0.2)
+percent_bands_2 = data(percent_change[percent_change.SSP .== "ssp370", :]) * mapping(:decade, :lowlimit, :upplimit, color=:ESM, layout=:guild_clean) * visual(Makie.Band; alpha = 0.2)
 
 percent_ts_fig = draw(percent_timeseries + percent_bands_1 + percent_bands_2, scale; facet=(; linkyaxes=false), figure=fig_opts, legend=legend_opts, axis=axis_opts)
 
@@ -272,7 +272,7 @@ esm_sep_guilds = pca_loadings[pca_loadings.esm_sep_similarity .>= cosd(30), :gui
 decade_sep_guilds = pca_loadings[pca_loadings.decade_sep_similarity .>= cosd(30), :guild]
 
 # Make plotting PCA confidence interval polygons
-pca_polygons = combine(groupby(pca_val_df, [:ESM, :SSP])) do sdf
+pca_polygons = DataFrames.combine(groupby(pca_val_df, [:ESM, :SSP])) do sdf
     min_points = GB.Point.(tuple.(sdf.min_PC1, sdf.min_PC2))
     max_points = GB.Point.(tuple.(sdf.max_PC1, sdf.max_PC2))
     
@@ -286,7 +286,7 @@ end
 # Plot PCA data
 fig_opts = (;
     fontsize = fontsize,
-    size = (18.42centimetre, 14centimetre)
+    size = (14.82centimetre, 14centimetre)
 )
 scale = scales(
     Color = (; label = "NEMO-ERSEM forcing model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
@@ -458,7 +458,7 @@ save("../figs/initial_cc_assessment/biomass_pca_mc.png", fig, px_per_unit=dpi)
 # Plot the guild anlges to the separation vectors (small plot with thresholds indicated)
 fig = Figure(
     fontsize = fontsize,
-    size = (18.42centimetre, 10centimetre)
+    size = (14.82centimetre, 10centimetre)
 )
 ax1 = Axis(fig[1,1], xlabel = "Contribution to ESM separation", ylabel = "Guilds", yticks=(1:nrow(pca_loadings), pca_loadings.guild_clean_names))
 barplot!(ax1, 1:nrow(pca_loadings), pca_loadings.esm_sep_similarity; direction=:x)
@@ -491,7 +491,7 @@ ecosystem_indices.SSP = [first(match(r"([[:lower:]]{3}\d{3})", var).captures) fo
 
 fig_opts = (;
     fontsize = fontsize,
-    size = (18.42centimetre, 18.42centimetre)
+    size = (14.82centimetre, 14.82centimetre)
 )
 scale = scales(
     X = (; label = "Decade"), 
@@ -567,7 +567,7 @@ diet_comp.ESM_SSP = diet_comp.ESM .* "-" .* diet_comp.SSP
 source_guilds = unique(diet_comp.source)
 source_guild_colours = [source_guilds[c] => col for (c, col) in enumerate(distinguishable_colors(length(source_guilds)))]
 
-fig_opts = (; fontsize=fontsize, size=(18.42centimetre, 18.42centimetre))
+fig_opts = (; fontsize=fontsize, size=(14.82centimetre, 14.82centimetre))
 scale = scales(
     X = (; label = "Sink guild"), 
     Y = (; label = "Proportion of nitrogen influx"),
@@ -665,7 +665,7 @@ base_params.guild_clean_name = getindex.([guild_clean_names], base_params.guild)
 
 fig_opts = (;
     fontsize = fontsize,
-    size = (18.42centimetre, 18.42centimetre)
+    size = (14.82centimetre, 14.82centimetre)
 )
 facet_opts = (; linkxaxes=:none, linkyaxes=:none)
 legend_opts = (; position=:bottom)

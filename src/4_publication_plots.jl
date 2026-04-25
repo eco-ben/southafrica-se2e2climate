@@ -3,6 +3,7 @@ using ColorSchemes
 using Parquet
 using DataFrames
 using Dates
+using AlgebraOfGraphics
 import GeoDataFrames as GDF
 import GeoFormatTypes as GFT
 import NCDatasets
@@ -17,15 +18,29 @@ land = GDF.read("../data/ne_10m_land/ne_10m_land.shp")[1, :]
 habitats = GDF.read("../data/Habitats.gpkg")
 habitats.class = habitats.Shore .* " - " .* habitats.Habitat
 
+x0, y0 = 22, -30   # bottom of the arrow
+len    = 0.75            # arrow length in data units
+
+
+# class_colors = Dict(
+#     "Inshore - rock" => "#40333C",
+#     "Inshore - mud" => "#284481",
+#     "Inshore - sand" => "#9097CC",
+#     "Inshore - gravel" => "#4A8FA1",
+#     "Offshore - rock" => "#d7c288",
+#     "Offshore - mud" => "#ffb700",
+#     "Offshore - sand" => "#FFD25F",
+#     "Offshore - gravel" => "#ffedbd"
+# )
 class_colors = Dict(
-    "Inshore - rock" => "#40333C",
-    "Inshore - mud" => "#284481",
-    "Inshore - sand" => "#9097CC",
-    "Inshore - gravel" => "#4A8FA1",
-    "Offshore - rock" => "#d7c288",
-    "Offshore - mud" => "#ffb700",
-    "Offshore - sand" => "#FFD25F",
-    "Offshore - gravel" => "#ffedbd"
+    "Inshore - rock" => Makie.wong_colors()[1],
+    "Inshore - mud" => Makie.wong_colors()[2],
+    "Inshore - sand" => Makie.wong_colors()[3],
+    "Inshore - gravel" => Makie.wong_colors()[4],
+    "Offshore - rock" => Makie.wong_colors()[5],
+    "Offshore - mud" => Makie.wong_colors()[6],
+    "Offshore - sand" => Makie.wong_colors()[7],
+    "Offshore - gravel" => :black
 )
 habitats = habitats[indexin(collect(keys(class_colors)), habitats.class), :]
 
@@ -33,13 +48,25 @@ fig = Figure()
 ax = Axis(
     fig[1,1],
     limits = ((14, 23), (-37.5, -28.5)),
-    backgroundcolor=(:lightblue, 0.3)
+    backgroundcolor=(:lightblue, 0.3),
+    ylabel= "Latitude",
+    xlabel= "Longitude"
 )
 poly!(ax, land.geometry, color = (:gray, 0.8))
 poly!(ax, habitats.geometry, color = 1:8, colormap=collect(values(class_colors)))
 
 legend_entries = [PolyElement(; color = class_colors[class]) for class in habitats.class]
 Legend(fig[2,1], legend_entries, habitats.class, orientation=:horizontal, nbanks = 2)
+
+arrows2d!(ax, [x0], [y0], [0.0], [len], color=:black)
+    
+text!(ax, x0, y0 + len * 1.15,
+    text      = "N",
+    align     = (:center, :bottom),
+    fontsize  = 14,
+    font      = :bold,
+    color     = :black)
+    
 save("../figs/habitat_map.png", fig, px_per_unit = 300/inch)
 
 
@@ -72,11 +99,22 @@ gfw_ras_log = log10.(gfw_ras)
 fig = Figure()
 ax = Axis(
     fig[1,1],
-    limits = ((13, 30), (-37.5, -27.5))
+    limits = ((13, 30), (-37.5, -27.5)),
+    ylabel= "Latitude",
+    xlabel= "Longitude"
 )
 poly!(ax, land.geometry, color = (:gray, 0.8))
 hm = heatmap!(ax, gfw_ras_log)
 poly!(ax, habitats.geometry, color = (:red, 0.2))
+
+arrows2d!(ax, [27.5], [y0], [0.0], [len], color=:black)
+    
+text!(ax, 27.5, y0 + len * 1.15,
+    text      = "N",
+    align     = (:center, :bottom),
+    fontsize  = 14,
+    font      = :bold,
+    color     = :black)
 
 Colorbar(fig[1,2], hm, label = "Log10 total fishing hours (>10h)")
 save("../figs/gfw_fishing_domain_map.png", fig, px_per_unit = 300/inch)
@@ -97,23 +135,47 @@ bathy = .-bathy
 fig = Figure()
 ax1 = Axis(
     fig[1,1],
-    limits = ((14, 23), (-37.5, -28.5))
+    limits = ((14, 23), (-37.5, -28.5)),
+    ylabel= "Latitude",
+    xlabel= "Longitude",
+    xticks = LinearTicks(5)
 )
 
 poly!(ax1, land.geometry, color = :gray)
 hm1 = heatmap!(ax1, dist)
 poly!(ax1, habitats.geometry, color = (:red, 0.2))
+arrows2d!(ax1, [x0], [y0], [0.0], [len], color=:black)
+    
+text!(ax1, x0, y0 + len * 1.15,
+    text      = "N",
+    align     = (:center, :bottom),
+    fontsize  = 14,
+    font      = :bold,
+    color     = :black)
 Colorbar(fig[1,0], hm1, label="Distance to shore (maximum 20km)", flipaxis=false)
 
 ax2 = Axis(
     fig[1,2],
-    limits = ((14, 23), (-37.5, -28.5))
+    limits = ((14, 23), (-37.5, -28.5)),
+    ylabelvisible=false,
+    yticklabelsvisible=false,
+    yticksvisible=false,
+    xlabel= "Longitude",
+    xticks = LinearTicks(5)
 )
 
 poly!(ax2, land.geometry, color = :gray)
 hm2 = heatmap!(ax2, bathy)
 poly!(ax2, habitats.geometry, color = (:red, 0.2))
 Colorbar(fig[1,3], hm2, label="Bathymetry (maximum 800m)")
+arrows2d!(ax2, [x0], [y0], [0.0], [len], color=:black)
+    
+text!(ax2, x0, y0 + len * 1.15,
+    text      = "N",
+    align     = (:center, :bottom),
+    fontsize  = 14,
+    font      = :bold,
+    color     = :black)
 
 save("../figs/domain_separation_map.png", fig, px_per_unit = 300/inch)
 
@@ -132,7 +194,7 @@ guild_landings.uncertainty_proportion = guild_landings.total_score_guild ./ guil
 
 fig_opts = (;
     fontsize = fontsize,
-    size = (18.42centimetre, 18.42centimetre)
+    size = (14.82centimetre, 14.82centimetre)
 )
 scale = scales(
     X = (; label = "Year"), 
