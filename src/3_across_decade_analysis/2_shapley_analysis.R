@@ -2,7 +2,8 @@ library(StrathE2E2)
 library(tidyverse)
 library(glue)
 
-models_path <- "../../southafrica_paper/"
+source("./project_config.R")
+
 output_path <- "./outputs/across_decade_permutations"
 
 model <- e2e_read(

@@ -5,12 +5,16 @@ library(furrr)
 # n_workers <- 20
 # plan(multisession, workers = n_workers)
 
-model_path <- "../../southafrica_paper/"
-variants <- list.dirs(str_glue("{model_path}S_Benguela_MA/"), recursive = FALSE)
+source("./project_config.R")
+
+variants <- list.dirs(
+    str_glue("{source("./project_config.R")}S_Benguela_MA/"),
+    recursive = FALSE
+)
 variants <- variants[!str_detect(variants, "2010-2015")] # Remove 2010-2015 variants
 variants <- variants[str_detect(variants, "ssp")] # Include only variant folders with ESM/SSP info (remove 2010-2019 base variant)
 
-variants <- str_split_i(variants, str_glue("{model_path}S_Benguela_MA/"), 2)
+variants <- str_split_i(variants, str_glue("{source("./project_config.R")}S_Benguela_MA/"), 2)
 results_path_base <- "./outputs/initial_runs/"
 sapply(variants, function(x) dir.create(file.path(results_path_base, x)))
 

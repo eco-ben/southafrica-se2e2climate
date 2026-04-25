@@ -5,12 +5,16 @@ library(furrr)
 # n_workers <- 20
 # plan(multisession, workers = n_workers)
 
-model_path <- "../../southafrica_paper/"
-variants <- list.dirs(str_glue("{model_path}S_Benguela_MA/"), recursive = FALSE)
+source("./project_config.R")
+
+variants <- list.dirs(
+    str_glue("{models_path}S_Benguela_MA/"),
+    recursive = FALSE
+)
 variants <- variants[!str_detect(variants, "2010-2015")] # Remove 2010-2015 variants
 variants <- variants[str_detect(variants, "ssp")] # Include only variant folders with ESM/SSP info (remove 2010-2019 base variant)
 
-variants <- str_split_i(variants, str_glue("{model_path}S_Benguela_MA/"), 2)
+variants <- str_split_i(variants, str_glue("{models_path}S_Benguela_MA/"), 2)
 results_path_base <- "./outputs/initial_runs/"
 sapply(variants, function(x) dir.create(file.path(results_path_base, x)))
 
@@ -18,7 +22,7 @@ sapply(variants, function(x) dir.create(file.path(results_path_base, x)))
 load_and_run_variants <- function(
     model_variant,
     model_name,
-    model_path,
+    models_path,
     nyears = 50,
     output_file_base = "final_biomass_",
     initial_cond_file_base = "initial_conditions_",
@@ -33,7 +37,7 @@ load_and_run_variants <- function(
     model <- e2e_read(
         model.name = model_name,
         model.variant = model_variant,
-        models.path = model_path
+        models.path = models_path
     )
     results <- e2e_run(model, nyears = nyears, csv.output = FALSE)
 
@@ -86,7 +90,7 @@ future_map(
         load_and_run_variants(
             x,
             "South_Africa_MA",
-            model_path,
+            models_path,
             nyears = 1,
             output_file_base = file.path(
                 results_path_base,
@@ -171,7 +175,7 @@ for (variant in c(
     model_setup <- data.frame(
         region_name = "South_Africa_MA",
         model_variant = variant,
-        model_path = model_path,
+        models_path = models_path,
         result_path = base_result_directory
     )
     batch_setup <- do.call(
@@ -227,7 +231,7 @@ for (variant in c(
             model <- e2e_read(
                 x$region_name,
                 x$model_variant,
-                models.path = x$model_path,
+                models.path = x$models_path,
                 results.path = x$result_path,
                 model.ident = x$batch_model_ident
             )
@@ -263,7 +267,7 @@ for (variant in c(
     combined_model <- e2e_read(
         "South_Africa_MA",
         variant,
-        models.path = model_path,
+        models.path = models_path,
         results.path = base_result_directory,
         model.ident = paste0(variant, "-MC")
     )
