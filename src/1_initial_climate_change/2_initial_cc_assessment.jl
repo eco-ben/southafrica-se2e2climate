@@ -289,8 +289,8 @@ fig_opts = (;
     size = (14.82centimetre, 14centimetre)
 )
 scale = scales(
-    Color = (; label = "NEMO-ERSEM forcing model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
-    LineStyle = (; label = "Socio-Economic Pathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
+    Color = (; label = "NEMO-ERSEM\nforcing model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),
+    LineStyle = (; label = "Socio-Economic\nPathway", categories = ["ssp126" => "SSP1-2.6", "ssp370" => "SSP3-7.0"])
 )
 axis_opts = (; aspect=1)
 legend_opts = (; position=:bottom, tellheight=false, tellwidth=false, nbanks=2)

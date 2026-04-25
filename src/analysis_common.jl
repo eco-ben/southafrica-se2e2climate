@@ -79,10 +79,10 @@ SSPs = ["ssp126", "ssp370"]
 
 ESM_SSPs = ["CNRM-ssp126", "CNRM-ssp370", "GFDL-ssp126", "GFDL-ssp370"]
 ESM_SSP_categories = [
-    "CNRM-ssp126" => "CNRM-CM6-1-HR SSP1-2.6", 
-    "CNRM-ssp370" => "CNRM-CM6-1-HR SSP3-7.0", 
-    "GFDL-ssp126" => "GFDL-ESM4 SSP1-2.6", 
-    "GFDL-ssp370" => "GFDL-ESM4 SSP3-7.0"
+    "CNRM-ssp126" => "CNRM-CM6-1-HR\nSSP1-2.6", 
+    "CNRM-ssp370" => "CNRM-CM6-1-HR\nSSP3-7.0", 
+    "GFDL-ssp126" => "GFDL-ESM4\nSSP1-2.6", 
+    "GFDL-ssp370" => "GFDL-ESM4\nSSP3-7.0"
 ]
 ESM_SSP_colors = [
     "CNRM-ssp126" => Makie.wong_colors()[1], 
@@ -91,7 +91,7 @@ ESM_SSP_colors = [
     "GFDL-ssp370" => Makie.wong_colors()[4]
 ]
 
-fontsize = 7
+fontsize = 6
 dpi = 300
 
 # Size of 1cm in pixels relative to 1 CSS px, see:
@@ -141,10 +141,10 @@ se2e_mc_guilds = Dict(
 )
 
 param_categories = [
-    "xxdfish" => "Density dependent mortality\n coefficient - Demersal fish", 
-    "xxdfishlar" => "Density dependent mortality\n coefficient - Demersal fish larvae", 
-    "h_fishd" => "Nitrogen uptake half-saturation\n coefficient - Demersal fish", 
-    "h_fishdlar" => "Nitrogen uptake half-saturation\n coefficient - Demersal fish larvae",
+    "xxdfish" => "Density dependent mortality\n coef - Demersal fish", 
+    "xxdfishlar" => "Density dependent mortality\n coef - Demersal fish larvae", 
+    "h_fishd" => "Nitrogen uptake half-saturation\n coef - Demersal fish", 
+    "h_fishdlar" => "Nitrogen uptake half-saturation\n coef - Demersal fish larvae",
     "u_fishd" => "Maximum nitrogen uptake\n rate - Demersal fish",
     "u_fishdlar" => "Maximum nitrogen uptake\n rate - Demersal fish larvae" 
 ]

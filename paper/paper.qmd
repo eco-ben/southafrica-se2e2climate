@@ -5,60 +5,41 @@ author:
   - name: Benjamin T. Grier
     email: grierben777@gmail.com
     affiliations:
-        - id: UStrath
-          name: University of Strathclyde
-          address: Glasgow
-          country: United Kingdom 
+        - ref: UStrath
     attributes:
         corresponding: true
   - name: Michael R. Heath
     affiliations:
-        - id: UStrath
-          name: University of Strathclyde
-          address: Glasgow
-          country: United Kingdom 
+        - ref: UStrath
 #   - name: Kelly Ortega-Cisneros
 #     affiliations:
-#         - id: UCT
-#           name: University of Cape Town
-#           address: Cape Town
-#           country: South Africa 
+#         - ref: UCT
   - name: Yuri Artioli
     affiliations:
-        - id: PML
-          name: Plymouth Marine Laboratory
-          address: Plymouth
-          country: United Kingdom
+        - ref: PML
   - name: Lee de Mora
     affiliations:
-        - id: PML
-          name: Plymouth Marine Laboratory
-          address: Plymouth
-          country: United Kingdom
+        - ref: PML
   - name: Matthew Hatton
     affiliations:
-        - id: UStrath
-          name: University of Strathclyde
-          address: Glasgow
-          country: United Kingdom 
+        - ref: UStrath
 #   - name: Lynne Shannon
 #     affiliations:
-#         - id: UCT
-#           name: University of Cape Town
-#           address: Cape Town
-#           country: South Africa
+#         - ref: UCT
   - name: Jack H. Laverick
     affiliations:
-        - id: UStrath
-          name: University of Strathclyde
-          address: Glasgow
-          country: United Kingdom 
+        - ref: UStrath
   - name: Douglas C. Speirs
     affiliations:
-        - id: UStrath
-          name: University of Strathclyde
-          address: Glasgow
-          country: United Kingdom 
+        - ref: UStrath
+
+affiliations:
+  - id: UStrath
+    name: University of Strathclyde, Glasgow, United Kingdom
+  - id: PML
+    name: Plymouth Marine Laboratory, Plymouth, United Kingdom
+  - id: UCT
+    name: University of Cape Town, Cape Town, South Africa
 
 abstract: |
     Climate change is projected to alter marine ecosystem structure and function 
@@ -104,7 +85,7 @@ format:
       cite-style: authoryear
 
 bibliography: references.bib
-csl: oxford-university-press-scimed-numeric.csl
+csl: oxford-journals-scimed-author-date.csl
 engine: julia
 
 crossref:
@@ -190,8 +171,7 @@ state, extracting final year outputs at steady state. Model runs are performed u
 programming language [@rcore2025] and StrathE2E2 package [@heath2021]. Subsequent analyses
 are performed using the Julia programming language [@bezanson2017] and visualisations are
 created using the Makie visualization ecosystem [@danisch2021]. Code used to perform the
-analyses, and create visualisations for this investigation can be found at \*\*\\\[Insert
-citation github\\\]\*\*.
+analyses, and create visualisations for this investigation can be found at [@grier2026].
 
 ![Overview of methodology used to address the two overarching investigation aims. **Panel
 A** represents the first aim: *to assess potential future climate impacts for the Southern
