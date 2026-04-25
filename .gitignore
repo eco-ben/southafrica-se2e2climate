@@ -59,7 +59,6 @@ data/
 
 *.csv
 *.parq
-*.png
 *.rds
 
 *.log
