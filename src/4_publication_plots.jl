@@ -22,29 +22,29 @@ x0, y0 = 22, -30   # bottom of the arrow
 len    = 0.75            # arrow length in data units
 
 
-# class_colors = Dict(
-#     "Inshore - rock" => "#40333C",
-#     "Inshore - mud" => "#284481",
-#     "Inshore - sand" => "#9097CC",
-#     "Inshore - gravel" => "#4A8FA1",
-#     "Offshore - rock" => "#d7c288",
-#     "Offshore - mud" => "#ffb700",
-#     "Offshore - sand" => "#FFD25F",
-#     "Offshore - gravel" => "#ffedbd"
-# )
 class_colors = Dict(
-    "Inshore - rock" => Makie.wong_colors()[1],
-    "Inshore - mud" => Makie.wong_colors()[2],
-    "Inshore - sand" => Makie.wong_colors()[3],
-    "Inshore - gravel" => Makie.wong_colors()[4],
-    "Offshore - rock" => Makie.wong_colors()[5],
-    "Offshore - mud" => Makie.wong_colors()[6],
-    "Offshore - sand" => Makie.wong_colors()[7],
-    "Offshore - gravel" => :black
+    "Inshore - rock" => "#40333C",
+    "Inshore - mud" => "#284481",
+    "Inshore - sand" => "#9097CC",
+    "Inshore - gravel" => "#4A8FA1",
+    "Offshore - rock" => "#d7c288",
+    "Offshore - mud" => "#ffb700",
+    "Offshore - sand" => "#FFD25F",
+    "Offshore - gravel" => "#ffedbd"
 )
+# class_colors = Dict(
+#     "Inshore - rock" => Makie.wong_colors()[1],
+#     "Inshore - mud" => Makie.wong_colors()[2],
+#     "Inshore - sand" => Makie.wong_colors()[3],
+#     "Inshore - gravel" => Makie.wong_colors()[4],
+#     "Offshore - rock" => Makie.wong_colors()[5],
+#     "Offshore - mud" => Makie.wong_colors()[6],
+#     "Offshore - sand" => Makie.wong_colors()[7],
+#     "Offshore - gravel" => :black
+# )
 habitats = habitats[indexin(collect(keys(class_colors)), habitats.class), :]
 
-fig = Figure()
+fig = Figure(fontsize=fontsize+1, size = (14.82centimetre, 14.82centimetre))
 ax = Axis(
     fig[1,1],
     limits = ((14, 23), (-37.5, -28.5)),
@@ -55,8 +55,8 @@ ax = Axis(
 poly!(ax, land.geometry, color = (:gray, 0.8))
 poly!(ax, habitats.geometry, color = 1:8, colormap=collect(values(class_colors)))
 
-legend_entries = [PolyElement(; color = class_colors[class]) for class in habitats.class]
-Legend(fig[2,1], legend_entries, habitats.class, orientation=:horizontal, nbanks = 2)
+legend_entries = [PolyElement(; color = class_colors[class]) for class in sort(habitats.class)]
+Legend(fig[2,1], legend_entries, sort(habitats.class), orientation=:horizontal, nbanks = 2)
 
 arrows2d!(ax, [x0], [y0], [0.0], [len], color=:black)
     

@@ -196,12 +196,12 @@ decade_sep_shap.ESM = first.(split.(decade_sep_shap.ESM_SSP, ["-"]))
 decade_sep_shap.SSP = last.(split.(decade_sep_shap.ESM_SSP, ["-"]))
 
 variable_colours = [
-    "vertical mixing" => Makie.wong_colors()[4],
+    "vertical mixing" => Makie.wong_colors()[3],
     "temperature" => Makie.wong_colors()[6],
     "river outputs" => :grey,
     "nutrient concentrations" => :grey,
     "light" => :grey,
-    "boundary flows" => Makie.wong_colors()[1],
+    "boundary flows" => Makie.wong_colors()[5],
     "atmospheric nutrient flux" => :grey
 ]
 
@@ -215,7 +215,10 @@ scale = scales(
 )
 ax_opts = (; xticklabelrotation=π/4, ylabelpadding=10)
 
-bars = data(decade_sep_shap) * mapping(:guild_clean_name => sorter(decade_sep_shap.guild_clean_name), :shapley_effect, row=:ESM, col=:SSP, color=:variable_clean_name, stack=:variable) * visual(BarPlot)
+bars = data(
+    sort(decade_sep_shap, :variable_clean_name)) * 
+    mapping(:guild_clean_name => sorter(decade_sep_shap.guild_clean_name), :shapley_effect, row=:ESM, col=:SSP, color=:variable_clean_name, stack=:variable) * 
+    visual(BarPlot; strokecolor=:white, strokewidth=0.5)
 fig = draw(bars, scale; axis=ax_opts, figure=fig_opts)
 
 save("../figs/across_decade_permutations/important_guild_shapley.png", fig, px_per_unit=dpi)
