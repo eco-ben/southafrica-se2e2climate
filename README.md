@@ -66,7 +66,7 @@ to the parent folder containing the Southern Benguela StrathE2E implementation f
 ## Required data files
 
 The StrathE2E Southern Benguela model implementation files are required to be stored in
-a separate directory. These files can be downloaded from 
+a separate directory. These files can be downloaded from https://doi.org/10.5281/zenodo.19868227
 
 The following required data files are not created as StrathE2E outputs and are
 needed in the `/data/` folder for plotting.
