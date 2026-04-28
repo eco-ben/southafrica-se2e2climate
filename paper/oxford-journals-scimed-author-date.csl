@@ -3300,7 +3300,7 @@
                   <!-- accessible `interview` or `personal_communication` uses standard format -->
                   <choose>
                     <if match="any" variable="event-date issued">
-                      <group delimiter=" ">
+                      <group delimiter=", ">
                         <text macro="author-inline"/>
                         <text macro="date-short"/>
                       </group>
@@ -3328,7 +3328,7 @@
               </choose>
             </else-if>
             <else-if match="any" variable="event-date issued">
-              <group delimiter=" ">
+              <group delimiter=", ">
                 <text macro="author-inline"/>
                 <text macro="date-short"/>
               </group>
