@@ -84,7 +84,7 @@ format:
       cite-style: authoryear
 
 bibliography: references.bib
-csl: oxford-journals-scimed-author-date.csl
+csl: oxford-journals-scimed-author-date-ices.csl
 engine: julia
 
 crossref:
