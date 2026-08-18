@@ -86,6 +86,8 @@ format:
 bibliography: references.bib
 csl: oxford-journals-scimed-author-date-ices.csl
 engine: julia
+julia:
+  exeflags: ["+1.11"]
 
 crossref:
   custom:
@@ -126,11 +128,13 @@ importance of ecosystem-scale modelling for management in the Southern Benguela 
 sensitivity to plankton growth rates [@ortega-cisneros2017], and high importance of forage
 fish and top-predators for trophic control of the food web [@shannon2000;
 @travers-trolet2014]. End-to-end modelling found that the ecosystem is likely to face
-predatory fish declines under warming scenarios [@ortega-cisneros2018]. While substantial
-climate change modelling has been performed for this region [@eddy2025; @lockerbie2019;
-@ortega-cisneros2018; @shannon2020; @travers-trolet2014], greater understanding of the
-influence of uncertainty and possible complex environmental interactions on climate change
-impacts is needed to inform further research and management.
+predatory fish declines under warming scenarios [@ortega-cisneros2018].
+**\[[@ortega-cisneros2026] insert mention of EwE and Atlantis comparison and uncertainty
+quantification paper.\]** While substantial climate change modelling has been performed for
+this region [@eddy2025; @lockerbie2019; @ortega-cisneros2018; @shannon2020;
+@travers-trolet2014], greater understanding of the influence of uncertainty and possible
+complex environmental interactions on climate change impacts is needed to inform further
+research and management.
 
 This investigation uses the StrathE2E end-to-end ecosystem model to uncover possible future
 climate change impacts and causal drivers of change. In EBUS, such as the Southern Benguela,
@@ -618,19 +622,31 @@ results, which found high importance of temperature. On the other hand, modellin
 Atlantis [@ortega-cisneros2018] and ROMS-N~2~P~2~Z~2~D~2~-OSMOSE [@travers-trolet2014] found
 that changes in vertical mixing (under RCP 8.5) did not influence high trophic level guilds.
 Distinct magnitudes, directions and mechanisms of change suggest a high influence of
-structural (model) uncertainty for the Southern Benguela system.
+structural (ecosystem model) uncertainty for the Southern Benguela system.
 
 Structural uncertainty arises due to choices made in the construction and implementation of
 ecosystem models such as the resolution of components (spatial, temporal, taxonomic) and
-relationships/links represented [@payne2016]. @eddy2025 conducted a large-scale comparison
-of global and regional (including Atlantis and Ecopath with Ecosim) projections of biomass
-under climate change, including for the Southern Benguela region. This comparison revealed
-high divergences in projections for the Southern Benguela region, ranging between +10 and
--40% change in consumer biomass from 1990-99 to 2069 depending on the ecosystem model used
-[@eddy2025]. An in-depth comparison of modelling for the Southern Benguela ecosystem using
-an ensemble approach including, among other models, Atlantis, EwE and StrathE2E would
-improve understanding about the possible magnitude and drivers of climate change impacts,
-aiding in informing monitoring and decision-making processes [@hill2007].
+relationships/links represented [@payne2016]. @ortega-cisneros2026 quantified uncertainty
+across a Southern Benguela ecosystem projection ensemble containing 2 marine ecosystem
+models (Atlantis and EwE), and 2 Earth System Models (ESMs) and 2 SSPs used for temperature
+and primary production forcing data. Across the ensemble ecosystem groups showed strong
+agreement in the direction of future biomass change, but low agreement in the magnitude of
+change [@ortega-cisneros2026]. @ortega-cisneros2026 found structural uncertainty between the
+ecosystem models accounted for more than 50% of biomass projection variance for groups such
+as demersal fish, large pelagics and zooplankton, with uncertainty between ESMs also
+contributing substantially to variance across groups. Within StrathE2E projections,
+uncertainty across ESMs contributes substantially to variance (@fig-biomass-pca). However,
+we also find that model parameter uncertainty, which was not considered by
+@ortega-cisneros2026, contributes to substantial variation in biomass outputs (@fig-percent-biomass-timeseries; @sfig-biomass-pca-mc). Incorporating StrathE2E
+into a three model ensemble with Atlantis and EwE to quantify paramter,
+structural and scenario uncertainty for Southern Benguela projections would further
+inform model development and decision support capabilities.
+
+<!-- @eddy2025 conducted a large-scale comparison of global and regional (including Atlantis and Ecopath
+with Ecosim) projections of biomass under climate change, including for the Southern
+Benguela region. This comparison revealed high divergences in projections for the Southern
+Benguela region, ranging between +10 and -40% change in consumer biomass from 1990-99 to
+2069 depending on the ecosystem model used [@eddy2025]. -->
 
 This investigation identified vertical mixing as the primary driver of variance in low
 trophic level guilds across potential climate change trajectories. @cury2004 suggest
