@@ -106,55 +106,64 @@ editor:
 
 # Introduction
 
-Temperate marine ecosystems globally are facing increasing environmental change in ocean
-temperature, nutrient availability and stratification [@fox-kemper2021]. Species survival
-and ecosystem functioning in marine systems are vulnerable to increasingly variable
-environmental conditions beyond those historically experienced, influencing the provision of
-ecosystem services such as fisheries [@cooley2023]. Upwelling-reliant marine ecosystems face
-particular uncertainty around predictions of future climate change impacts
-[@fox-kemper2021].
-
 The Southern Benguela Upwelling System (SBUS) is a large Eastern Boundary Upwelling System
 (EBUS) that extends around the western coast of South Africa, from the warm Agulhas current
-in the south to the northern Benguela system (Namibia) in the north. The SBUS is a highly
-productive wind-driven upwelling system, supporting recreational and large and small scale
-commercial fisheries for South Africa [@hutchings2009; @sumaila2016]. Net primary and
-fisheries productivity exhibit high seasonal and decadal variability due to changes in
-environmental conditions such as temperature and upwelling [@lamont2014].
+in the south to the northern Benguela system (Namibia) in the north. The SBUS supports
+highly productive recreational and large and small scale commercial fisheries
+[@hutchings2009; @sumaila2016]. In particular, small-pelagic and Cape Hake fisheries
+represent substantial food and employment provisioning for South Africa, with combined
+yields of more than 400,000 tonnes annually [@statuso2023; @kainge2020].
 
-Adoption of ecosystem approaches to fisheries management in the last 25 years highlights the
-importance of ecosystem-scale modelling for management in the Southern Benguela region
-[@bornman2025; @shannon2004; @petersen2015]. Ecosystem modelling has suggested high
-sensitivity to plankton growth rates [@ortega-cisneros2017], and high importance of forage
-fish and top-predators for trophic control of the food web [@shannon2000;
-@travers-trolet2014]. End-to-end modelling found that the ecosystem is likely to face
-predatory fish declines under warming scenarios [@ortega-cisneros2018].
-**\[[@ortega-cisneros2026] insert mention of EwE and Atlantis comparison and uncertainty
-quantification paper.\]** While substantial climate change modelling has been performed for
-this region [@eddy2025; @lockerbie2019; @ortega-cisneros2018; @shannon2020;
-@travers-trolet2014], greater understanding of the influence of uncertainty and possible
-complex environmental interactions on climate change impacts is needed to inform further
-research and management.
+Primary and fisheries production in the Southern Benguela exhibit high seasonal and decadal
+variability due to changes in environmental conditions such as temperature and upwelling
+[@lamont2014]. At the base of the food web, phytoplankton experiences strong bottom-up
+control, responding to patterns of seasonal upwelling and retention of nutrient-rich water
+on the shallow shelf [@flynn2020; @martin2024; @cury2004]. Future conditions in EBUS under
+climate change are highly uncertain due to a limited understanding of how, and by what
+magnitude, wind-driven upwelling processes, and associated temperature and nutrient
+conditions, may change [@bograd2023; @fox-kemper2021].
 
-This investigation uses the StrathE2E end-to-end ecosystem model to uncover possible future
-climate change impacts and causal drivers of change. In EBUS, such as the Southern Benguela,
-conditions under climate change are highly uncertain due to a limited understanding of how,
-and by what magnitude, wind-driven upwelling processes may change [@bograd2023;
-@fox-kemper2021]. High uncertainty in nutrient upwelling leads to low confidence in
-ecosystem response predictions [@fox-kemper2021].
+Modelling of the Southen Benguela ecosystem under climate change has used a range of
+ecosystem models and approaches. Modelling efforts have primarily focused on the independent
+effects of temperature and primary production on the ecosystem [@lockerbie2019;
+@ortega-cisneros2026; @eddy2025], with end-to-end modelling also incorporating upwelling
+into forcing [@travers-trolet2014; @ortega-cisneros2018]. While modelling approaches differ
+in their projections, multiple studies project declines in ecosystem biomass, and associated
+fisheries yield, under increasing temperatures with differing direction and magnitude of
+responses across functional groups [@ortega-cisneros2026; @eddy2025]. Additionally, previous
+modelling studies show little agreement in ecosystem response to changes in upwelling
+[@ortega-cisneros2018; @travers-trolet2014]. Previous explorations of ecological responses
+using mechanistic models include few environmental variables and limited environmental
+interactions, possibly reducing the scope of effects seen under explored simulations.
+
+Understanding the influence of multiple climate drivers, and their interactions, on
+ecologically and economically important guilds remains an important step towards mechanistic
+projections of climate impacts on ecosystem functioning and services [@cooley2023].
+End-to-end ecosystem models can holistically represent physical, chemical and biological
+processes driving climate change responses. However, increased model and forcing complexity
+increases the difficulty of quantifying driver effects on ecological groups, leading to
+simulations that incorporate limited drivers and their interactions. Variance-based Shapley
+Effects originate from the field of game theory [@shapley1953] and quantify the contribution
+of input variable variance to output variance while accounting for non-linear interactions
+between inputs [@song2016]. Combining these modelling and analysis approaches allows for the
+identification of key drivers of model outputs, while accounting for high levels of
+environmental and ecological complexity.
 
 This investigation aims to assess the potential impacts of climate change on the state of
-the Southern Benguela Upwelling ecosystem using StrathE2E end-to-end models. This
-investigation aims to identify causal relationships between environmental drivers, including
-inorganic nutrients and upwelling, and ecosystem state for the Southern Benguela Upwelling
-System using a sensitivity analysis approach across three specific decades and four possible
-future climate change trajectories.
+the Southern Benguela Upwelling ecosystem. Using StrathE2E, a computationally efficient
+end-to-end ecosystem modelling framework; a full-factorial environmental forcing simulation
+design; and Shapley Effects, this investigation aims to identify causal relationships
+between environmental drivers,  ecosystem state and projection uncertainty, while accounting
+for holistic environmental interactions. Quantifying the relative importance of a range of
+environmental drivers for various trophic guilds of the ecosystem and their uncertainty will
+help target regional modelling and monitoring efforts, enhancing future mechanistic
+projections of the ecosystem under climate change.
 
 # Methods
 
 ## Project overview
 
-This investigation uses the StrathE2E end-to-end ecosystem model (**Box 1**). TO assess
+This investigation uses the StrathE2E end-to-end ecosystem model (**Box 1**). To assess
 potential impacts of climate change on the Southern Benguela Upwelling System, this
 investigation uses environmental forcing data extracted from NEMO-ERSEM outputs across six
 decades, two Shared-Socioeconomic Pathways (SSPs 1-2.6 and 3-7.0) and two NEMO-ERSEM forcing
@@ -253,9 +262,9 @@ Environmental driving data inputs to StrathE2E are monthly resolution time serie
 study, these data were mainly extracted from the outputs of four variants of a global,
 quarter-degree resolution NEMO-ERSEM biogeochemistry model [@butenschön2016; @gurvan2019;
 @artioli2023]. The four variants were defined by two different atmospherically forced Earth
-System Models (ESMs; CNRM-CM6-1-HR and GFDL-ESM4) **\[REFERENCES\]**, and two different
-Shared-Socioeconomic Pathways (SSPs 1-2.6 and 3-7.0) **(REFERENCES)**, which provided inputs
-to NEMO-ERSEM model runs. The time-span of each StrathE2E driving data variant was
+System Models (ESMs; CNRM-CM6-1-HR and GFDL-ESM4) [@voldoire2019; @dunne2020], and two
+different Shared-Socioeconomic Pathways (SSPs 1-2.6 and 3-7.0) [@oneill2014], which provided
+inputs to NEMO-ERSEM model runs. The time-span of each StrathE2E driving data variant was
 2010-2070. SSP1-2.6 was selected as a climate mitigation scenario, while SSP3-7.0
 represented a contrasting plausible future under increasing future emissions
 [@hausfather2020]. CNRM-CM6-1-HR and GFDL-ESM4 were chosen for their contrasting climate
@@ -267,9 +276,11 @@ including 2010-2019, 2020-2029, 2030-2039, 2040-2049, 2050-2059, 2060-2069, to g
 monthly climatologies. Some StrathE2E driving data sets were extracted from the inputs to
 NEMO-ERSEM, rather than the outputs. These included river inflow volumes and nutrient
 concentrations, and sea surface irradiance. Others, such suspended mineral particular matter
-(SMP) loadings were extracted from historical remote sensing data **\[REFERENCES\]**. In
-this case, there was no basis for projecting future SMP loadings so we assumed a constant
-annual cycle into the future.
+(SMP) loadings were extracted from Globcolor historical remote sensing data
+[@maritorena2010]. GlobColour data ([http://globcolour.info](http://globcolour.info/)) used
+in this study has been developed, validated, and distributed by ACRI-ST, France. There was
+no basis for projecting future SMP loadings so we assumed a constant annual cycle into the
+future.
 
 ## Parameterisation for Southern Benguela
 
@@ -330,8 +341,8 @@ uptake rates, as well as fixed parameters such as guild Q~10~ values and backgro
 metabolic rates. All parameters were sampled using a coefficient of variation of 0.15.
 
 For each NEMO-ERSEM forcing model parameterisation, using 2010-2019 environmental driving
-data, 1000 parameter combinations are sampled and applied to later decades of environmental
-data (a total of 24,000 model runs). To assess impacts across these climatology decades and
+data, 1000 parameter combinations are sampled and applied to model runs of later decades (a
+total of 24,000 model runs). To assess impacts across these climatology decades and
 scenarios, we visualise final year steady state outputs as decadal time series.
 
 To explore ecosystem state variance under climate change we perform principal component
@@ -393,7 +404,7 @@ $$ {#eq-shapleyvalue}
 Where $\phi_j$ is the Shapley value for variable $j$, $S$ is a subset of input variables not
 including $j$, $p$ is the number of possible coalitions of variables that do not include
 $j$. To extend this calculation to variance-based Shapley Effects [@song2016] on discrete
-inputs (levels = model variants), we substitute $val(S)$ for @eq-varexplained [@song2016],
+inputs (levels = model variants), we substitute $val(S)$ for [@eq-varexplained; @song2016],
 calculating the output variance explained by inputs from a set of variables $S$. The
 resulting Shapley Effect ($\phi_j$) represents the sum of marginal contributions of variable
 $j$ to all coalitions of other input variables. By calculating the contribution of $j$ to
