@@ -403,10 +403,10 @@
       </if>
       <else>
         <names variable="composer">
-          <name and="text" delimiter-precedes-last="contextual" form="short" initialize="true"/>
+          <name and="text" delimiter-precedes-last="contextual" et-al-min="4" et-al-use-first="1" form="short" initialize="true"/>
           <et-al font-style="italic"/>
           <substitute>
-            <names variable="author"><name form="short" and="text" delimiter-precedes-last="contextual"/></names>
+            <names variable="author"><name form="short" and="text" delimiter-precedes-last="contextual" et-al-min="4" et-al-use-first="1"/></names>
             <names variable="guest"><name form="short" and="text" delimiter-precedes-last="contextual"/></names>
             <names variable="host"><name form="short" and="text" delimiter-precedes-last="contextual"/></names>
             <choose>
