@@ -67,3 +67,4 @@ data/
 
 *.docx
 *.doc
+/.luarc.json
