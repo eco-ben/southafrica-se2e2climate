@@ -264,12 +264,15 @@ end
 # Calculate angles to loadings
 pca_loadings.esm_sep_similarity .= [abs(cos_similarity(esm_separation, [row.PC1_loading, row.PC2_loading])) for row in eachrow(pca_loadings)]
 pca_loadings.decade_sep_similarity .= [abs(cos_similarity(decade_separation, [row.PC1_loading, row.PC2_loading])) for row in eachrow(pca_loadings)]
-pca_loadings = sort(pca_loadings, :esm_sep_similarity, rev=true)
+pca_loadings = sort(pca_loadings, :esm_sep_similarity)
 pca_loadings.guild_clean_names = getindex.([guild_clean_names], pca_loadings.guild)
 
+pca_loadings.esm_sep_angle = acosd.(pca_loadings.esm_sep_similarity)
+pca_loadings.decade_sep_angle = acosd.(pca_loadings.decade_sep_similarity)
+
 # Define guilds that have an angle of less than 30 degrees
-esm_sep_guilds = pca_loadings[pca_loadings.esm_sep_similarity .>= cosd(30), :guild]
-decade_sep_guilds = pca_loadings[pca_loadings.decade_sep_similarity .>= cosd(30), :guild]
+esm_sep_guilds = pca_loadings[pca_loadings.esm_sep_angle .<= 30, :guild]
+decade_sep_guilds = pca_loadings[pca_loadings.decade_sep_angle .<= 30, :guild]
 
 # Make plotting PCA confidence interval polygons
 pca_polygons = DataFrames.combine(groupby(pca_val_df, [:ESM, :SSP])) do sdf
@@ -460,13 +463,13 @@ fig = Figure(
     fontsize = fontsize,
     size = (14.82centimetre, 10centimetre)
 )
-ax1 = Axis(fig[1,1], xlabel = "Contribution to ESM separation", ylabel = "Guilds", yticks=(1:nrow(pca_loadings), pca_loadings.guild_clean_names))
-barplot!(ax1, 1:nrow(pca_loadings), pca_loadings.esm_sep_similarity; direction=:x)
-vlines!(ax1, cosd(30), color=:red)
+ax1 = Axis(fig[1,1], xlabel = "Angle to ESM variance vector [°]", ylabel = "Guilds", yticks=(1:nrow(pca_loadings), pca_loadings.guild_clean_names))
+barplot!(ax1, 1:nrow(pca_loadings), pca_loadings.esm_sep_angle; direction=:x)
+vlines!(ax1, 30, color=:red)
 
-ax2 = Axis(fig[1,2], xlabel = "Contribution to decadal separation", yticksvisible=false, yticklabelsvisible=false)
-barplot!(ax2, 1:nrow(pca_loadings), pca_loadings.decade_sep_similarity; direction=:x)
-vlines!(ax2, cosd(30), color=:red)
+ax2 = Axis(fig[1,2], xlabel = "Angle to decadal variance vector [°]", yticksvisible=false, yticklabelsvisible=false)
+barplot!(ax2, 1:nrow(pca_loadings), pca_loadings.decade_sep_angle; direction=:x)
+vlines!(ax2, 30, color=:red)
 
 save("../figs/initial_cc_assessment/decade_esm_separation_quantified.png", fig, px_per_unit=dpi)
 

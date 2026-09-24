@@ -791,11 +791,12 @@ credible intervals for output variables obtained from Monte Carlo
 simulations.](../figs/initial_cc_assessment/biomass_timeseries_mc.png){#sfig-biomass-timeseries
 width="14.82cm"}
 
-![Guild contributions to ecosystem separation across NEMO-ERSEM forcing models (left) and
-decades (right). Contribution values are calculated as the absolute angle between guild
-loadings and the respective separation vector (NEMO-ERSEM forcing model separation vector
-and decade separation vector displayed in @fig-biomass-pca; Panel B). Red lines indicate the
-30° angle cutoff for further
+![Angles (in degrees) between guild biomass PC loadings and the vectors that summarise ecosystem
+variance across NEMO-ERSEM forcing models (left) and decades (right). Angles represent
+the contribution of the guild to ecosystem variance across these levels. An angle of
+0° to the decadal variation vector means a guild varies only across decades, whereas an angle of 90° to the decadal variation vector means a guild does not vary across decades. Angles displayed are calculated using PC loadings and variance vectors (NEMO-ERSEM forcing model variance vector
+and decade variance vector) displayed in @fig-biomass-pca; Panel B. Red lines indicate the
+30° angle cutoff used for further
 assessments.](../figs/initial_cc_assessment/decade_esm_separation_quantified.png){#sfig-pca-separation
 width="14.82cm"}
 
