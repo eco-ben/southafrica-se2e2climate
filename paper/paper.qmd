@@ -372,27 +372,31 @@ Both CNRM-CM6-1-HR and GFDL-ESM4 StrathE2E models experienced high levels of par
 uncertainty for mass value predictions (@sfig-biomass-timeseries; @sfig-biomass-pca-mc).
 Despite low confidence in absolute mass projections, guilds experience higher confidence for
 modelled directions and magnitudes of change under increasing climate pressures
-(@fig-percent-biomass-timeseries). This suggests that mechanisms driving climate-related
-changes, particularly for plankton and benthos guilds, are not sensitive to parameter
-changes. Ecosystem net primary productivity is projected to substantially increase across
-decades under GFDL-ESM4 NEMO-ERSEM forcing model (@fig-percent-biomass-timeseries) and
-decrease under CNRM-CM6-1-HR forcing model.
+(@fig-percent-biomass-timeseries). Narrow credible intervals on relative climate impacts,
+such as for plankton and benthos guilds, suggest that mechanisms of change are not sensitive
+to parameter changes. Ecosystem net primary productivity is projected to substantially
+increase across decades under GFDL-ESM4 NEMO-ERSEM forcing model
+(@fig-percent-biomass-timeseries) and decrease under CNRM-CM6-1-HR forcing model.
 
-Demersal fish, demersal fish larvae, pinnipeds and cetaceans are particularly sensitive to
-changes in model parameters (@fig-percent-biomass-timeseries), experiencing broader credible
-intervals than lower trophic level guilds. Guild production rates for demersal fish show
-that modelled demersal fish gain greater nitrogen mass from recruitment than from
-consumption, with recruitment sustaining net production at a positive level
-(@stbl-dfish-biology). To investigate the influence of demersal fish larvae parameterization
-on predatory guilds a one-at-a-time sensitivity analysis was performed on physiological
-parameters. Demersal fish larvae density dependent mortality; nitrogen uptake
+Demersal fish, demersal fish larvae, planktivorous fish, birds, pinnipeds and cetaceans are
+particularly sensitive to changes in model parameters (@fig-percent-biomass-timeseries),
+experiencing broader credible intervals than lower trophic level guilds. Guild production
+rates for demersal fish show that modelled demersal fish gain greater nitrogen mass from
+recruitment than from consumption, with recruitment sustaining net production at a positive
+level (@stbl-dfish-biology). To investigate the influence of demersal fish larvae
+parameterization on predatory guilds, a one-at-a-time sensitivity analysis was performed on
+physiological parameters: demersal fish larvae density dependent mortality; nitrogen uptake
 half-saturation coefficient; and maximum nitrogen uptake rate parameters control biomass
 growth and recruitment into adult demersal fish. These parameters were sampled in 100 evenly
 spaced steps from -25% to +25% of the base parameter value from CNRM-CM6-1-HR and GFDL-ESM4
 models respectively, resulting in 300 runs for each of the two models. Local sensitivity
 analyses revealed that planktivorous fish, demersal fish, pinnipeds, birds and cetaceans are
 highly sensitive to demersal fish larvae maximum nitrate uptake rate and nitrogen uptake
-half-saturation coefficient values (@sfig-dfishlar-sensitivity).
+half-saturation coefficient values (@sfig-dfishlar-sensitivity). Although planktivorous fish
+contribute more than demersal fish to nutrient uptake for birds and cetaceans
+(@sfig-decade-sep-diet), the high reliance of demersal fish on recruitment and subsequent
+sensitivity of adult demersal fish to larval parameterization propagates into high
+uncertainty for top predator guilds.
 
 Principal Component Analysis highlights the influence of decadal changes and NEMO-ERSEM
 forcing model choice on overall modelled ecosystem masses. The first two principal
@@ -407,35 +411,29 @@ little variation in ecosystem state across SSPs.
 ## Drivers of temporal ecosystem change
 
 For guilds strongly correlated with temporal ecosystem change, Shapley Effect environmental
-variable contribution values indicate that only temperature, boundary flow and vertical
-mixing driving variables contribute to variance in modelled mass levels
-(@fig-across-decade-shap). When forced by CNRM-CM6-1-HR, under SSP3-7.0 the contribution of
-temperature to mass variance increases from SSP1-2.6. Under CNRM-CM6-1-HR, temperature is a
-stronger driver of variation for pinnipeds, birds and cetaceans compared to deep layer
-phytoplankton, carnivorous/scavenge feeding benthos and demersal fish guilds. When forced by
-GFDL-ESM4, three of the six guilds are primarily driven by boundary flows and three are
-primarily driven by vertical mixing, with all guilds having low importance of temperature.
-Deep layer phytoplankton has distinct Shapley Effect values to other assessed guilds, with
-\>75% of variance attributed to vertical mixing under all forcings. Interactions between
-environmental variable groups influence guild mass outcomes in an additive manner (variable
-1 effect + variable 2 effect), suggesting variable interactions are not influential in the
-model (@sfig-var-interaction-hist).
-
-GFDL-ESM4 forcing data show a greater degree of seasonal variability in vertical diffusivity
-and offshore upwelling and downwelling compared to CNRM-CM6-1-HR
-(@sfig-driver-vertical-mixing). In StrathE2E, temperature influences the metabolism and prey
-uptake rates for consumer guilds, while boundary flows and vertical mixing influence
-distributions of nitrogen and plankton guilds across domain boxes, affecting predator
-distributions and nutrient uptake.
+driver contribution values indicate that only temperature, boundary flow and vertical mixing
+driving variables contribute to variance in modelled mass levels (@fig-across-decade-shap).
+When forced by CNRM-CM6-1-HR, under SSP3-7.0 the contribution of temperature to mass
+variance increases from SSP1-2.6. Under CNRM-CM6-1-HR, temperature is a stronger driver of
+variation for pinnipeds, birds and cetaceans compared to deep layer phytoplankton,
+carnivorous/scavenge feeding benthos and demersal fish guilds. When forced by GFDL-ESM4,
+three of the six guilds are primarily driven by boundary flows and three are primarily
+driven by vertical mixing, with all guilds having low importance of temperature. Deep layer
+phytoplankton has distinct Shapley Effect values to other assessed guilds, with \>75% of
+variance attributed to vertical mixing under all forcings. Interactions between
+environmental driver groups influence guild mass outcomes in an additive manner, suggesting
+driver interactions are not influential in the model (@sfig-var-interaction-hist). GFDL-ESM4
+forcing data show a greater degree of seasonal variability in vertical diffusivity and
+offshore upwelling and downwelling compared to CNRM-CM6-1-HR (@sfig-driver-vertical-mixing).
 
 ## Drivers of variance across NEMO-ERSEM forcing models
 
 For guilds correlated with ecosystem state separation across the NEMO-ERSEM forcing models,
 Shapley Effect contribution values indicate high contribution from vertical mixing
 (@fig-across-esm-shap). Boundary flows have the second highest contribution to
-across-forcing model mass variance for almost all guilds assessed. Variable groups such as
-nutrient concentrations, river outputs, light and temperature have low contributions.
-Variable group contributions are similar across the best-fit CNRM-CM6-1-HR and GFDL-ESM4
+across-forcing model mass variance for almost all guilds assessed. Driver groups such as
+nutrient concentrations, river outputs, light and temperature have low contributions. Driver
+group contributions are similar across the best-fit CNRM-CM6-1-HR and GFDL-ESM4
 parameterizations, highlighting consistent mechanisms of change (@fig-across-esm-shap).
 
 The choice of NEMO-ERSEM CMIP6 model forcing StrathE2E strongly influences projected
