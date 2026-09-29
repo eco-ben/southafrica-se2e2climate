@@ -62,7 +62,7 @@ abstract: |
     understanding and modelling the impacts of climate change on high trophic 
     level guilds. Environmental driver sensitivity analyses reveal that vertical mixing
     is highly important for variation in low trophic level guilds across these 
-    forcing models. These findings highlight the well-recognised sensitivity of the SBUS ecosystem
+    forcing models. These findings highlight the well-recognized sensitivity of the SBUS ecosystem
     to variation in wind-driven upwelling and downwelling, and especially the 
     need for advancements in monitoring and modelling of upwelling changes for 
     the region.
@@ -175,6 +175,21 @@ programming language [@rcore2025] and the StrathE2E2 package [@heath2021]. Subse
 analyses were conducted using the Julia programming language and Makie visualization system
 [@bezanson2017; @danisch2021]. Investigation code can be found at Grier [-@grier2026].
 
+![Overview of methodology used to address the two overarching investigation aims. **Panel
+A** represents the first aim: *to assess potential future climate impacts for the Southern
+Benguela Upwelling ecosystem*. Projecting ecosystem state using StrathE2E models and 24
+unique sets of driving data (31 variables; see @tbl-variable-groups) across decades,
+NEMO-ERSEM forcing models from the Sixth phase of the Coupled Model Intercomparison Project
+(CMIP6), and Shared Socioeconomic pathways (SSPs) [@artioli2023]. **Panel B** represents the
+second overarching aim: *to identify key drivers of ecosystem state change under climate
+pressure, including drivers of variance across decades and drivers across projected future
+trajectories*. Panel B includes a hypothetical example of a climate permutation sensitivity
+analysis where variable values are drawn from three different datasets. In this example 3
+data sources and 4 variables create a permutation set of 81 ($3^4$) total model runs. In our
+investigation climate sensitivity analyses are performed to capture variance (i) across
+decades and (ii) across NEMO-ERSEM forcing
+models.](../figs/StrathE2E_paper_method_outline.png){#fig-method-outline}
+
 ## Box 1: StrathE2E Marine Ecosystem Model Description
 
 StrathE2E combines a dynamic model of marine ecology and a static model of fishing activity,
@@ -218,6 +233,14 @@ This creates distinct environmental conditions to the east and west of the Agulh
 Benguela enhances mixing [@veitch2017]. For more information on model domain designation,
 see Supplementary File 2: Model Domain.
 
+![Model habitat map indicating the domain region and the distinct model habitat types for
+inshore and offshore regions that are used to distribute fishing effort. Habitat types
+include rock, gravel, sand and mud [@birch1987; @skowno2019]. The inshore region encompasses
+areas of less than 50m depth that are within 20km of the shore. The offshore region extends
+to areas of the continental shelf that have a depth of 800m and is comprized of a shallow
+(0-50m) and deep volume (50-800m).](../figs/habitat_map.png){#fig-habitat-map
+width="14.82cm"}
+
 ## Environmental driving data
 
 Environmental driving data inputs to StrathE2E are monthly resolution time series, averaged
@@ -254,7 +277,7 @@ available data, reconstructed Sea Around Us data are used to parameterize fishin
 catching power levels [@zeller2017]. Reproductive event timing parameters were calculated
 using key regional species to represent each guild based on data availability. For more
 information on the parameterization of ecological and fisheries model components see
-Supplementary File 2 [@grier2026a].
+Supplementary File 2.
 
 Fitted parameter calibration involved using simulated annealing to seek parameter values
 providing maximum likelihood of a suite of empirical 'target' data on ecosystem and
@@ -378,6 +401,18 @@ to parameter changes. Ecosystem net primary productivity is projected to substan
 increase across decades under GFDL-ESM4 NEMO-ERSEM forcing model
 (@fig-percent-biomass-timeseries) and decrease under CNRM-CM6-1-HR forcing model.
 
+![Final year, whole-domain percentage change in mass for each decade of forcing data under
+each future scenario, relative to 2010-2019 levels. The y axis represents the change in
+final year mass as a percentage of 2010-2019 mass for each guild. The x axis represents the
+modelled decades. The line colours represent the two climate models, GFDL-ESM4 in blue and
+CNRM-CM6-1-HR in yellow. Line-styles represent the two Shared Socio-Economic Pathways,
+SSP1-2.6 with solid lines and SSP3-7.0 with dashed lines. Bold lines represent the best-fit
+parameterization outputs. Transparent bands represent the 95% credible intervals for
+percentage change values obtained from Monte Carlo simulations. Percentage change in total
+nitrogen mass is not sensitive to the represented changes in parameter
+values.](../figs/initial_cc_assessment/percent_biomass_timeseries_mc.png){#fig-percent-biomass-timeseries
+width="14.82cm"}
+
 Demersal fish, demersal fish larvae, planktivorous fish, birds, pinnipeds and cetaceans are
 particularly sensitive to changes in model parameters (@fig-percent-biomass-timeseries),
 experiencing broader credible intervals than lower trophic level guilds. Guild production
@@ -408,6 +443,18 @@ Phytoplankton, Birds, Benthos Carnivorous/Scavenge Feeders and Cetaceans align s
 ecosystem changes across decades (@fig-biomass-pca, B; @sfig-pca-separation). There is
 little variation in ecosystem state across SSPs.
 
+![Panel A: PCA results for final year guild mass conditions for each decade of forcing data
+under each future scenario and NEMO-ERSEM forcing model. The line colours represent the two
+climate models, GFDL-ESM4 in blue and CNRM-CM6-1-HR in yellow. Line-styles represent the two
+Shared Socio-Economic Pathways, SSP1-2.6 with solid lines and SSP3-7.0 with dashed lines.
+Dot points represent 2010-2019 decade of forcing, and arrowheads represent the 2060-2069
+decade of forcing. Panel B: PCA axis loadings for each of the guild mass state variables,
+labelled with letters. Red and blue dashed lines represent the average direction of change
+in PC values across NEMO-ERSEM forcing models and decades respectively. Guilds that align
+strongly with a dashed line in panel B can be considered to contribute strongly to
+directional variance in panel
+A.](../figs/initial_cc_assessment/biomass_pca.png){#fig-biomass-pca width="14.82cm"}
+
 ## Drivers of temporal ecosystem change
 
 For guilds strongly correlated with temporal ecosystem change, Shapley Effect environmental
@@ -425,6 +472,18 @@ environmental driver groups influence guild mass outcomes in an additive manner,
 driver interactions are not influential in the model (@sfig-var-interaction-hist). GFDL-ESM4
 forcing data show a greater degree of seasonal variability in vertical diffusivity and
 offshore upwelling and downwelling compared to CNRM-CM6-1-HR (@sfig-driver-vertical-mixing).
+
+![Shapley Effect contribution values for guilds identified as being strongly correlated with
+ecosystem state change over time (@sfig-pca-separation) under each forcing model - SSP
+scenario. Bars represent the contribution of each driver group to guild mass variance, with
+a value of 1 representing explanation of 100% of guild variance. Variables are represented
+by different colours, with a lack of colour indicating no contribution of output variance
+(no contribution from light, river outputs, nutrient concentrations or atmospheric nutrient
+flux driver groups). Blue bars indicate the contribution of boundary flow variables; orange
+bars represent the contribution of temperature variables and green bars indicate the
+contribution of vertical mixing variables to guild output
+variance.](../figs/across_decade_permutations/important_guild_shapley.png){#fig-across-decade-shap
+width="14.82cm"}
 
 ## Drivers of variance across NEMO-ERSEM forcing models
 
@@ -444,11 +503,20 @@ low trophic level guilds and net primary production display diverging best-fit m
 trajectories. Vertical mixing contributes the most (\>60%) to variance for the majority of
 these guilds.
 
+![Shapley Effect contribution values for guilds identified as being strongly correlated with
+differences in ecosystem state across the NEMO-ERSEM forcing models (@sfig-pca-separation),
+for each StrathE2E parameterization. Points represent the median Shapley Effect value for
+each guild and driver group across the combinations of two SSPs and six decades. Error bars
+represent the interquartile range of Shapley Effect values for each guild and variable
+group. As median and interquartile range values are displayed, effects for a guild may not
+sum to 1.](../figs/across_esm_permutations/median_shapley_effects.png){#fig-across-esm-shap
+width="14.82cm"}
+
 # Discussion
 
 StrathE2E modelling for the Southern Benguela ecosystem is consistent with observational and
 modelling literature that suggests a strong influence of climate variability and change on
-the system [@shannon2009; @blamey2015; @fig-biomass-pca]. There have been contrasting
+the system (@fig-biomass-pca)[@shannon2009; @blamey2015]. There have been contrasting
 suggestions about spatially complex long-term upwelling and warming trends experienced in
 the Southern Benguela system [@blamey2015; @vanderlingen2018]. Additionally, range shifts in
 multiple species have been documented, likely driven by periods of intensified upwelling
@@ -681,76 +749,6 @@ responsible for any use that may be made of the information contained therein.
 
 ::: {#refs}
 :::
-
-# Figures
-
-![Overview of methodology used to address the two overarching investigation aims. **Panel
-A** represents the first aim: *to assess potential future climate impacts for the Southern
-Benguela Upwelling ecosystem*. Projecting ecosystem state using StrathE2E models and 24
-unique sets of driving data (31 variables; see @tbl-variable-groups) across decades,
-NEMO-ERSEM forcing models from the Sixth phase of the Coupled Model Intercomparison Project
-(CMIP6), and Shared Socioeconomic pathways (SSPs) [@artioli2023]. **Panel B** represents the
-second overarching aim: *to identify key drivers of ecosystem state change under climate
-pressure, including drivers of variance across decades and drivers across projected future
-trajectories*. Panel B includes a hypothetical example of a climate permutation sensitivity
-analysis where variable values are drawn from three different datasets. In this example 3
-data sources and 4 variables create a permutation set of 81 ($3^4$) total model runs. In our
-investigation climate sensitivity analyses are performed to capture variance (i) across
-decades and (ii) across NEMO-ERSEM forcing
-models.](../figs/StrathE2E_paper_method_outline.png){#fig-method-outline}
-
-![Model habitat map indicating the domain region and the distinct model habitat types for
-inshore and offshore regions that are used to distribute fishing effort. Habitat types
-include rock, gravel, sand and mud [@birch1987; @skowno2019]. The inshore region encompasses
-areas of less than 50m depth that are within 20km of the shore. The offshore region extends
-to areas of the continental shelf that have a depth of 800m and is comprized of a shallow
-(0-50m) and deep volume (50-800m).](../figs/habitat_map.png){#fig-habitat-map
-width="14.82cm"}
-
-![Final year, whole-domain percentage change in mass for each decade of forcing data under
-each future scenario, relative to 2010-2019 levels. The y axis represents the change in
-final year mass as a percentage of 2010-2019 mass for each guild. The x axis represents the
-modelled decades. The line colours represent the two climate models, GFDL-ESM4 in blue and
-CNRM-CM6-1-HR in yellow. Line-styles represent the two Shared Socio-Economic Pathways,
-SSP1-2.6 with solid lines and SSP3-7.0 with dashed lines. Bold lines represent the best-fit
-parameterization outputs. Transparent bands represent the 95% credible intervals for
-percentage change values obtained from Monte Carlo simulations. Percentage change in total
-nitrogen mass is not sensitive to the represented changes in parameter
-values.](../figs/initial_cc_assessment/percent_biomass_timeseries_mc.png){#fig-percent-biomass-timeseries
-width="14.82cm"}
-
-![Panel A: PCA results for final year guild mass conditions for each decade of forcing data
-under each future scenario and NEMO-ERSEM forcing model. The line colours represent the two
-climate models, GFDL-ESM4 in blue and CNRM-CM6-1-HR in yellow. Line-styles represent the two
-Shared Socio-Economic Pathways, SSP1-2.6 with solid lines and SSP3-7.0 with dashed lines.
-Dot points represent 2010-2019 decade of forcing, and arrowheads represent the 2060-2069
-decade of forcing. Panel B: PCA axis loadings for each of the guild mass state variables,
-labelled with letters. Red and blue dashed lines represent the average direction of change
-in PC values across NEMO-ERSEM forcing models and decades respectively. Guilds that align
-strongly with a dashed line in panel B can be considered to contribute strongly to
-directional variance in panel
-A.](../figs/initial_cc_assessment/biomass_pca.png){#fig-biomass-pca width="14.82cm"}
-
-![Shapley Effect contribution values for guilds identified as being strongly correlated with
-ecosystem state change over time (@sfig-pca-separation) under each forcing model - SSP
-scenario. Bars represent the contribution of each driver group to guild mass variance, with
-a value of 1 representing explanation of 100% of guild variance. Variables are represented
-by different colours, with a lack of colour indicating no contribution of output variance
-(no contribution from light, river outputs, nutrient concentrations or atmospheric nutrient
-flux driver groups). Blue bars indicate the contribution of boundary flow variables; orange
-bars represent the contribution of temperature variables and green bars indicate the
-contribution of vertical mixing variables to guild output
-variance.](../figs/across_decade_permutations/important_guild_shapley.png){#fig-across-decade-shap
-width="14.82cm"}
-
-![Shapley Effect contribution values for guilds identified as being strongly correlated with
-differences in ecosystem state across the NEMO-ERSEM forcing models (@sfig-pca-separation),
-for each StrathE2E parameterization. Points represent the median Shapley Effect value for
-each guild and driver group across the combinations of two SSPs and six decades. Error bars
-represent the interquartile range of Shapley Effect values for each guild and variable
-group. As median and interquartile range values are displayed, effects for a guild may not
-sum to 1.](../figs/across_esm_permutations/median_shapley_effects.png){#fig-across-esm-shap
-width="14.82cm"}
 
 # Supplementary Material
 
