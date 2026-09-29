@@ -162,13 +162,12 @@ function plot_guild_var_interactions(permutation_outputs, variables, guild; guil
     return fig 
 end
 
-# 1. Plot all Shapley Effects for all guilds and all ESM-SSP combinations
 shapley_effects_all = [CSV.read(joinpath(output_path, esm_ssp, "shapley_effects.csv"), DataFrame) for esm_ssp in ESM_SSPs]
 for (e, df) in enumerate(shapley_effects_all) df[!, "ESM_SSP"] .= ESM_SSPs[e] end
 shapley_effects_all = vcat(shapley_effects_all...)
 
 
-# 2. Plotting Shapley Effect contributions for guilds that contribute most to across decade signals
+# 1. Plotting Shapley Effect contributions for guilds that contribute most to across decade signals
 # This includes acrosss decade Shapley Effect values for all ESM-SSP combinations
 
 all_shap_effect = shapley_effects_all
@@ -223,6 +222,56 @@ fig = draw(bars, scale; axis=ax_opts, figure=fig_opts)
 
 save("../figs/across_decade_permutations/important_guild_shapley.png", fig, px_per_unit=dpi)
 
+
+# 2. Plotting Shapley Effect contributions for guilds that are not included in the above plot
+# This includes acrosss decade Shapley Effect values for all ESM-SSP combinations
+
+other_guilds_shap = all_shap_effect[all_shap_effect.guild .∉ [["netprimprod"; decade_sep_guilds]], :]
+other_guilds_shap = sort(other_guilds_shap, :variable, rev=true)
+
+# guild_order = Dict(
+#     "netprimprod" => 1,
+#     "Deep_layer_phytoplankton" => 2,
+#     "Benthos_carn/scav_feeders" => 3,
+#     "Demersal_fish" => 4,
+#     "Pinnipeds" => 5,
+#     "Birds" => 6,
+#     "Cetaceans" => 7
+# )
+# decade_sep_shap = sort(decade_sep_shap, :guild, by = x -> guild_order[x])
+
+other_guilds_shap.variable_clean_name = getindex.([variable_clean_names], other_guilds_shap.variable)
+other_guilds_shap.guild_clean_name = getindex.([guild_clean_names], other_guilds_shap.guild)
+other_guilds_shap.ESM = first.(split.(other_guilds_shap.ESM_SSP, ["-"]))
+other_guilds_shap.SSP = last.(split.(other_guilds_shap.ESM_SSP, ["-"]))
+
+variable_colours = [
+    "vertical mixing" => Makie.wong_colors()[3],
+    "temperature" => Makie.wong_colors()[6],
+    "river outputs" => :grey,
+    "nutrient concentrations" => :grey,
+    "light" => :grey,
+    "boundary flows" => Makie.wong_colors()[5],
+    "atmospheric nutrient flux" => :grey
+]
+
+fig_opts = (; fontsize=fontsize, size=(14.82centimetre, 14.82centimetre))
+scale = scales(
+    X = (; label = " "), 
+    Y = (; label = "Shapley Effect"),
+    Color = (; label = "Variable group", palette = variable_colours),
+    Row = (; categories = ESM_categories),
+    Col = (; categories = SSP_categories)
+)
+ax_opts = (; xticklabelrotation=π/4, ylabelpadding=10)
+
+bars = data(
+    sort(other_guilds_shap, :variable_clean_name)) * 
+    mapping(:guild_clean_name => sorter(other_guilds_shap.guild_clean_name), :shapley_effect, row=:ESM, col=:SSP, color=:variable_clean_name, stack=:variable) * 
+    visual(BarPlot; strokecolor=:white, strokewidth=0.5)
+fig = draw(bars, scale; axis=ax_opts, figure=fig_opts)
+
+save("../figs/across_decade_permutations/important_guild_shapley_other_guilds.png", fig, px_per_unit=dpi)
 
 # 3. Plotting variable main and interaction effects using across decade permutations
 """

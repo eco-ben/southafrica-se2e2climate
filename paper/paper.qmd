@@ -668,7 +668,8 @@ differences in ecosystem state across the NEMO-ERSEM forcing models (@sfig-pca-s
 for each StrathE2E parameterization. Points represent the median Shapley Effect value for
 each guild and variable group across the combinations of two SSPs and six decades. Error
 bars represent the interquartile range of Shapley Effect values for each guild and variable
-group.](../figs/across_esm_permutations/median_shapley_effects.png){#fig-across-esm-shap
+group. As median and interquartile range values are displayed, effects for a guild may
+not sum to 1.](../figs/across_esm_permutations/median_shapley_effects.png){#fig-across-esm-shap
 width="14.82cm"}
 
 # Supplementary Material
@@ -948,4 +949,25 @@ colours represent austral winter. A North West wind angle represents "South East
 fields that are favourable for upwelling in the Southern Benguela system. Projections from
 SSP3-7.0 are displayed
 here.](../figs/ssp370_daily_masked_smoothed_twilight_shifted_r_difference_multi.png){#sfig-ssp3-winds-cmip
+width="14.82cm"}
+
+![Shapley Effect contribution values for guilds that were not identified as being
+strongly correlated with ecosystem state change over time (@sfig-pca-separation)
+under each forcing model - SSP scenario. Bars represent the contribution of each variable group to guild mass variance,
+with a value of 1 representing explanation of 100% of guild variance. Variables are
+represented by different colours, with a lack of colour indicating no contribution of output
+variance (no contribution from light, river outputs, nutrient concentrations or atmospheric
+nutrient flux variable groups). Blue bars indicate the contribution of boundary flow
+variables; orange bars represent the contribution of temperature variables and green bars
+indicate the contribution of vertical mixing variables to guild output
+variance.](../figs/across_decade_permutations/important_guild_shapley_other_guilds.png){#sfig-across-decade-shap-others
+width="14.82cm"}
+
+![Shapley Effect contribution values for guilds not identified as being strongly correlated with
+differences in ecosystem state across the NEMO-ERSEM forcing models (@sfig-pca-separation),
+for each StrathE2E parameterization. Points represent the median Shapley Effect value for
+each guild and variable group across the combinations of two SSPs and six decades. Error
+bars represent the interquartile range of Shapley Effect values for each guild and variable
+group. As median and interquartile range values are displayed, effects for a guild may
+not sum to 1.](../figs/across_esm_permutations/median_shapley_effects_other_guilds.png){#sfig-across-esm-shap-others
 width="14.82cm"}
