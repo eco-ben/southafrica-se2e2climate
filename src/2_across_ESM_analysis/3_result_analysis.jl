@@ -68,7 +68,7 @@ esm_guild_colours = Dict(zip(esm_guilds, Makie.wong_colors()[eachindex(esm_guild
 cnrm = aggregated_shap[aggregated_shap.ESM_param .== "CNRM", :]
 gfdl = aggregated_shap[aggregated_shap.ESM_param .== "GFDL", :]
 
-fig = Figure(fontsize = fontsize, size = (14.82centimetre, 12centimetre))
+fig = Figure(fontsize = fontsize, size = (17centimetre, 12centimetre))
 
 ax1 = Axis(fig[1,1], title = "CNRM-CM6-1-HR parameterisation", ylabel = "median Shapley effect", xticks = (eachindex(unique_variables), unique_variables), xticklabelrotation=π/4)
 scatter!(ax1, cnrm.x_position .+ cnrm.jitter, cnrm.shapley_effect_median, color = getindex.([esm_guild_colours], cnrm.guild))

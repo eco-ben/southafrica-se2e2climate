@@ -162,7 +162,7 @@ percent_change.guild_clean = getindex.([guild_clean_names], percent_change.varia
 
 fig_opts = (;
     fontsize = fontsize,
-    size = (14.82centimetre, 14.82centimetre)
+    size = (17centimetre, 14.82centimetre)
 )
 scale = scales(
     X = (; label = "Decade"), 
@@ -289,7 +289,7 @@ end
 # Plot PCA data
 fig_opts = (;
     fontsize = fontsize,
-    size = (14.82centimetre, 14centimetre)
+    size = (17centimetre, 14centimetre)
 )
 scale = scales(
     Color = (; label = "NEMO-ERSEM\nforcing model", categories = ["GFDL" => "GFDL-ESM4", "CNRM" => "CNRM-CM6-1-HR"]),

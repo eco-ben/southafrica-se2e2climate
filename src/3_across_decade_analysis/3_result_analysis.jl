@@ -204,7 +204,7 @@ variable_colours = [
     "atmospheric nutrient flux" => :grey
 ]
 
-fig_opts = (; fontsize=fontsize, size=(14.82centimetre, 14.82centimetre))
+fig_opts = (; fontsize=fontsize, size=(17centimetre, 14.82centimetre))
 scale = scales(
     X = (; label = " "), 
     Y = (; label = "Shapley Effect"),

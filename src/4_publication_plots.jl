@@ -44,7 +44,7 @@ class_colors = Dict(
 # )
 habitats = habitats[indexin(collect(keys(class_colors)), habitats.class), :]
 
-fig = Figure(fontsize=fontsize+1, size = (14.82centimetre, 14.82centimetre))
+fig = Figure(fontsize=fontsize+1, size = (17centimetre, 14.82centimetre))
 ax = Axis(
     fig[1,1],
     limits = ((14, 23), (-37.5, -28.5)),
